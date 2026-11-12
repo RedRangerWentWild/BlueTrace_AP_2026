@@ -1,0 +1,34 @@
+# Render blueprint — the tool with a model behind it.
+#
+# GitHub Pages already serves this app as static files, and that copy is fully
+# functional: every measurement, the plot check, the route and the certificate
+# are computed in the browser. What it cannot do is reach /ask, so every answer
+# is composed locally and says so.
+#
+# This deployment is the same app with the one missing piece: a process that
+# holds an API key and proxies a single endpoint. Nothing else differs, and
+# nothing else should — if this service is down the page still works.
+#
+# The key is NOT in this file and must never be. `sync: false` makes Render
+# prompt for it once, in the dashboard, and keep it out of the repository.
+
+services:
+  - type: web
+    name: bluetrace
+    runtime: python
+    plan: free
+    region: singapore          # nearest to the catchment and to the demo
+    rootDir: blue-grid
+    # server.py imports argparse, json, os, sys, urllib and http.server —
+    # every one of them stdlib. There is nothing to install, and saying so is
+    # clearer than an empty requirements.txt that implies there might be.
+    buildCommand: "echo 'standard library only — nothing to install'"
+    startCommand: "python3 server.py"
+    healthCheckPath: /index.html
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.0"
+      - key: BLUETRACE_PROVIDER
+        value: groq
+      - key: GROQ_API_KEY
+        sync: false            # set it in the dashboard; never commit a key

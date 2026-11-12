@@ -1,1 +1,10 @@
 .DS_Store
+.claude/
+__pycache__/
+
+# data/<city>/flagged_buildings.geojson IS tracked. It is a per-run Earth
+# Engine export and was ignored on that reasoning, but the hosted demo is a
+# directory of static files with no build step: a layer that is not in the
+# repository is a layer the deployed site does not have. 1.6 MB is a fair
+# price for the ranked list, the per-building panel and the CSV working for
+# anyone who opens the link.

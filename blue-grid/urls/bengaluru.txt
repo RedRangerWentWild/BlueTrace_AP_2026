@@ -1,0 +1,20 @@
+PNG rgb2005: https://earthengine.googleapis.com/v1/projects/sinuous-myth-481618-f6/thumbnails/494e20e28f84e81a253de1dd6c3d3bfb-67098dabb0ed8bacd3f49adb05d820fe:getPixels
+PNG rgb2025: https://earthengine.googleapis.com/v1/projects/sinuous-myth-481618-f6/thumbnails/dc061ba067e4728d4d1a6c3e23b2e4ff-1ff256ea996d50d2ff1cf47d7e130147:getPixels
+PNG historic: https://earthengine.googleapis.com/v1/projects/sinuous-myth-481618-f6/thumbnails/b88fea7f19840c9dcaec293e58810626-2705c0484a6180b1513bcbbc520016dd:getPixels
+PNG present: https://earthengine.googleapis.com/v1/projects/sinuous-myth-481618-f6/thumbnails/10eb0c940311ac686c0591e03aedaade-7c9061c9cc203001d178f289ba3fe77b:getPixels
+PNG encroached: https://earthengine.googleapis.com/v1/projects/sinuous-myth-481618-f6/thumbnails/98afcdf5f341c48843bf789757de9c4e-1e805d464076bbf304fca17f3daee5c2:getPixels
+PNG flowpath: https://earthengine.googleapis.com/v1/projects/sinuous-myth-481618-f6/thumbnails/2d8d35bc9880b1a81d2863e5e2893d6d-a3055143d24b1436a1b734ac481d6edf:getPixels
+PNG floodprone: https://earthengine.googleapis.com/v1/projects/sinuous-myth-481618-f6/thumbnails/49816961781324255b085273ada7e9ae-b1b9a0a72380a2351543adfaf0de16b1:getPixels
+PNG ref2005: https://earthengine.googleapis.com/v1/projects/sinuous-myth-481618-f6/thumbnails/76621ee1f7ed397df85d28de35e7b594-4675c6e7bf18040e399d5e385295abd9:getPixels
+PNG mndwi2005: https://earthengine.googleapis.com/v1/projects/sinuous-myth-481618-f6/thumbnails/a54790f4508ce75f997984d33bfd6c3d-ace4e5e72025bc35a467e5a0a1d3b9bb:getPixels
+PNG buffers: https://earthengine.googleapis.com/v1/projects/sinuous-myth-481618-f6/thumbnails/7d1639e362e8198d22b50e1019b6c073-ed9fd26f95ea41197bd576074bcd00b2:getPixels
+PNG history: https://earthengine.googleapis.com/v1/projects/sinuous-myth-481618-f6/thumbnails/4452a8a32f9c66301d2cd17ad9a01ae1-3c195b9a28e6a0b1e7ac1d1f67c04213:getPixels
+PNG hydro: https://earthengine.googleapis.com/v1/projects/sinuous-myth-481618-f6/thumbnails/367549cc430d15d78312188c2f201a7c-b10300802e535afc9c17ebd0dd2d1293:getPixels
+PNG routing: https://earthengine.googleapis.com/v1/projects/sinuous-myth-481618-f6/thumbnails/7947b5a767ef6a6ee5ddf40b1121fe35-7e184e9b096bb3cdd370c6cec42b8805:getPixels
+
+# flagged_buildings.geojson is the ranked building layer. It unlocks the
+# priority list, the per-building evidence panel, the CSV export and the
+# structure count on the downstream panel. It now arrives by link like every
+# raster — paste the GEOJSON line below — rather than through the Drive export
+# task, which is still in the script as the fallback for a denser city.
+# GEOJSON flagged_buildings: <paste the console link here>

@@ -1,0 +1,6 @@
+# Paste the "PNG <name>: https://..." lines from the Earth Engine console for
+# chennai here, one per line. Lines without a URL are ignored, so leave these
+# comments in place. Then run:  ./fetch_layers.sh chennai
+#
+# Expected names: rgb2005 rgb2025 historic present encroached flowpath floodprone
+#                 ref2005 mndwi2005 buffers history hydro

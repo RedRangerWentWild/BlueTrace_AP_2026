@@ -1,0 +1,23 @@
+# Hand-authored in place of a stemmer.
+#
+# A stemmer would merge drain and drainage, which is right, and also water and
+# waterlogging, which is not: one is the feature, the other is the failure. The
+# vocabulary here is small enough to write the expansions out and read them.
+#
+#   term -> expansions
+
+flood      -> flooding inundation inundated waterlogging waterlogged overflow submerge
+level      -> depth deep height rise stands
+build      -> construct construction constructing develop development builder
+allowed    -> allow permitted permission legal lawful sanction sanctioned approve approval feasible
+reject     -> rejected refuse refused denied
+drain      -> drainage rajakaluve kaluve channel nala storm
+lake       -> tank kere waterbody pond reservoir
+buffer     -> setback margin zone boundary distance
+encroach   -> encroachment encroached occupied grabbed
+runoff     -> discharge outflow shed sheds
+plot       -> site land parcel property khata
+accurate   -> accuracy reliable confidence trust certainty precision
+source     -> sources provenance dataset evidence citation
+happens    -> happen effect effects impact impacts consequence consequences result
+downstream -> below downhill receiving neighbour neighbours

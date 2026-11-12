@@ -400,7 +400,17 @@ configuration, not a legal determination by this tool.</sub>
 | File | Content |
 |------|---------|
 | `dbms/01_normalization.md` | The app's data taken through 1NF, 2NF, 3NF and BCNF |
-| `dbms/02_er_diagram.png` | ER diagram (CP2) |
-| `dbms/03_schema.sql` | CREATE TABLE statements for PostgreSQL (CP2) |
-| `dbms/04_queries.sql` | Every query the app uses, marked READ / WRITE (CP3) |
+| `dbms/02_er_diagram.png` | ER diagram (CP2); Mermaid source in `dbms/02_er_diagram.mmd` |
+| `dbms/03_schema.sql` | CREATE TABLE statements for PostgreSQL: 16 tables, keys, foreign keys, CHECK constraints (CP2) |
+| `dbms/load_app_data.py` | Loads the app's own data (corpus, cities, rules, 3,169 flagged buildings) plus nine example plot checks into that schema |
+| `dbms/04_queries.sql` | Every query the app uses, marked READ / WRITE: R1-R16, W1-W11 (CP3) |
 | `dbms/05_query_timings.md` | Three runs and the average for every query (CP4) |
+
+Build the database (PostgreSQL 15 or newer, `timezone` Asia/Kolkata):
+
+```bash
+createdb bluetrace
+psql -d bluetrace -v ON_ERROR_STOP=1 -f dbms/03_schema.sql
+python3 dbms/load_app_data.py | psql -d bluetrace -v ON_ERROR_STOP=1
+psql -d bluetrace -f dbms/04_queries.sql          # runs inside BEGIN ... ROLLBACK
+```

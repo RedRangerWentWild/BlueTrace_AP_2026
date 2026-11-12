@@ -4,7 +4,6 @@
 
 BlueTrace reconstructs a city's lost water bodies from the satellite record, flags the buildings standing on them, and screens any plot before it is built on. For a clicked plot it measures the distance to today's and to the 1984-99 water edge, applies a lake-buffer rule, returns a screening outcome (reject, refer, conditions, no objection), traces where the plot's runoff goes downhill, and can issue a screening certificate. Every number in an answer comes from a cited corpus of short source notes.
 
-- App source: https://github.com/RedRangerWentWild/Plaksha_Prayas
 - Live demo: https://bluetrace-1oys.onrender.com
 
 ## DBMS deliverables (`dbms/`)

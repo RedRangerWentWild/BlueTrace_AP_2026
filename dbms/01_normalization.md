@@ -4,8 +4,7 @@
 
 ## 1. Where the data comes from
 
-BlueTrace does not use a relational database today. Its data lives in three places in the app
-([source](https://github.com/RedRangerWentWild/Plaksha_Prayas), folder `blue-grid/`):
+BlueTrace does not use a relational database today. Its data lives in these places in the app:
 
 | Data | Where the app keeps it now | Size |
 |------|----------------------------|------|

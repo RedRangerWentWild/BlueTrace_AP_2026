@@ -1,0 +1,150 @@
+%% BlueTrace - ER diagram (CP2). Source of dbms/02_er_diagram.png.
+%% 16 tables of dbms/03_schema.sql. Cardinality notation: || exactly one,
+%% o| zero or one, |{ one or more, o{ zero or more.
+erDiagram
+    city ||--o{ hotspot : "names"
+    city ||--o{ building : "has flagged"
+    city ||--o{ screening : "is checked in"
+    buffer_rule ||--o{ screening : "judges"
+    screening ||--|{ screening_reason : "has, at least one"
+    reason_code ||--o{ screening_reason : "is found in"
+    outcome ||--|{ reason_code : "is the result of"
+    chunk ||--o{ reason_code : "explains"
+    screening ||--o{ route_step : "traces downhill"
+    screening ||--o| certificate : "is certified by"
+    certificate ||--o{ certificate_chunk : "cites"
+    chunk ||--o{ certificate_chunk : "is cited in"
+    authority ||--o{ chunk : "backs"
+    chunk ||--o{ chunk_tag : "is tagged"
+    chunk ||--o{ chunk_intent : "serves"
+    chunk ||--o{ param : "declares"
+
+    city {
+        varchar city_key PK
+        varchar city_label UK
+        varchar catchment
+        numeric lon_min
+        numeric lat_min
+        numeric lon_max
+        numeric lat_max
+        varchar zones
+        numeric historic_ha "NULL until exported"
+        numeric present_ha
+        numeric lost_ha
+        numeric encroached_ha
+        numeric floodprone_ha
+        int buildings_in_floodprone
+    }
+    hotspot {
+        varchar city_key PK, FK
+        varchar name PK
+        numeric lon
+        numeric lat
+        int px
+    }
+    building {
+        int building_id PK
+        varchar city_key FK
+        jsonb geometry "Polygon"
+        varchar verdict "4 classes"
+        float risk_score
+        float lost_frac
+        float flow_frac
+        float upstream_km2
+        float hand_m
+        float area_m2
+        float confidence
+        float centroid_lon "generated"
+        float centroid_lat "generated"
+    }
+    buffer_rule {
+        varchar rule_id PK
+        varchar rule_label UK
+        smallint lake_m
+        smallint drain_m
+    }
+    outcome {
+        varchar outcome PK "no APPROVE"
+        varchar title UK
+        smallint rank UK "verdict order"
+    }
+    reason_code {
+        varchar reason_code PK
+        varchar outcome FK
+        varchar chunk_id FK "citation spine"
+    }
+    screening {
+        bigint screening_id PK
+        timestamptz checked_at
+        varchar city_key FK
+        varchar rule_id FK
+        numeric lat
+        numeric lon
+        smallint plot_m
+        smallint dist_present "NULL outside AOI"
+        smallint dist_historic
+        smallint dist_drain
+        smallint last_water_year
+        smallint occurrence
+        smallint hand_m
+        numeric encroached
+        numeric upa_km2
+        numeric storage_lpm2
+        varchar route_ended_by
+    }
+    screening_reason {
+        bigint screening_id PK, FK
+        varchar reason_code PK, FK
+        text reason_text
+    }
+    route_step {
+        bigint screening_id PK, FK
+        smallint step_no PK
+        varchar direction "D8"
+        numeric step_length_m
+        numeric step_upa_km2
+        smallint step_hand_m
+    }
+    certificate {
+        varchar cert_ref PK "BT/BLR/date/n-digest"
+        bigint screening_id FK, UK
+        timestamptz issued_at
+        varchar application_no
+        varchar survey_no
+        varchar applicant
+        varchar corpus_version
+        varchar generator
+    }
+    certificate_chunk {
+        varchar cert_ref PK, FK
+        varchar chunk_id PK, FK
+        smallint cite_order UK "with cert_ref"
+    }
+    authority {
+        varchar authority PK
+        boolean url_required
+    }
+    chunk {
+        varchar chunk_id PK "kind.file-name"
+        varchar title
+        varchar kind
+        varchar authority FK
+        text source
+        text url
+        text body
+    }
+    chunk_tag {
+        varchar chunk_id PK, FK
+        varchar tag PK
+    }
+    chunk_intent {
+        varchar chunk_id PK, FK
+        varchar intent PK
+    }
+    param {
+        varchar param_name PK
+        varchar chunk_id FK
+        numeric value
+        numeric plus_minus
+        varchar unit
+    }

@@ -287,3 +287,29 @@ Two things we looked at and decided were **not** dependencies:
 - **The raster layers** (water extent, buffers, hydrology PNGs). They are images read pixel by pixel in the browser, not rows.
 - **The search index and synonym list** in `corpus.json`. Both are rebuilt from the chunks by `build_corpus.py`, so they are derived data.
 - **Retrieval settings on a chunk** (`when` triggers, `conflicts`, `weight`, `always`). They control which chunk is picked for an answer, not what the app records.
+
+## 9. Changes made while building the schema (CP2)
+
+Writing `dbms/03_schema.sql` and running every query of `dbms/04_queries.sql` against the app's real
+data showed five facts the app needs that the tables above could not hold. Each one was added
+as a column, and each depends only on the key of its table, so every table is still in BCNF.
+
+| Table | Added column | New dependency | Why it is needed |
+|-------|--------------|----------------|------------------|
+| REASON_CODE | `chunk_id` → CHUNK | reason_code → chunk_id | `CODE_CHUNK` in `index.html`: every reason code cites exactly one chunk, which is forced into every answer ("the citation spine"). |
+| SCREENING | `storage_lpm2` | screening_id → storage_lpm2 | The officer's storage rule (litres per m²). It is an input, not a measurement, and the rainwater-harvesting figure and the retention shortfall cannot be recomputed without it. |
+| SCREENING | `route_ended_by` | screening_id → route_ended_by | Why the downstream trace stopped (`ROUTE_END`: trunk, edge, loop, ...). It is printed on the certificate and cannot be derived from the steps: a route that left the study area and one that reached a trunk channel can have the same length. |
+| PARAM | `plus_minus` | param_name → plus_minus | The ± uncertainty a parameter is declared with (`pm` in `corpus.json`, e.g. `P_mm` = 60 ± 24 mm). The plausible range of the displaced runoff is computed from it. |
+| CERTIFICATE_CHUNK | `cite_order` | (cert_ref, chunk_id) → cite_order | The certificate's digest is computed over the cited chunk ids **in order**, so without the order a stored certificate could not be re-verified. The table now has two candidate keys, {cert_ref, chunk_id} and {cert_ref, cite_order}; both are keys, so it is still in BCNF. |
+
+Two smaller corrections from reading the code again:
+
+- `decide()` has **11** reason codes, not 10: `no-objection.nothing-found` is the eleventh. Each is
+  still returned with one outcome only, so `reason_code → outcome` holds (the loader,
+  `dbms/load_app_data.py`, checks this against the source of `decide()` and `CODE_CHUNK` before
+  loading anything).
+- BUILDING also gets `centroid_lon` and `centroid_lat`, computed by PostgreSQL itself from
+  `geometry` (generated columns, the same vertex average as `centroidOf()` in the app). They are
+  derived, i.e. a deliberate redundancy, but the database computes them, so they can never disagree
+  with the geometry; they exist so that "flagged buildings within 300 m" (query R4) can use an
+  index instead of decoding 3,169 polygons per click.

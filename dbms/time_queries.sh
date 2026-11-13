@@ -32,34 +32,36 @@ schema="$(psql -d "$DB" -X -q -A -t -c "SELECT to_regclass('bluetrace.screening'
 [[ "$(psql -d "$DB" -X -q -A -t -c "SELECT EXISTS (SELECT 1 FROM bluetrace.screening)")" == t ]] \
   || die "database '$DB' has the schema but no plot checks: load the data with dbms/load_app_data.py first"
 
-mkdir -p "$OUT"
-SUMMARY="$OUT/summary.csv"
+# Results are written to a temporary folder and copied over the previous ones
+# only when every query has run, so a failure never leaves old and new mixed.
+TMP="$(mktemp -d)"
+trap 'rm -rf "$TMP"' EXIT
+mkdir "$TMP/sql" "$TMP/out"
+SUMMARY="$TMP/out/summary.csv"
 header="query_id,type"
 for ((i = 1; i <= RUNS; i++)); do header="$header,run${i}_ms"; done
 echo "$header,avg_ms,scan_nodes" > "$SUMMARY"
 
-TMP="$(mktemp -d)"
-trap 'rm -rf "$TMP"' EXIT
-awk -v dir="$TMP" '
+awk -v dir="$TMP/sql" '
   /^-- @/ { id = ""; if ($2 ~ /^@[RW][0-9]+$/) { id = substr($2, 2); file = dir "/" id ".sql"; printf "" > file }; next }
   id != "" && !/^--/ { print >> file }
 ' "$QUERIES"
 
-for f in $(ls "$TMP"/*.sql | sort -V); do
+for f in $(ls "$TMP"/sql/*.sql | sort -V); do
   id="$(basename "$f" .sql)"
   type="READ"; [[ "$id" == W* ]] && type="WRITE"
   query="$(cat "$f")"
   times=()
-  : > "$OUT/$id.txt"
   for ((i = 1; i <= RUNS; i++)); do
     if [[ "$type" == "WRITE" ]]; then
       sql="SET search_path TO bluetrace; BEGIN; EXPLAIN (ANALYZE, BUFFERS) $query ROLLBACK;"
     else
       sql="SET search_path TO bluetrace; EXPLAIN (ANALYZE, BUFFERS) $query"
     fi
-    plan="$(printf '%s\n' "$sql" | psql -d "$DB" -X -q -A -t -v ON_ERROR_STOP=1)"
-    echo "=== $id run $i ===" >> "$OUT/$id.txt"
-    echo "$plan" >> "$OUT/$id.txt"
+    plan="$(printf '%s\n' "$sql" | psql -d "$DB" -X -q -A -t -v ON_ERROR_STOP=1)" \
+      || die "$id failed on run $i; the results in $OUT were left as they were"
+    echo "=== $id run $i ===" >> "$TMP/out/$id.txt"
+    echo "$plan" >> "$TMP/out/$id.txt"
     times+=("$(echo "$plan" | grep -oE 'Execution Time: [0-9.]+' | awk '{print $3}')")
   done
   avg="$(printf '%s\n' "${times[@]}" | awk '{ s += $1 } END { printf "%.3f", s / NR }')"
@@ -69,5 +71,7 @@ for f in $(ls "$TMP"/*.sql | sort -V); do
   echo "$id,$type,$(IFS=,; echo "${times[*]}"),$avg,\"$node\"" >> "$SUMMARY"
   printf '%-4s %-5s avg %9s ms   %s\n' "$id" "$type" "$avg" "$node"
 done
+mkdir -p "$OUT"
+cp "$TMP"/out/* "$OUT"/
 echo "Queries: $QUERIES"
 echo "Saved the plans of every run and the summary to $OUT"

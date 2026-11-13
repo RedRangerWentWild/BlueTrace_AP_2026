@@ -1,0 +1,114 @@
+=== R7 run 1 ===
+Sort  (cost=19.54..19.55 rows=2 width=320) (actual time=0.122..0.124 rows=3 loops=1)
+  Sort Key: o.rank DESC, sr.reason_code
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=21
+  ->  Nested Loop  (cost=1.82..19.53 rows=2 width=320) (actual time=0.083..0.095 rows=3 loops=1)
+        Buffers: shared hit=15
+        ->  Nested Loop  (cost=1.67..12.62 rows=2 width=257) (actual time=0.070..0.076 rows=3 loops=1)
+              Join Filter: ((o.outcome)::text = (rc.outcome)::text)
+              Rows Removed by Join Filter: 9
+              Buffers: shared hit=9
+              ->  Seq Scan on outcome o  (cost=0.00..1.04 rows=4 width=29) (actual time=0.003..0.004 rows=4 loops=1)
+                    Buffers: shared hit=1
+              ->  Materialize  (cost=1.67..11.47 rows=2 width=235) (actual time=0.016..0.017 rows=3 loops=4)
+                    Buffers: shared hit=8
+                    ->  Hash Join  (cost=1.67..11.46 rows=2 width=235) (actual time=0.059..0.062 rows=3 loops=1)
+                          Hash Cond: ((sr.reason_code)::text = (rc.reason_code)::text)
+                          Buffers: shared hit=8
+                          ->  Index Scan using pk_screening_reason on screening_reason sr  (cost=0.42..10.21 rows=2 width=202) (actual time=0.029..0.029 rows=3 loops=1)
+                                Index Cond: (screening_id = 6)
+                                Buffers: shared hit=7
+                          ->  Hash  (cost=1.11..1.11 rows=11 width=59) (actual time=0.018..0.018 rows=11 loops=1)
+                                Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                Buffers: shared hit=1
+                                ->  Seq Scan on reason_code rc  (cost=0.00..1.11 rows=11 width=59) (actual time=0.005..0.007 rows=11 loops=1)
+                                      Buffers: shared hit=1
+        ->  Memoize  (cost=0.15..3.44 rows=1 width=93) (actual time=0.005..0.006 rows=1 loops=3)
+              Cache Key: rc.chunk_id
+              Cache Mode: logical
+              Hits: 0  Misses: 3  Evictions: 0  Overflows: 0  Memory Usage: 1kB
+              Buffers: shared hit=6
+              ->  Index Scan using chunk_pkey on chunk ch  (cost=0.14..3.43 rows=1 width=93) (actual time=0.004..0.004 rows=1 loops=3)
+                    Index Cond: ((chunk_id)::text = (rc.chunk_id)::text)
+                    Buffers: shared hit=6
+Planning:
+  Buffers: shared hit=349
+Planning Time: 0.903 ms
+Execution Time: 0.241 ms
+=== R7 run 2 ===
+Sort  (cost=19.54..19.55 rows=2 width=320) (actual time=0.109..0.111 rows=3 loops=1)
+  Sort Key: o.rank DESC, sr.reason_code
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=21
+  ->  Nested Loop  (cost=1.82..19.53 rows=2 width=320) (actual time=0.075..0.086 rows=3 loops=1)
+        Buffers: shared hit=15
+        ->  Nested Loop  (cost=1.67..12.62 rows=2 width=257) (actual time=0.063..0.069 rows=3 loops=1)
+              Join Filter: ((o.outcome)::text = (rc.outcome)::text)
+              Rows Removed by Join Filter: 9
+              Buffers: shared hit=9
+              ->  Seq Scan on outcome o  (cost=0.00..1.04 rows=4 width=29) (actual time=0.003..0.003 rows=4 loops=1)
+                    Buffers: shared hit=1
+              ->  Materialize  (cost=1.67..11.47 rows=2 width=235) (actual time=0.014..0.015 rows=3 loops=4)
+                    Buffers: shared hit=8
+                    ->  Hash Join  (cost=1.67..11.46 rows=2 width=235) (actual time=0.053..0.056 rows=3 loops=1)
+                          Hash Cond: ((sr.reason_code)::text = (rc.reason_code)::text)
+                          Buffers: shared hit=8
+                          ->  Index Scan using pk_screening_reason on screening_reason sr  (cost=0.42..10.21 rows=2 width=202) (actual time=0.023..0.024 rows=3 loops=1)
+                                Index Cond: (screening_id = 6)
+                                Buffers: shared hit=7
+                          ->  Hash  (cost=1.11..1.11 rows=11 width=59) (actual time=0.015..0.016 rows=11 loops=1)
+                                Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                Buffers: shared hit=1
+                                ->  Seq Scan on reason_code rc  (cost=0.00..1.11 rows=11 width=59) (actual time=0.004..0.006 rows=11 loops=1)
+                                      Buffers: shared hit=1
+        ->  Memoize  (cost=0.15..3.44 rows=1 width=93) (actual time=0.005..0.005 rows=1 loops=3)
+              Cache Key: rc.chunk_id
+              Cache Mode: logical
+              Hits: 0  Misses: 3  Evictions: 0  Overflows: 0  Memory Usage: 1kB
+              Buffers: shared hit=6
+              ->  Index Scan using chunk_pkey on chunk ch  (cost=0.14..3.43 rows=1 width=93) (actual time=0.003..0.003 rows=1 loops=3)
+                    Index Cond: ((chunk_id)::text = (rc.chunk_id)::text)
+                    Buffers: shared hit=6
+Planning:
+  Buffers: shared hit=349
+Planning Time: 0.869 ms
+Execution Time: 0.190 ms
+=== R7 run 3 ===
+Sort  (cost=19.54..19.55 rows=2 width=320) (actual time=0.154..0.157 rows=3 loops=1)
+  Sort Key: o.rank DESC, sr.reason_code
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=21
+  ->  Nested Loop  (cost=1.82..19.53 rows=2 width=320) (actual time=0.105..0.122 rows=3 loops=1)
+        Buffers: shared hit=15
+        ->  Nested Loop  (cost=1.67..12.62 rows=2 width=257) (actual time=0.089..0.097 rows=3 loops=1)
+              Join Filter: ((o.outcome)::text = (rc.outcome)::text)
+              Rows Removed by Join Filter: 9
+              Buffers: shared hit=9
+              ->  Seq Scan on outcome o  (cost=0.00..1.04 rows=4 width=29) (actual time=0.003..0.004 rows=4 loops=1)
+                    Buffers: shared hit=1
+              ->  Materialize  (cost=1.67..11.47 rows=2 width=235) (actual time=0.020..0.022 rows=3 loops=4)
+                    Buffers: shared hit=8
+                    ->  Hash Join  (cost=1.67..11.46 rows=2 width=235) (actual time=0.074..0.078 rows=3 loops=1)
+                          Hash Cond: ((sr.reason_code)::text = (rc.reason_code)::text)
+                          Buffers: shared hit=8
+                          ->  Index Scan using pk_screening_reason on screening_reason sr  (cost=0.42..10.21 rows=2 width=202) (actual time=0.034..0.035 rows=3 loops=1)
+                                Index Cond: (screening_id = 6)
+                                Buffers: shared hit=7
+                          ->  Hash  (cost=1.11..1.11 rows=11 width=59) (actual time=0.021..0.022 rows=11 loops=1)
+                                Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                Buffers: shared hit=1
+                                ->  Seq Scan on reason_code rc  (cost=0.00..1.11 rows=11 width=59) (actual time=0.006..0.008 rows=11 loops=1)
+                                      Buffers: shared hit=1
+        ->  Memoize  (cost=0.15..3.44 rows=1 width=93) (actual time=0.007..0.007 rows=1 loops=3)
+              Cache Key: rc.chunk_id
+              Cache Mode: logical
+              Hits: 0  Misses: 3  Evictions: 0  Overflows: 0  Memory Usage: 1kB
+              Buffers: shared hit=6
+              ->  Index Scan using chunk_pkey on chunk ch  (cost=0.14..3.43 rows=1 width=93) (actual time=0.005..0.005 rows=1 loops=3)
+                    Index Cond: ((chunk_id)::text = (rc.chunk_id)::text)
+                    Buffers: shared hit=6
+Planning:
+  Buffers: shared hit=356
+Planning Time: 1.297 ms
+Execution Time: 0.263 ms

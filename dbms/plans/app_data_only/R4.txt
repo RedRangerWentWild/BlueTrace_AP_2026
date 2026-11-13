@@ -1,0 +1,60 @@
+=== R4 run 1 ===
+Limit  (cost=101.94..101.95 rows=3 width=71) (actual time=0.124..0.125 rows=3 loops=1)
+  Buffers: shared hit=23
+  ->  Sort  (cost=101.94..101.97 rows=11 width=71) (actual time=0.123..0.123 rows=3 loops=1)
+        Sort Key: (sqrt((power((((b.centroid_lon - '77.6403'::double precision) * '111320'::double precision) * '0.9747167553718427'::double precision), '2'::double precision) + power(((b.centroid_lat - '12.9114'::double precision) * '110574'::double precision), '2'::double precision))))
+        Sort Method: top-N heapsort  Memory: 25kB
+        Buffers: shared hit=23
+        ->  Bitmap Heap Scan on building b  (cost=12.74..101.80 rows=11 width=71) (actual time=0.044..0.089 rows=14 loops=1)
+              Recheck Cond: ((centroid_lat >= '12.9086'::double precision) AND (centroid_lat <= '12.9142'::double precision) AND (centroid_lon >= '77.6374'::double precision) AND (centroid_lon <= '77.6432'::double precision))
+              Filter: (((city_key)::text = 'bengaluru'::text) AND (sqrt((power((((centroid_lon - '77.6403'::double precision) * '111320'::double precision) * '0.9747167553718427'::double precision), '2'::double precision) + power(((centroid_lat - '12.9114'::double precision) * '110574'::double precision), '2'::double precision))) <= '300'::double precision))
+              Rows Removed by Filter: 4
+              Heap Blocks: exact=17
+              Buffers: shared hit=20
+              ->  Bitmap Index Scan on ix_building_centroid  (cost=0.00..12.73 rows=33 width=0) (actual time=0.023..0.023 rows=18 loops=1)
+                    Index Cond: ((centroid_lat >= '12.9086'::double precision) AND (centroid_lat <= '12.9142'::double precision) AND (centroid_lon >= '77.6374'::double precision) AND (centroid_lon <= '77.6432'::double precision))
+                    Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=151
+Planning Time: 1.019 ms
+Execution Time: 0.257 ms
+=== R4 run 2 ===
+Limit  (cost=101.94..101.95 rows=3 width=71) (actual time=0.108..0.109 rows=3 loops=1)
+  Buffers: shared hit=23
+  ->  Sort  (cost=101.94..101.97 rows=11 width=71) (actual time=0.107..0.108 rows=3 loops=1)
+        Sort Key: (sqrt((power((((b.centroid_lon - '77.6403'::double precision) * '111320'::double precision) * '0.9747167553718427'::double precision), '2'::double precision) + power(((b.centroid_lat - '12.9114'::double precision) * '110574'::double precision), '2'::double precision))))
+        Sort Method: top-N heapsort  Memory: 25kB
+        Buffers: shared hit=23
+        ->  Bitmap Heap Scan on building b  (cost=12.74..101.80 rows=11 width=71) (actual time=0.036..0.082 rows=14 loops=1)
+              Recheck Cond: ((centroid_lat >= '12.9086'::double precision) AND (centroid_lat <= '12.9142'::double precision) AND (centroid_lon >= '77.6374'::double precision) AND (centroid_lon <= '77.6432'::double precision))
+              Filter: (((city_key)::text = 'bengaluru'::text) AND (sqrt((power((((centroid_lon - '77.6403'::double precision) * '111320'::double precision) * '0.9747167553718427'::double precision), '2'::double precision) + power(((centroid_lat - '12.9114'::double precision) * '110574'::double precision), '2'::double precision))) <= '300'::double precision))
+              Rows Removed by Filter: 4
+              Heap Blocks: exact=17
+              Buffers: shared hit=20
+              ->  Bitmap Index Scan on ix_building_centroid  (cost=0.00..12.73 rows=33 width=0) (actual time=0.019..0.019 rows=18 loops=1)
+                    Index Cond: ((centroid_lat >= '12.9086'::double precision) AND (centroid_lat <= '12.9142'::double precision) AND (centroid_lon >= '77.6374'::double precision) AND (centroid_lon <= '77.6432'::double precision))
+                    Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=151
+Planning Time: 0.491 ms
+Execution Time: 0.154 ms
+=== R4 run 3 ===
+Limit  (cost=101.94..101.95 rows=3 width=71) (actual time=0.099..0.100 rows=3 loops=1)
+  Buffers: shared hit=23
+  ->  Sort  (cost=101.94..101.97 rows=11 width=71) (actual time=0.098..0.099 rows=3 loops=1)
+        Sort Key: (sqrt((power((((b.centroid_lon - '77.6403'::double precision) * '111320'::double precision) * '0.9747167553718427'::double precision), '2'::double precision) + power(((b.centroid_lat - '12.9114'::double precision) * '110574'::double precision), '2'::double precision))))
+        Sort Method: top-N heapsort  Memory: 25kB
+        Buffers: shared hit=23
+        ->  Bitmap Heap Scan on building b  (cost=12.74..101.80 rows=11 width=71) (actual time=0.037..0.075 rows=14 loops=1)
+              Recheck Cond: ((centroid_lat >= '12.9086'::double precision) AND (centroid_lat <= '12.9142'::double precision) AND (centroid_lon >= '77.6374'::double precision) AND (centroid_lon <= '77.6432'::double precision))
+              Filter: (((city_key)::text = 'bengaluru'::text) AND (sqrt((power((((centroid_lon - '77.6403'::double precision) * '111320'::double precision) * '0.9747167553718427'::double precision), '2'::double precision) + power(((centroid_lat - '12.9114'::double precision) * '110574'::double precision), '2'::double precision))) <= '300'::double precision))
+              Rows Removed by Filter: 4
+              Heap Blocks: exact=17
+              Buffers: shared hit=20
+              ->  Bitmap Index Scan on ix_building_centroid  (cost=0.00..12.73 rows=33 width=0) (actual time=0.020..0.020 rows=18 loops=1)
+                    Index Cond: ((centroid_lat >= '12.9086'::double precision) AND (centroid_lat <= '12.9142'::double precision) AND (centroid_lon >= '77.6374'::double precision) AND (centroid_lon <= '77.6432'::double precision))
+                    Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=151
+Planning Time: 0.508 ms
+Execution Time: 0.143 ms

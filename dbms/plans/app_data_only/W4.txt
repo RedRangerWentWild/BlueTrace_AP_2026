@@ -1,0 +1,36 @@
+=== W4 run 1 ===
+Insert on chunk  (cost=0.00..0.01 rows=0 width=0) (actual time=0.393..0.393 rows=0 loops=1)
+  Conflict Resolution: UPDATE
+  Conflict Arbiter Indexes: chunk_pkey
+  Tuples Inserted: 0
+  Conflicting Tuples: 1
+  Buffers: shared hit=52
+  ->  Result  (cost=0.00..0.01 rows=1 width=792) (actual time=0.005..0.005 rows=1 loops=1)
+Planning:
+  Buffers: shared hit=30
+Planning Time: 0.194 ms
+Execution Time: 0.462 ms
+=== W4 run 2 ===
+Insert on chunk  (cost=0.00..0.01 rows=0 width=0) (actual time=0.313..0.313 rows=0 loops=1)
+  Conflict Resolution: UPDATE
+  Conflict Arbiter Indexes: chunk_pkey
+  Tuples Inserted: 0
+  Conflicting Tuples: 1
+  Buffers: shared hit=50
+  ->  Result  (cost=0.00..0.01 rows=1 width=792) (actual time=0.004..0.004 rows=1 loops=1)
+Planning:
+  Buffers: shared hit=30
+Planning Time: 0.125 ms
+Execution Time: 0.367 ms
+=== W4 run 3 ===
+Insert on chunk  (cost=0.00..0.01 rows=0 width=0) (actual time=0.490..0.491 rows=0 loops=1)
+  Conflict Resolution: UPDATE
+  Conflict Arbiter Indexes: chunk_pkey
+  Tuples Inserted: 0
+  Conflicting Tuples: 1
+  Buffers: shared hit=50
+  ->  Result  (cost=0.00..0.01 rows=1 width=792) (actual time=0.005..0.005 rows=1 loops=1)
+Planning:
+  Buffers: shared hit=30
+Planning Time: 0.136 ms
+Execution Time: 0.660 ms

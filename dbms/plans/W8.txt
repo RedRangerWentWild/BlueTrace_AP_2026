@@ -1,0 +1,33 @@
+=== W8 run 1 ===
+Update on city  (cost=0.00..1.02 rows=0 width=0) (actual time=0.266..0.266 rows=0 loops=1)
+  Buffers: shared hit=36
+  ->  Seq Scan on city  (cost=0.00..1.02 rows=1 width=90) (actual time=0.008..0.009 rows=1 loops=1)
+        Filter: ((city_key)::text = 'bengaluru'::text)
+        Rows Removed by Filter: 1
+        Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=76
+Planning Time: 0.319 ms
+Execution Time: 0.338 ms
+=== W8 run 2 ===
+Update on city  (cost=0.00..1.02 rows=0 width=0) (actual time=0.284..0.285 rows=0 loops=1)
+  Buffers: shared hit=35
+  ->  Seq Scan on city  (cost=0.00..1.02 rows=1 width=90) (actual time=0.014..0.015 rows=1 loops=1)
+        Filter: ((city_key)::text = 'bengaluru'::text)
+        Rows Removed by Filter: 1
+        Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=76
+Planning Time: 0.358 ms
+Execution Time: 0.335 ms
+=== W8 run 3 ===
+Update on city  (cost=0.00..1.02 rows=0 width=0) (actual time=0.333..0.333 rows=0 loops=1)
+  Buffers: shared hit=35
+  ->  Seq Scan on city  (cost=0.00..1.02 rows=1 width=90) (actual time=0.015..0.016 rows=1 loops=1)
+        Filter: ((city_key)::text = 'bengaluru'::text)
+        Rows Removed by Filter: 1
+        Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=76
+Planning Time: 0.394 ms
+Execution Time: 0.398 ms

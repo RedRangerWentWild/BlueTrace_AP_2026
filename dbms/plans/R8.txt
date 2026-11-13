@@ -1,0 +1,66 @@
+=== R8 run 1 ===
+Nested Loop  (cost=2.75..14.86 rows=1 width=334) (actual time=0.434..0.435 rows=1 loops=1)
+  Buffers: shared hit=11
+  ->  Nested Loop  (cost=0.29..9.36 rows=1 width=25) (actual time=0.025..0.026 rows=1 loops=1)
+        Join Filter: ((r.rule_id)::text = (s.rule_id)::text)
+        Rows Removed by Join Filter: 1
+        Buffers: shared hit=7
+        ->  Index Scan using screening_pkey on screening s  (cost=0.29..8.31 rows=1 width=28) (actual time=0.019..0.019 rows=1 loops=1)
+              Index Cond: (screening_id = 6)
+              Buffers: shared hit=6
+        ->  Seq Scan on buffer_rule r  (cost=0.00..1.02 rows=2 width=7) (actual time=0.002..0.002 rows=2 loops=1)
+              Buffers: shared hit=1
+  ->  Aggregate  (cost=2.46..2.47 rows=1 width=320) (actual time=0.019..0.019 rows=1 loops=1)
+        Buffers: shared hit=1
+        ->  Seq Scan on param  (cost=0.00..2.06 rows=8 width=21) (actual time=0.007..0.013 rows=8 loops=1)
+              Filter: ((param_name)::text = ANY ('{P_mm,P_annualMm,dC,tankerL,uncertaintyM,handDeepM,handLowM,handMarginalM}'::text[]))
+              Rows Removed by Filter: 45
+              Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=396
+Planning Time: 1.135 ms
+Execution Time: 0.604 ms
+=== R8 run 2 ===
+Nested Loop  (cost=2.75..14.86 rows=1 width=334) (actual time=0.431..0.433 rows=1 loops=1)
+  Buffers: shared hit=11
+  ->  Nested Loop  (cost=0.29..9.36 rows=1 width=25) (actual time=0.047..0.049 rows=1 loops=1)
+        Join Filter: ((r.rule_id)::text = (s.rule_id)::text)
+        Rows Removed by Join Filter: 1
+        Buffers: shared hit=7
+        ->  Index Scan using screening_pkey on screening s  (cost=0.29..8.31 rows=1 width=28) (actual time=0.041..0.041 rows=1 loops=1)
+              Index Cond: (screening_id = 6)
+              Buffers: shared hit=6
+        ->  Seq Scan on buffer_rule r  (cost=0.00..1.02 rows=2 width=7) (actual time=0.003..0.003 rows=2 loops=1)
+              Buffers: shared hit=1
+  ->  Aggregate  (cost=2.46..2.47 rows=1 width=320) (actual time=0.020..0.020 rows=1 loops=1)
+        Buffers: shared hit=1
+        ->  Seq Scan on param  (cost=0.00..2.06 rows=8 width=21) (actual time=0.007..0.014 rows=8 loops=1)
+              Filter: ((param_name)::text = ANY ('{P_mm,P_annualMm,dC,tankerL,uncertaintyM,handDeepM,handLowM,handMarginalM}'::text[]))
+              Rows Removed by Filter: 45
+              Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=401
+Planning Time: 1.131 ms
+Execution Time: 0.615 ms
+=== R8 run 3 ===
+Nested Loop  (cost=2.75..14.86 rows=1 width=334) (actual time=0.426..0.428 rows=1 loops=1)
+  Buffers: shared hit=11
+  ->  Nested Loop  (cost=0.29..9.36 rows=1 width=25) (actual time=0.026..0.027 rows=1 loops=1)
+        Join Filter: ((r.rule_id)::text = (s.rule_id)::text)
+        Rows Removed by Join Filter: 1
+        Buffers: shared hit=7
+        ->  Index Scan using screening_pkey on screening s  (cost=0.29..8.31 rows=1 width=28) (actual time=0.020..0.020 rows=1 loops=1)
+              Index Cond: (screening_id = 6)
+              Buffers: shared hit=6
+        ->  Seq Scan on buffer_rule r  (cost=0.00..1.02 rows=2 width=7) (actual time=0.002..0.002 rows=2 loops=1)
+              Buffers: shared hit=1
+  ->  Aggregate  (cost=2.46..2.47 rows=1 width=320) (actual time=0.020..0.021 rows=1 loops=1)
+        Buffers: shared hit=1
+        ->  Seq Scan on param  (cost=0.00..2.06 rows=8 width=21) (actual time=0.007..0.014 rows=8 loops=1)
+              Filter: ((param_name)::text = ANY ('{P_mm,P_annualMm,dC,tankerL,uncertaintyM,handDeepM,handLowM,handMarginalM}'::text[]))
+              Rows Removed by Filter: 45
+              Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=401
+Planning Time: 1.289 ms
+Execution Time: 0.611 ms

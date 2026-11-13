@@ -1,0 +1,33 @@
+=== R2 run 1 ===
+Sort  (cost=1.03..1.03 rows=2 width=39) (actual time=0.023..0.024 rows=2 loops=1)
+  Sort Key: lake_m DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=4
+  ->  Seq Scan on buffer_rule r  (cost=0.00..1.02 rows=2 width=39) (actual time=0.007..0.007 rows=2 loops=1)
+        Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=94
+Planning Time: 0.221 ms
+Execution Time: 0.062 ms
+=== R2 run 2 ===
+Sort  (cost=1.03..1.03 rows=2 width=39) (actual time=0.024..0.024 rows=2 loops=1)
+  Sort Key: lake_m DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=4
+  ->  Seq Scan on buffer_rule r  (cost=0.00..1.02 rows=2 width=39) (actual time=0.006..0.007 rows=2 loops=1)
+        Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=94
+Planning Time: 0.225 ms
+Execution Time: 0.063 ms
+=== R2 run 3 ===
+Sort  (cost=1.03..1.03 rows=2 width=39) (actual time=0.022..0.023 rows=2 loops=1)
+  Sort Key: lake_m DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=4
+  ->  Seq Scan on buffer_rule r  (cost=0.00..1.02 rows=2 width=39) (actual time=0.005..0.006 rows=2 loops=1)
+        Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=94
+Planning Time: 0.210 ms
+Execution Time: 0.060 ms

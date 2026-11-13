@@ -1,0 +1,30 @@
+=== W3 run 1 ===
+Update on certificate  (cost=0.29..8.30 rows=0 width=0) (actual time=0.302..0.303 rows=0 loops=1)
+  Buffers: shared hit=35
+  ->  Index Scan using certificate_pkey on certificate  (cost=0.29..8.30 rows=1 width=460) (actual time=0.017..0.017 rows=1 loops=1)
+        Index Cond: ((cert_ref)::text = 'BT/BLR/20261112/0001-DF9684FA'::text)
+        Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=111
+Planning Time: 0.360 ms
+Execution Time: 0.358 ms
+=== W3 run 2 ===
+Update on certificate  (cost=0.29..8.30 rows=0 width=0) (actual time=0.319..0.319 rows=0 loops=1)
+  Buffers: shared hit=37
+  ->  Index Scan using certificate_pkey on certificate  (cost=0.29..8.30 rows=1 width=460) (actual time=0.022..0.027 rows=1 loops=1)
+        Index Cond: ((cert_ref)::text = 'BT/BLR/20261112/0001-DF9684FA'::text)
+        Buffers: shared hit=5
+Planning:
+  Buffers: shared hit=111
+Planning Time: 0.391 ms
+Execution Time: 0.371 ms
+=== W3 run 3 ===
+Update on certificate  (cost=0.29..8.30 rows=0 width=0) (actual time=0.291..0.292 rows=0 loops=1)
+  Buffers: shared hit=37
+  ->  Index Scan using certificate_pkey on certificate  (cost=0.29..8.30 rows=1 width=460) (actual time=0.022..0.027 rows=1 loops=1)
+        Index Cond: ((cert_ref)::text = 'BT/BLR/20261112/0001-DF9684FA'::text)
+        Buffers: shared hit=5
+Planning:
+  Buffers: shared hit=111
+Planning Time: 0.338 ms
+Execution Time: 0.338 ms

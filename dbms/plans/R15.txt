@@ -1,0 +1,285 @@
+=== R15 run 1 ===
+Nested Loop  (cost=11.72..62.68 rows=1 width=701) (actual time=0.323..0.328 rows=1 loops=1)
+  Buffers: shared hit=41
+  ->  Nested Loop  (cost=0.83..16.93 rows=1 width=627) (actual time=0.039..0.040 rows=1 loops=1)
+        Buffers: shared hit=10
+        ->  Nested Loop  (cost=0.71..16.77 rows=1 width=598) (actual time=0.032..0.033 rows=1 loops=1)
+              Buffers: shared hit=8
+              ->  Nested Loop  (cost=0.58..16.62 rows=1 width=575) (actual time=0.020..0.021 rows=1 loops=1)
+                    Buffers: shared hit=6
+                    ->  Index Scan using certificate_pkey on certificate ce  (cost=0.29..8.30 rows=1 width=526) (actual time=0.011..0.012 rows=1 loops=1)
+                          Index Cond: ((cert_ref)::text = 'BT/BLR/20261112/0004-F1A66EF4'::text)
+                          Buffers: shared hit=3
+                    ->  Index Scan using screening_pkey on screening s  (cost=0.29..8.31 rows=1 width=57) (actual time=0.005..0.005 rows=1 loops=1)
+                          Index Cond: (screening_id = ce.screening_id)
+                          Buffers: shared hit=3
+              ->  Index Scan using city_pkey on city c  (cost=0.13..0.15 rows=1 width=42) (actual time=0.011..0.011 rows=1 loops=1)
+                    Index Cond: ((city_key)::text = (s.city_key)::text)
+                    Buffers: shared hit=2
+        ->  Index Scan using buffer_rule_pkey on buffer_rule r  (cost=0.13..0.15 rows=1 width=39) (actual time=0.007..0.007 rows=1 loops=1)
+              Index Cond: ((rule_id)::text = (s.rule_id)::text)
+              Buffers: shared hit=2
+  ->  Limit  (cost=10.88..10.89 rows=1 width=20) (actual time=0.098..0.100 rows=1 loops=1)
+        Buffers: shared hit=9
+        ->  Sort  (cost=10.88..10.89 rows=2 width=20) (actual time=0.088..0.090 rows=1 loops=1)
+              Sort Key: o.rank DESC
+              Sort Method: top-N heapsort  Memory: 25kB
+              Buffers: shared hit=9
+              ->  Nested Loop  (cost=1.67..10.87 rows=2 width=20) (actual time=0.064..0.069 rows=3 loops=1)
+                    Join Filter: ((o.outcome)::text = (rc.outcome)::text)
+                    Rows Removed by Join Filter: 9
+                    Buffers: shared hit=6
+                    ->  Seq Scan on outcome o  (cost=0.00..1.04 rows=4 width=29) (actual time=0.004..0.004 rows=4 loops=1)
+                          Buffers: shared hit=1
+                    ->  Materialize  (cost=1.67..9.72 rows=2 width=7) (actual time=0.014..0.015 rows=3 loops=4)
+                          Buffers: shared hit=5
+                          ->  Hash Join  (cost=1.67..9.71 rows=2 width=7) (actual time=0.053..0.056 rows=3 loops=1)
+                                Hash Cond: ((sr.reason_code)::text = (rc.reason_code)::text)
+                                Buffers: shared hit=5
+                                ->  Index Only Scan using pk_screening_reason on screening_reason sr  (cost=0.42..8.46 rows=2 width=23) (actual time=0.021..0.022 rows=3 loops=1)
+                                      Index Cond: (screening_id = s.screening_id)
+                                      Heap Fetches: 0
+                                      Buffers: shared hit=4
+                                ->  Hash  (cost=1.11..1.11 rows=11 width=33) (actual time=0.015..0.015 rows=11 loops=1)
+                                      Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                      Buffers: shared hit=1
+                                      ->  Seq Scan on reason_code rc  (cost=0.00..1.11 rows=11 width=33) (actual time=0.004..0.006 rows=11 loops=1)
+                                            Buffers: shared hit=1
+  SubPlan 1
+    ->  Aggregate  (cost=12.65..12.66 rows=1 width=32) (actual time=0.091..0.092 rows=1 loops=1)
+          Buffers: shared hit=9
+          ->  Sort  (cost=12.63..12.64 rows=2 width=204) (actual time=0.055..0.056 rows=3 loops=1)
+                Sort Key: o2.rank DESC, sr_1.reason_code
+                Sort Method: quicksort  Memory: 25kB
+                Buffers: shared hit=9
+                ->  Nested Loop  (cost=1.67..12.62 rows=2 width=204) (actual time=0.034..0.038 rows=3 loops=1)
+                      Join Filter: ((o2.outcome)::text = (rc_1.outcome)::text)
+                      Rows Removed by Join Filter: 9
+                      Buffers: shared hit=6
+                      ->  Seq Scan on outcome o2  (cost=0.00..1.04 rows=4 width=11) (actual time=0.002..0.002 rows=4 loops=1)
+                            Buffers: shared hit=1
+                      ->  Materialize  (cost=1.67..11.47 rows=2 width=209) (actual time=0.007..0.008 rows=3 loops=4)
+                            Buffers: shared hit=5
+                            ->  Hash Join  (cost=1.67..11.46 rows=2 width=209) (actual time=0.025..0.027 rows=3 loops=1)
+                                  Hash Cond: ((sr_1.reason_code)::text = (rc_1.reason_code)::text)
+                                  Buffers: shared hit=5
+                                  ->  Index Scan using pk_screening_reason on screening_reason sr_1  (cost=0.42..10.21 rows=2 width=202) (actual time=0.006..0.006 rows=3 loops=1)
+                                        Index Cond: (screening_id = s.screening_id)
+                                        Buffers: shared hit=4
+                                  ->  Hash  (cost=1.11..1.11 rows=11 width=33) (actual time=0.006..0.006 rows=11 loops=1)
+                                        Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                        Buffers: shared hit=1
+                                        ->  Seq Scan on reason_code rc_1  (cost=0.00..1.11 rows=11 width=33) (actual time=0.001..0.002 rows=11 loops=1)
+                                              Buffers: shared hit=1
+  SubPlan 2
+    ->  Aggregate  (cost=22.18..22.19 rows=1 width=32) (actual time=0.091..0.091 rows=1 loops=1)
+          Buffers: shared hit=13
+          ->  Sort  (cost=22.14..22.15 rows=3 width=65) (actual time=0.088..0.088 rows=5 loops=1)
+                Sort Key: cc.cite_order
+                Sort Method: quicksort  Memory: 25kB
+                Buffers: shared hit=13
+                ->  Hash Join  (cost=12.02..22.11 rows=3 width=65) (actual time=0.050..0.079 rows=5 loops=1)
+                      Hash Cond: ((ch.chunk_id)::text = (cc.chunk_id)::text)
+                      Buffers: shared hit=13
+                      ->  Seq Scan on chunk ch  (cost=0.00..9.86 rows=86 width=93) (actual time=0.001..0.018 rows=86 loops=1)
+                            Buffers: shared hit=9
+                      ->  Hash  (cost=11.98..11.98 rows=3 width=30) (actual time=0.027..0.027 rows=5 loops=1)
+                            Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                            Buffers: shared hit=4
+                            ->  Index Scan using uq_cc_order on certificate_chunk cc  (cost=0.41..11.98 rows=3 width=30) (actual time=0.022..0.024 rows=5 loops=1)
+                                  Index Cond: ((cert_ref)::text = (ce.cert_ref)::text)
+                                  Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=753
+Planning Time: 4.207 ms
+Execution Time: 0.521 ms
+=== R15 run 2 ===
+Nested Loop  (cost=11.72..62.68 rows=1 width=701) (actual time=0.323..0.327 rows=1 loops=1)
+  Buffers: shared hit=41
+  ->  Nested Loop  (cost=0.83..16.93 rows=1 width=627) (actual time=0.053..0.054 rows=1 loops=1)
+        Buffers: shared hit=10
+        ->  Nested Loop  (cost=0.71..16.77 rows=1 width=598) (actual time=0.043..0.044 rows=1 loops=1)
+              Buffers: shared hit=8
+              ->  Nested Loop  (cost=0.58..16.62 rows=1 width=575) (actual time=0.024..0.024 rows=1 loops=1)
+                    Buffers: shared hit=6
+                    ->  Index Scan using certificate_pkey on certificate ce  (cost=0.29..8.30 rows=1 width=526) (actual time=0.014..0.014 rows=1 loops=1)
+                          Index Cond: ((cert_ref)::text = 'BT/BLR/20261112/0004-F1A66EF4'::text)
+                          Buffers: shared hit=3
+                    ->  Index Scan using screening_pkey on screening s  (cost=0.29..8.31 rows=1 width=57) (actual time=0.006..0.006 rows=1 loops=1)
+                          Index Cond: (screening_id = ce.screening_id)
+                          Buffers: shared hit=3
+              ->  Index Scan using city_pkey on city c  (cost=0.13..0.15 rows=1 width=42) (actual time=0.018..0.018 rows=1 loops=1)
+                    Index Cond: ((city_key)::text = (s.city_key)::text)
+                    Buffers: shared hit=2
+        ->  Index Scan using buffer_rule_pkey on buffer_rule r  (cost=0.13..0.15 rows=1 width=39) (actual time=0.009..0.009 rows=1 loops=1)
+              Index Cond: ((rule_id)::text = (s.rule_id)::text)
+              Buffers: shared hit=2
+  ->  Limit  (cost=10.88..10.89 rows=1 width=20) (actual time=0.092..0.094 rows=1 loops=1)
+        Buffers: shared hit=9
+        ->  Sort  (cost=10.88..10.89 rows=2 width=20) (actual time=0.092..0.093 rows=1 loops=1)
+              Sort Key: o.rank DESC
+              Sort Method: top-N heapsort  Memory: 25kB
+              Buffers: shared hit=9
+              ->  Nested Loop  (cost=1.67..10.87 rows=2 width=20) (actual time=0.065..0.070 rows=3 loops=1)
+                    Join Filter: ((o.outcome)::text = (rc.outcome)::text)
+                    Rows Removed by Join Filter: 9
+                    Buffers: shared hit=6
+                    ->  Seq Scan on outcome o  (cost=0.00..1.04 rows=4 width=29) (actual time=0.004..0.005 rows=4 loops=1)
+                          Buffers: shared hit=1
+                    ->  Materialize  (cost=1.67..9.72 rows=2 width=7) (actual time=0.015..0.015 rows=3 loops=4)
+                          Buffers: shared hit=5
+                          ->  Hash Join  (cost=1.67..9.71 rows=2 width=7) (actual time=0.055..0.057 rows=3 loops=1)
+                                Hash Cond: ((sr.reason_code)::text = (rc.reason_code)::text)
+                                Buffers: shared hit=5
+                                ->  Index Only Scan using pk_screening_reason on screening_reason sr  (cost=0.42..8.46 rows=2 width=23) (actual time=0.025..0.025 rows=3 loops=1)
+                                      Index Cond: (screening_id = s.screening_id)
+                                      Heap Fetches: 0
+                                      Buffers: shared hit=4
+                                ->  Hash  (cost=1.11..1.11 rows=11 width=33) (actual time=0.015..0.015 rows=11 loops=1)
+                                      Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                      Buffers: shared hit=1
+                                      ->  Seq Scan on reason_code rc  (cost=0.00..1.11 rows=11 width=33) (actual time=0.004..0.006 rows=11 loops=1)
+                                            Buffers: shared hit=1
+  SubPlan 1
+    ->  Aggregate  (cost=12.65..12.66 rows=1 width=32) (actual time=0.063..0.064 rows=1 loops=1)
+          Buffers: shared hit=9
+          ->  Sort  (cost=12.63..12.64 rows=2 width=204) (actual time=0.058..0.059 rows=3 loops=1)
+                Sort Key: o2.rank DESC, sr_1.reason_code
+                Sort Method: quicksort  Memory: 25kB
+                Buffers: shared hit=9
+                ->  Nested Loop  (cost=1.67..12.62 rows=2 width=204) (actual time=0.039..0.042 rows=3 loops=1)
+                      Join Filter: ((o2.outcome)::text = (rc_1.outcome)::text)
+                      Rows Removed by Join Filter: 9
+                      Buffers: shared hit=6
+                      ->  Seq Scan on outcome o2  (cost=0.00..1.04 rows=4 width=11) (actual time=0.002..0.002 rows=4 loops=1)
+                            Buffers: shared hit=1
+                      ->  Materialize  (cost=1.67..11.47 rows=2 width=209) (actual time=0.008..0.009 rows=3 loops=4)
+                            Buffers: shared hit=5
+                            ->  Hash Join  (cost=1.67..11.46 rows=2 width=209) (actual time=0.031..0.032 rows=3 loops=1)
+                                  Hash Cond: ((sr_1.reason_code)::text = (rc_1.reason_code)::text)
+                                  Buffers: shared hit=5
+                                  ->  Index Scan using pk_screening_reason on screening_reason sr_1  (cost=0.42..10.21 rows=2 width=202) (actual time=0.007..0.007 rows=3 loops=1)
+                                        Index Cond: (screening_id = s.screening_id)
+                                        Buffers: shared hit=4
+                                  ->  Hash  (cost=1.11..1.11 rows=11 width=33) (actual time=0.005..0.005 rows=11 loops=1)
+                                        Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                        Buffers: shared hit=1
+                                        ->  Seq Scan on reason_code rc_1  (cost=0.00..1.11 rows=11 width=33) (actual time=0.001..0.002 rows=11 loops=1)
+                                              Buffers: shared hit=1
+  SubPlan 2
+    ->  Aggregate  (cost=22.18..22.19 rows=1 width=32) (actual time=0.110..0.111 rows=1 loops=1)
+          Buffers: shared hit=13
+          ->  Sort  (cost=22.14..22.15 rows=3 width=65) (actual time=0.107..0.108 rows=5 loops=1)
+                Sort Key: cc.cite_order
+                Sort Method: quicksort  Memory: 25kB
+                Buffers: shared hit=13
+                ->  Hash Join  (cost=12.02..22.11 rows=3 width=65) (actual time=0.068..0.098 rows=5 loops=1)
+                      Hash Cond: ((ch.chunk_id)::text = (cc.chunk_id)::text)
+                      Buffers: shared hit=13
+                      ->  Seq Scan on chunk ch  (cost=0.00..9.86 rows=86 width=93) (actual time=0.001..0.020 rows=86 loops=1)
+                            Buffers: shared hit=9
+                      ->  Hash  (cost=11.98..11.98 rows=3 width=30) (actual time=0.045..0.045 rows=5 loops=1)
+                            Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                            Buffers: shared hit=4
+                            ->  Index Scan using uq_cc_order on certificate_chunk cc  (cost=0.41..11.98 rows=3 width=30) (actual time=0.041..0.042 rows=5 loops=1)
+                                  Index Cond: ((cert_ref)::text = (ce.cert_ref)::text)
+                                  Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=753
+Planning Time: 2.005 ms
+Execution Time: 0.536 ms
+=== R15 run 3 ===
+Nested Loop  (cost=11.72..62.68 rows=1 width=701) (actual time=0.292..0.296 rows=1 loops=1)
+  Buffers: shared hit=41
+  ->  Nested Loop  (cost=0.83..16.93 rows=1 width=627) (actual time=0.043..0.044 rows=1 loops=1)
+        Buffers: shared hit=10
+        ->  Nested Loop  (cost=0.71..16.77 rows=1 width=598) (actual time=0.035..0.036 rows=1 loops=1)
+              Buffers: shared hit=8
+              ->  Nested Loop  (cost=0.58..16.62 rows=1 width=575) (actual time=0.023..0.024 rows=1 loops=1)
+                    Buffers: shared hit=6
+                    ->  Index Scan using certificate_pkey on certificate ce  (cost=0.29..8.30 rows=1 width=526) (actual time=0.014..0.014 rows=1 loops=1)
+                          Index Cond: ((cert_ref)::text = 'BT/BLR/20261112/0004-F1A66EF4'::text)
+                          Buffers: shared hit=3
+                    ->  Index Scan using screening_pkey on screening s  (cost=0.29..8.31 rows=1 width=57) (actual time=0.006..0.006 rows=1 loops=1)
+                          Index Cond: (screening_id = ce.screening_id)
+                          Buffers: shared hit=3
+              ->  Index Scan using city_pkey on city c  (cost=0.13..0.15 rows=1 width=42) (actual time=0.011..0.011 rows=1 loops=1)
+                    Index Cond: ((city_key)::text = (s.city_key)::text)
+                    Buffers: shared hit=2
+        ->  Index Scan using buffer_rule_pkey on buffer_rule r  (cost=0.13..0.15 rows=1 width=39) (actual time=0.007..0.007 rows=1 loops=1)
+              Index Cond: ((rule_id)::text = (s.rule_id)::text)
+              Buffers: shared hit=2
+  ->  Limit  (cost=10.88..10.89 rows=1 width=20) (actual time=0.095..0.097 rows=1 loops=1)
+        Buffers: shared hit=9
+        ->  Sort  (cost=10.88..10.89 rows=2 width=20) (actual time=0.095..0.096 rows=1 loops=1)
+              Sort Key: o.rank DESC
+              Sort Method: top-N heapsort  Memory: 25kB
+              Buffers: shared hit=9
+              ->  Nested Loop  (cost=1.67..10.87 rows=2 width=20) (actual time=0.067..0.071 rows=3 loops=1)
+                    Join Filter: ((o.outcome)::text = (rc.outcome)::text)
+                    Rows Removed by Join Filter: 9
+                    Buffers: shared hit=6
+                    ->  Seq Scan on outcome o  (cost=0.00..1.04 rows=4 width=29) (actual time=0.004..0.005 rows=4 loops=1)
+                          Buffers: shared hit=1
+                    ->  Materialize  (cost=1.67..9.72 rows=2 width=7) (actual time=0.015..0.016 rows=3 loops=4)
+                          Buffers: shared hit=5
+                          ->  Hash Join  (cost=1.67..9.71 rows=2 width=7) (actual time=0.057..0.059 rows=3 loops=1)
+                                Hash Cond: ((sr.reason_code)::text = (rc.reason_code)::text)
+                                Buffers: shared hit=5
+                                ->  Index Only Scan using pk_screening_reason on screening_reason sr  (cost=0.42..8.46 rows=2 width=23) (actual time=0.026..0.027 rows=3 loops=1)
+                                      Index Cond: (screening_id = s.screening_id)
+                                      Heap Fetches: 0
+                                      Buffers: shared hit=4
+                                ->  Hash  (cost=1.11..1.11 rows=11 width=33) (actual time=0.015..0.015 rows=11 loops=1)
+                                      Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                      Buffers: shared hit=1
+                                      ->  Seq Scan on reason_code rc  (cost=0.00..1.11 rows=11 width=33) (actual time=0.004..0.006 rows=11 loops=1)
+                                            Buffers: shared hit=1
+  SubPlan 1
+    ->  Aggregate  (cost=12.65..12.66 rows=1 width=32) (actual time=0.055..0.056 rows=1 loops=1)
+          Buffers: shared hit=9
+          ->  Sort  (cost=12.63..12.64 rows=2 width=204) (actual time=0.050..0.051 rows=3 loops=1)
+                Sort Key: o2.rank DESC, sr_1.reason_code
+                Sort Method: quicksort  Memory: 25kB
+                Buffers: shared hit=9
+                ->  Nested Loop  (cost=1.67..12.62 rows=2 width=204) (actual time=0.031..0.035 rows=3 loops=1)
+                      Join Filter: ((o2.outcome)::text = (rc_1.outcome)::text)
+                      Rows Removed by Join Filter: 9
+                      Buffers: shared hit=6
+                      ->  Seq Scan on outcome o2  (cost=0.00..1.04 rows=4 width=11) (actual time=0.002..0.002 rows=4 loops=1)
+                            Buffers: shared hit=1
+                      ->  Materialize  (cost=1.67..11.47 rows=2 width=209) (actual time=0.006..0.007 rows=3 loops=4)
+                            Buffers: shared hit=5
+                            ->  Hash Join  (cost=1.67..11.46 rows=2 width=209) (actual time=0.023..0.024 rows=3 loops=1)
+                                  Hash Cond: ((sr_1.reason_code)::text = (rc_1.reason_code)::text)
+                                  Buffers: shared hit=5
+                                  ->  Index Scan using pk_screening_reason on screening_reason sr_1  (cost=0.42..10.21 rows=2 width=202) (actual time=0.005..0.005 rows=3 loops=1)
+                                        Index Cond: (screening_id = s.screening_id)
+                                        Buffers: shared hit=4
+                                  ->  Hash  (cost=1.11..1.11 rows=11 width=33) (actual time=0.005..0.005 rows=11 loops=1)
+                                        Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                        Buffers: shared hit=1
+                                        ->  Seq Scan on reason_code rc_1  (cost=0.00..1.11 rows=11 width=33) (actual time=0.001..0.001 rows=11 loops=1)
+                                              Buffers: shared hit=1
+  SubPlan 2
+    ->  Aggregate  (cost=22.18..22.19 rows=1 width=32) (actual time=0.094..0.095 rows=1 loops=1)
+          Buffers: shared hit=13
+          ->  Sort  (cost=22.14..22.15 rows=3 width=65) (actual time=0.091..0.092 rows=5 loops=1)
+                Sort Key: cc.cite_order
+                Sort Method: quicksort  Memory: 25kB
+                Buffers: shared hit=13
+                ->  Hash Join  (cost=12.02..22.11 rows=3 width=65) (actual time=0.052..0.082 rows=5 loops=1)
+                      Hash Cond: ((ch.chunk_id)::text = (cc.chunk_id)::text)
+                      Buffers: shared hit=13
+                      ->  Seq Scan on chunk ch  (cost=0.00..9.86 rows=86 width=93) (actual time=0.001..0.019 rows=86 loops=1)
+                            Buffers: shared hit=9
+                      ->  Hash  (cost=11.98..11.98 rows=3 width=30) (actual time=0.029..0.029 rows=5 loops=1)
+                            Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                            Buffers: shared hit=4
+                            ->  Index Scan using uq_cc_order on certificate_chunk cc  (cost=0.41..11.98 rows=3 width=30) (actual time=0.024..0.025 rows=5 loops=1)
+                                  Index Cond: ((cert_ref)::text = (ce.cert_ref)::text)
+                                  Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=753
+Planning Time: 2.536 ms
+Execution Time: 0.505 ms

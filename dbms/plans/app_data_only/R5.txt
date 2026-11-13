@@ -1,0 +1,72 @@
+=== R5 run 1 ===
+Sort  (cost=299.24..299.25 rows=4 width=123) (actual time=1.594..1.596 rows=4 loops=1)
+  Sort Key: (count(*)) DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=199
+  ->  WindowAgg  (cost=299.02..299.20 rows=4 width=123) (actual time=1.553..1.567 rows=4 loops=1)
+        Buffers: shared hit=196
+        ->  HashAggregate  (cost=299.02..299.07 rows=4 width=43) (actual time=1.508..1.511 rows=4 loops=1)
+              Group Key: b.verdict
+              Batches: 1  Memory Usage: 24kB
+              Buffers: shared hit=196
+              ->  Nested Loop  (cost=0.00..267.33 rows=3169 width=35) (actual time=0.012..1.040 rows=3169 loops=1)
+                    Buffers: shared hit=196
+                    ->  Seq Scan on city c  (cost=0.00..1.02 rows=1 width=9) (actual time=0.006..0.008 rows=1 loops=1)
+                          Filter: ((city_key)::text = 'bengaluru'::text)
+                          Rows Removed by Filter: 1
+                          Buffers: shared hit=1
+                    ->  Seq Scan on building b  (cost=0.00..234.61 rows=3169 width=45) (actual time=0.004..0.569 rows=3169 loops=1)
+                          Filter: ((city_key)::text = 'bengaluru'::text)
+                          Buffers: shared hit=195
+Planning:
+  Buffers: shared hit=197
+Planning Time: 0.576 ms
+Execution Time: 1.723 ms
+=== R5 run 2 ===
+Sort  (cost=299.24..299.25 rows=4 width=123) (actual time=2.424..2.427 rows=4 loops=1)
+  Sort Key: (count(*)) DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=199
+  ->  WindowAgg  (cost=299.02..299.20 rows=4 width=123) (actual time=2.387..2.400 rows=4 loops=1)
+        Buffers: shared hit=196
+        ->  HashAggregate  (cost=299.02..299.07 rows=4 width=43) (actual time=2.341..2.344 rows=4 loops=1)
+              Group Key: b.verdict
+              Batches: 1  Memory Usage: 24kB
+              Buffers: shared hit=196
+              ->  Nested Loop  (cost=0.00..267.33 rows=3169 width=35) (actual time=0.020..1.601 rows=3169 loops=1)
+                    Buffers: shared hit=196
+                    ->  Seq Scan on city c  (cost=0.00..1.02 rows=1 width=9) (actual time=0.010..0.012 rows=1 loops=1)
+                          Filter: ((city_key)::text = 'bengaluru'::text)
+                          Rows Removed by Filter: 1
+                          Buffers: shared hit=1
+                    ->  Seq Scan on building b  (cost=0.00..234.61 rows=3169 width=45) (actual time=0.007..0.804 rows=3169 loops=1)
+                          Filter: ((city_key)::text = 'bengaluru'::text)
+                          Buffers: shared hit=195
+Planning:
+  Buffers: shared hit=197
+Planning Time: 0.778 ms
+Execution Time: 2.602 ms
+=== R5 run 3 ===
+Sort  (cost=299.24..299.25 rows=4 width=123) (actual time=1.501..1.502 rows=4 loops=1)
+  Sort Key: (count(*)) DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=199
+  ->  WindowAgg  (cost=299.02..299.20 rows=4 width=123) (actual time=1.474..1.483 rows=4 loops=1)
+        Buffers: shared hit=196
+        ->  HashAggregate  (cost=299.02..299.07 rows=4 width=43) (actual time=1.442..1.444 rows=4 loops=1)
+              Group Key: b.verdict
+              Batches: 1  Memory Usage: 24kB
+              Buffers: shared hit=196
+              ->  Nested Loop  (cost=0.00..267.33 rows=3169 width=35) (actual time=0.013..0.959 rows=3169 loops=1)
+                    Buffers: shared hit=196
+                    ->  Seq Scan on city c  (cost=0.00..1.02 rows=1 width=9) (actual time=0.007..0.008 rows=1 loops=1)
+                          Filter: ((city_key)::text = 'bengaluru'::text)
+                          Rows Removed by Filter: 1
+                          Buffers: shared hit=1
+                    ->  Seq Scan on building b  (cost=0.00..234.61 rows=3169 width=45) (actual time=0.004..0.520 rows=3169 loops=1)
+                          Filter: ((city_key)::text = 'bengaluru'::text)
+                          Buffers: shared hit=195
+Planning:
+  Buffers: shared hit=197
+Planning Time: 0.531 ms
+Execution Time: 1.623 ms

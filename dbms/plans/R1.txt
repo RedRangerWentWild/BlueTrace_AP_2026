@@ -1,0 +1,48 @@
+=== R1 run 1 ===
+GroupAggregate  (cost=0.00..2.15 rows=1 width=168) (actual time=0.105..0.106 rows=1 loops=1)
+  Buffers: shared hit=9
+  ->  Nested Loop Left Join  (cost=0.00..2.12 rows=4 width=168) (actual time=0.019..0.022 rows=4 loops=1)
+        Buffers: shared hit=2
+        ->  Seq Scan on city c  (cost=0.00..1.02 rows=1 width=136) (actual time=0.010..0.010 rows=1 loops=1)
+              Filter: ((city_key)::text = 'bengaluru'::text)
+              Rows Removed by Filter: 1
+              Buffers: shared hit=1
+        ->  Seq Scan on hotspot h  (cost=0.00..1.05 rows=4 width=42) (actual time=0.007..0.008 rows=4 loops=1)
+              Filter: ((city_key)::text = 'bengaluru'::text)
+              Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=233
+Planning Time: 0.632 ms
+Execution Time: 0.199 ms
+=== R1 run 2 ===
+GroupAggregate  (cost=0.00..2.15 rows=1 width=168) (actual time=0.075..0.075 rows=1 loops=1)
+  Buffers: shared hit=9
+  ->  Nested Loop Left Join  (cost=0.00..2.12 rows=4 width=168) (actual time=0.015..0.017 rows=4 loops=1)
+        Buffers: shared hit=2
+        ->  Seq Scan on city c  (cost=0.00..1.02 rows=1 width=136) (actual time=0.008..0.009 rows=1 loops=1)
+              Filter: ((city_key)::text = 'bengaluru'::text)
+              Rows Removed by Filter: 1
+              Buffers: shared hit=1
+        ->  Seq Scan on hotspot h  (cost=0.00..1.05 rows=4 width=42) (actual time=0.004..0.005 rows=4 loops=1)
+              Filter: ((city_key)::text = 'bengaluru'::text)
+              Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=233
+Planning Time: 0.644 ms
+Execution Time: 0.169 ms
+=== R1 run 3 ===
+GroupAggregate  (cost=0.00..2.15 rows=1 width=168) (actual time=0.077..0.078 rows=1 loops=1)
+  Buffers: shared hit=9
+  ->  Nested Loop Left Join  (cost=0.00..2.12 rows=4 width=168) (actual time=0.016..0.020 rows=4 loops=1)
+        Buffers: shared hit=2
+        ->  Seq Scan on city c  (cost=0.00..1.02 rows=1 width=136) (actual time=0.009..0.010 rows=1 loops=1)
+              Filter: ((city_key)::text = 'bengaluru'::text)
+              Rows Removed by Filter: 1
+              Buffers: shared hit=1
+        ->  Seq Scan on hotspot h  (cost=0.00..1.05 rows=4 width=42) (actual time=0.004..0.006 rows=4 loops=1)
+              Filter: ((city_key)::text = 'bengaluru'::text)
+              Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=233
+Planning Time: 0.679 ms
+Execution Time: 0.176 ms

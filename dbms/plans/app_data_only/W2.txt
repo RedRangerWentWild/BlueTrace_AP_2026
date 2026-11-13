@@ -1,0 +1,96 @@
+=== W2 run 1 ===
+Insert on certificate_chunk  (cost=1.30..9.80 rows=0 width=0) (actual time=0.352..0.353 rows=0 loops=1)
+  Buffers: shared hit=108
+  CTE c
+    ->  Insert on certificate  (cost=0.00..1.16 rows=1 width=704) (actual time=0.264..0.265 rows=1 loops=1)
+          Buffers: shared hit=56
+          ->  Nested Loop  (cost=0.00..1.16 rows=1 width=704) (actual time=0.047..0.048 rows=1 loops=1)
+                Buffers: shared hit=14
+                ->  Seq Scan on screening s  (cost=0.00..1.11 rows=1 width=8) (actual time=0.009..0.010 rows=1 loops=1)
+                      Filter: (screening_id = 7)
+                      Rows Removed by Filter: 8
+                      Buffers: shared hit=1
+                ->  Result  (cost=0.00..0.01 rows=1 width=8) (actual time=0.034..0.034 rows=1 loops=1)
+                      Buffers: shared hit=13
+  ->  Nested Loop  (cost=0.14..8.64 rows=3 width=130) (actual time=0.279..0.285 rows=3 loops=1)
+        Buffers: shared hit=60
+        ->  Nested Loop  (cost=0.00..0.09 rows=3 width=134) (actual time=0.267..0.270 rows=3 loops=1)
+              Buffers: shared hit=56
+              ->  CTE Scan on c  (cost=0.00..0.02 rows=1 width=98) (actual time=0.265..0.267 rows=1 loops=1)
+                    Buffers: shared hit=56
+              ->  Values Scan on "*VALUES*"  (cost=0.00..0.04 rows=3 width=36) (actual time=0.001..0.001 rows=3 loops=1)
+        ->  Index Only Scan using chunk_pkey on chunk ch  (cost=0.14..2.83 rows=1 width=30) (actual time=0.004..0.004 rows=1 loops=3)
+              Index Cond: (chunk_id = "*VALUES*".column1)
+              Heap Fetches: 0
+              Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=247
+Planning Time: 0.645 ms
+Trigger for constraint fk_certificate_screening on certificate: time=0.190 calls=1
+Trigger for constraint fk_cc_certificate on certificate_chunk: time=0.094 calls=3
+Trigger for constraint fk_cc_chunk on certificate_chunk: time=0.066 calls=3
+Execution Time: 0.833 ms
+=== W2 run 2 ===
+Insert on certificate_chunk  (cost=1.30..9.80 rows=0 width=0) (actual time=0.372..0.373 rows=0 loops=1)
+  Buffers: shared hit=107
+  CTE c
+    ->  Insert on certificate  (cost=0.00..1.16 rows=1 width=704) (actual time=0.279..0.281 rows=1 loops=1)
+          Buffers: shared hit=56
+          ->  Nested Loop  (cost=0.00..1.16 rows=1 width=704) (actual time=0.056..0.058 rows=1 loops=1)
+                Buffers: shared hit=14
+                ->  Seq Scan on screening s  (cost=0.00..1.11 rows=1 width=8) (actual time=0.008..0.009 rows=1 loops=1)
+                      Filter: (screening_id = 7)
+                      Rows Removed by Filter: 8
+                      Buffers: shared hit=1
+                ->  Result  (cost=0.00..0.01 rows=1 width=8) (actual time=0.044..0.044 rows=1 loops=1)
+                      Buffers: shared hit=13
+  ->  Nested Loop  (cost=0.14..8.64 rows=3 width=130) (actual time=0.296..0.302 rows=3 loops=1)
+        Buffers: shared hit=60
+        ->  Nested Loop  (cost=0.00..0.09 rows=3 width=134) (actual time=0.283..0.286 rows=3 loops=1)
+              Buffers: shared hit=56
+              ->  CTE Scan on c  (cost=0.00..0.02 rows=1 width=98) (actual time=0.281..0.283 rows=1 loops=1)
+                    Buffers: shared hit=56
+              ->  Values Scan on "*VALUES*"  (cost=0.00..0.04 rows=3 width=36) (actual time=0.001..0.001 rows=3 loops=1)
+        ->  Index Only Scan using chunk_pkey on chunk ch  (cost=0.14..2.83 rows=1 width=30) (actual time=0.005..0.005 rows=1 loops=3)
+              Index Cond: (chunk_id = "*VALUES*".column1)
+              Heap Fetches: 0
+              Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=247
+Planning Time: 0.688 ms
+Trigger for constraint fk_certificate_screening on certificate: time=0.220 calls=1
+Trigger for constraint fk_cc_certificate on certificate_chunk: time=0.099 calls=3
+Trigger for constraint fk_cc_chunk on certificate_chunk: time=0.066 calls=3
+Execution Time: 0.866 ms
+=== W2 run 3 ===
+Insert on certificate_chunk  (cost=1.30..9.80 rows=0 width=0) (actual time=0.345..0.347 rows=0 loops=1)
+  Buffers: shared hit=107
+  CTE c
+    ->  Insert on certificate  (cost=0.00..1.16 rows=1 width=704) (actual time=0.256..0.258 rows=1 loops=1)
+          Buffers: shared hit=56
+          ->  Nested Loop  (cost=0.00..1.16 rows=1 width=704) (actual time=0.046..0.047 rows=1 loops=1)
+                Buffers: shared hit=14
+                ->  Seq Scan on screening s  (cost=0.00..1.11 rows=1 width=8) (actual time=0.008..0.008 rows=1 loops=1)
+                      Filter: (screening_id = 7)
+                      Rows Removed by Filter: 8
+                      Buffers: shared hit=1
+                ->  Result  (cost=0.00..0.01 rows=1 width=8) (actual time=0.034..0.034 rows=1 loops=1)
+                      Buffers: shared hit=13
+  ->  Nested Loop  (cost=0.14..8.64 rows=3 width=130) (actual time=0.273..0.280 rows=3 loops=1)
+        Buffers: shared hit=60
+        ->  Nested Loop  (cost=0.00..0.09 rows=3 width=134) (actual time=0.259..0.262 rows=3 loops=1)
+              Buffers: shared hit=56
+              ->  CTE Scan on c  (cost=0.00..0.02 rows=1 width=98) (actual time=0.258..0.260 rows=1 loops=1)
+                    Buffers: shared hit=56
+              ->  Values Scan on "*VALUES*"  (cost=0.00..0.04 rows=3 width=36) (actual time=0.001..0.001 rows=3 loops=1)
+        ->  Index Only Scan using chunk_pkey on chunk ch  (cost=0.14..2.83 rows=1 width=30) (actual time=0.005..0.005 rows=1 loops=3)
+              Index Cond: (chunk_id = "*VALUES*".column1)
+              Heap Fetches: 0
+              Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=247
+Planning Time: 0.677 ms
+Trigger for constraint fk_certificate_screening on certificate: time=0.215 calls=1
+Trigger for constraint fk_cc_certificate on certificate_chunk: time=0.103 calls=3
+Trigger for constraint fk_cc_chunk on certificate_chunk: time=0.068 calls=3
+Execution Time: 0.836 ms

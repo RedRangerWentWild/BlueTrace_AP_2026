@@ -1,0 +1,33 @@
+# The same statement run three times inside ONE psql session on the 100,000-check database.
+# time_queries.sh opens a new connection for every run, so every measured run is a 'first use'.
+# Reproduce: see dbms/05_query_timings.md, section 5.
+
+## A. fnv1a() on a 257-character string (the length of certificate 0001's canonical record)
+1. call: Execution Time: 1.253 ms
+2. call: Execution Time: 0.283 ms
+3. call: Execution Time: 0.456 ms
+
+## B. W1 (record a plot check) inside BEGIN ... ROLLBACK: the foreign-key trigger times
+Trigger for constraint fk_screening_city on screening: time=0.672 calls=1
+Trigger for constraint fk_screening_rule on screening: time=0.200 calls=1
+Trigger for constraint fk_sr_screening on screening_reason: time=0.126 calls=1
+Trigger for constraint fk_sr_reason on screening_reason: time=0.173 calls=1
+Trigger for constraint fk_step_screening on route_step: time=0.127 calls=3
+   -> run 1: Execution Time: 2.236 ms
+Trigger for constraint fk_screening_city on screening: time=0.066 calls=1
+Trigger for constraint fk_screening_rule on screening: time=0.027 calls=1
+Trigger for constraint fk_sr_screening on screening_reason: time=0.032 calls=1
+Trigger for constraint fk_sr_reason on screening_reason: time=0.024 calls=1
+Trigger for constraint fk_step_screening on route_step: time=0.061 calls=3
+   -> run 2: Execution Time: 0.482 ms
+Trigger for constraint fk_screening_city on screening: time=0.061 calls=1
+Trigger for constraint fk_screening_rule on screening: time=0.025 calls=1
+Trigger for constraint fk_sr_screening on screening_reason: time=0.031 calls=1
+Trigger for constraint fk_sr_reason on screening_reason: time=0.022 calls=1
+Trigger for constraint fk_step_screening on route_step: time=0.021 calls=3
+   -> run 3: Execution Time: 0.419 ms
+
+## C. R15 (render a certificate): planning time vs execution time
+1. run: Planning Time: 2.747 ms	Execution Time: 0.640 ms
+2. run: Planning Time: 0.776 ms	Execution Time: 0.252 ms
+3. run: Planning Time: 0.640 ms	Execution Time: 0.205 ms

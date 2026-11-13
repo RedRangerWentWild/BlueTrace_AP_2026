@@ -1,0 +1,18 @@
+=== W11 run 1 ===
+Insert on buffer_rule  (cost=0.00..0.01 rows=0 width=0) (actual time=0.248..0.249 rows=0 loops=1)
+  Buffers: shared hit=60
+  ->  Result  (cost=0.00..0.01 rows=1 width=232) (actual time=0.003..0.004 rows=1 loops=1)
+Planning Time: 0.066 ms
+Execution Time: 0.269 ms
+=== W11 run 2 ===
+Insert on buffer_rule  (cost=0.00..0.01 rows=0 width=0) (actual time=0.219..0.219 rows=0 loops=1)
+  Buffers: shared hit=61
+  ->  Result  (cost=0.00..0.01 rows=1 width=232) (actual time=0.003..0.004 rows=1 loops=1)
+Planning Time: 0.067 ms
+Execution Time: 0.236 ms
+=== W11 run 3 ===
+Insert on buffer_rule  (cost=0.00..0.01 rows=0 width=0) (actual time=0.229..0.230 rows=0 loops=1)
+  Buffers: shared hit=61
+  ->  Result  (cost=0.00..0.01 rows=1 width=232) (actual time=0.003..0.004 rows=1 loops=1)
+Planning Time: 0.071 ms
+Execution Time: 0.248 ms

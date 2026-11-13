@@ -1,0 +1,39 @@
+=== W5 run 1 ===
+Insert on chunk_tag  (cost=0.00..0.07 rows=0 width=0) (actual time=0.331..0.332 rows=0 loops=1)
+  Conflict Resolution: NOTHING
+  Conflict Arbiter Indexes: pk_chunk_tag
+  Tuples Inserted: 3
+  Conflicting Tuples: 2
+  Buffers: shared hit=56
+  ->  Function Scan on unnest t  (cost=0.00..0.07 rows=5 width=276) (actual time=0.012..0.014 rows=5 loops=1)
+Planning:
+  Buffers: shared hit=45
+Planning Time: 0.215 ms
+Trigger for constraint fk_tag_chunk: time=0.689 calls=3
+Execution Time: 1.052 ms
+=== W5 run 2 ===
+Insert on chunk_tag  (cost=0.00..0.07 rows=0 width=0) (actual time=0.210..0.210 rows=0 loops=1)
+  Conflict Resolution: NOTHING
+  Conflict Arbiter Indexes: pk_chunk_tag
+  Tuples Inserted: 3
+  Conflicting Tuples: 2
+  Buffers: shared hit=58
+  ->  Function Scan on unnest t  (cost=0.00..0.07 rows=5 width=276) (actual time=0.008..0.009 rows=5 loops=1)
+Planning:
+  Buffers: shared hit=45
+Planning Time: 0.162 ms
+Trigger for constraint fk_tag_chunk: time=0.517 calls=3
+Execution Time: 0.752 ms
+=== W5 run 3 ===
+Insert on chunk_tag  (cost=0.00..0.07 rows=0 width=0) (actual time=0.216..0.216 rows=0 loops=1)
+  Conflict Resolution: NOTHING
+  Conflict Arbiter Indexes: pk_chunk_tag
+  Tuples Inserted: 3
+  Conflicting Tuples: 2
+  Buffers: shared hit=58
+  ->  Function Scan on unnest t  (cost=0.00..0.07 rows=5 width=276) (actual time=0.009..0.010 rows=5 loops=1)
+Planning:
+  Buffers: shared hit=45
+Planning Time: 0.157 ms
+Trigger for constraint fk_tag_chunk: time=0.512 calls=3
+Execution Time: 0.750 ms

@@ -1,0 +1,111 @@
+=== W1 run 1 ===
+CTE Scan on s  (cost=0.27..0.29 rows=1 width=24) (actual time=0.478..0.479 rows=1 loops=1)
+  Buffers: shared hit=161
+  CTE s
+    ->  Insert on screening  (cost=0.00..0.01 rows=1 width=246) (actual time=0.286..0.287 rows=1 loops=1)
+          Buffers: shared hit=96
+          ->  Result  (cost=0.00..0.01 rows=1 width=246) (actual time=0.040..0.040 rows=1 loops=1)
+                Buffers: shared hit=10
+  CTE reasons
+    ->  Insert on screening_reason  (cost=0.00..0.02 rows=1 width=154) (actual time=0.061..0.062 rows=1 loops=1)
+          Buffers: shared hit=31
+          ->  CTE Scan on s s_1  (cost=0.00..0.02 rows=1 width=154) (actual time=0.001..0.001 rows=1 loops=1)
+  CTE steps
+    ->  Insert on route_step  (cost=0.00..0.12 rows=3 width=54) (actual time=0.110..0.118 rows=3 loops=1)
+          Buffers: shared hit=34
+          ->  Nested Loop  (cost=0.00..0.12 rows=3 width=54) (actual time=0.005..0.007 rows=3 loops=1)
+                ->  CTE Scan on s s_2  (cost=0.00..0.02 rows=1 width=8) (actual time=0.000..0.000 rows=1 loops=1)
+                ->  Values Scan on "*VALUES*"  (cost=0.00..0.04 rows=3 width=104) (actual time=0.003..0.004 rows=3 loops=1)
+  InitPlan 4 (returns $6)
+    ->  Aggregate  (cost=0.02..0.03 rows=1 width=8) (actual time=0.068..0.068 rows=1 loops=1)
+          Buffers: shared hit=31
+          ->  CTE Scan on reasons  (cost=0.00..0.02 rows=1 width=0) (actual time=0.063..0.065 rows=1 loops=1)
+                Buffers: shared hit=31
+  InitPlan 5 (returns $7)
+    ->  Aggregate  (cost=0.07..0.08 rows=1 width=8) (actual time=0.119..0.120 rows=1 loops=1)
+          Buffers: shared hit=34
+          ->  CTE Scan on steps  (cost=0.00..0.06 rows=3 width=0) (actual time=0.110..0.118 rows=3 loops=1)
+                Buffers: shared hit=34
+Planning:
+  Buffers: shared hit=9
+Planning Time: 0.273 ms
+Trigger for constraint fk_screening_city on screening: time=0.510 calls=1
+Trigger for constraint fk_screening_rule on screening: time=0.140 calls=1
+Trigger for constraint fk_sr_screening on screening_reason: time=0.089 calls=1
+Trigger for constraint fk_sr_reason on screening_reason: time=0.128 calls=1
+Trigger for constraint fk_step_screening on route_step: time=0.058 calls=3
+Execution Time: 1.522 ms
+=== W1 run 2 ===
+CTE Scan on s  (cost=0.27..0.29 rows=1 width=24) (actual time=0.461..0.463 rows=1 loops=1)
+  Buffers: shared hit=161
+  CTE s
+    ->  Insert on screening  (cost=0.00..0.01 rows=1 width=246) (actual time=0.273..0.274 rows=1 loops=1)
+          Buffers: shared hit=96
+          ->  Result  (cost=0.00..0.01 rows=1 width=246) (actual time=0.042..0.042 rows=1 loops=1)
+                Buffers: shared hit=10
+  CTE reasons
+    ->  Insert on screening_reason  (cost=0.00..0.02 rows=1 width=154) (actual time=0.060..0.061 rows=1 loops=1)
+          Buffers: shared hit=31
+          ->  CTE Scan on s s_1  (cost=0.00..0.02 rows=1 width=154) (actual time=0.001..0.001 rows=1 loops=1)
+  CTE steps
+    ->  Insert on route_step  (cost=0.00..0.12 rows=3 width=54) (actual time=0.110..0.117 rows=3 loops=1)
+          Buffers: shared hit=34
+          ->  Nested Loop  (cost=0.00..0.12 rows=3 width=54) (actual time=0.004..0.007 rows=3 loops=1)
+                ->  CTE Scan on s s_2  (cost=0.00..0.02 rows=1 width=8) (actual time=0.000..0.000 rows=1 loops=1)
+                ->  Values Scan on "*VALUES*"  (cost=0.00..0.04 rows=3 width=104) (actual time=0.003..0.004 rows=3 loops=1)
+  InitPlan 4 (returns $6)
+    ->  Aggregate  (cost=0.02..0.03 rows=1 width=8) (actual time=0.065..0.066 rows=1 loops=1)
+          Buffers: shared hit=31
+          ->  CTE Scan on reasons  (cost=0.00..0.02 rows=1 width=0) (actual time=0.062..0.063 rows=1 loops=1)
+                Buffers: shared hit=31
+  InitPlan 5 (returns $7)
+    ->  Aggregate  (cost=0.07..0.08 rows=1 width=8) (actual time=0.119..0.119 rows=1 loops=1)
+          Buffers: shared hit=34
+          ->  CTE Scan on steps  (cost=0.00..0.06 rows=3 width=0) (actual time=0.110..0.118 rows=3 loops=1)
+                Buffers: shared hit=34
+Planning:
+  Buffers: shared hit=9
+Planning Time: 0.281 ms
+Trigger for constraint fk_screening_city on screening: time=0.484 calls=1
+Trigger for constraint fk_screening_rule on screening: time=0.137 calls=1
+Trigger for constraint fk_sr_screening on screening_reason: time=0.086 calls=1
+Trigger for constraint fk_sr_reason on screening_reason: time=0.113 calls=1
+Trigger for constraint fk_step_screening on route_step: time=0.057 calls=3
+Execution Time: 1.457 ms
+=== W1 run 3 ===
+CTE Scan on s  (cost=0.27..0.29 rows=1 width=24) (actual time=0.469..0.471 rows=1 loops=1)
+  Buffers: shared hit=161
+  CTE s
+    ->  Insert on screening  (cost=0.00..0.01 rows=1 width=246) (actual time=0.277..0.277 rows=1 loops=1)
+          Buffers: shared hit=96
+          ->  Result  (cost=0.00..0.01 rows=1 width=246) (actual time=0.043..0.044 rows=1 loops=1)
+                Buffers: shared hit=10
+  CTE reasons
+    ->  Insert on screening_reason  (cost=0.00..0.02 rows=1 width=154) (actual time=0.061..0.062 rows=1 loops=1)
+          Buffers: shared hit=31
+          ->  CTE Scan on s s_1  (cost=0.00..0.02 rows=1 width=154) (actual time=0.001..0.001 rows=1 loops=1)
+  CTE steps
+    ->  Insert on route_step  (cost=0.00..0.12 rows=3 width=54) (actual time=0.113..0.120 rows=3 loops=1)
+          Buffers: shared hit=34
+          ->  Nested Loop  (cost=0.00..0.12 rows=3 width=54) (actual time=0.005..0.007 rows=3 loops=1)
+                ->  CTE Scan on s s_2  (cost=0.00..0.02 rows=1 width=8) (actual time=0.000..0.000 rows=1 loops=1)
+                ->  Values Scan on "*VALUES*"  (cost=0.00..0.04 rows=3 width=104) (actual time=0.003..0.004 rows=3 loops=1)
+  InitPlan 4 (returns $6)
+    ->  Aggregate  (cost=0.02..0.03 rows=1 width=8) (actual time=0.067..0.067 rows=1 loops=1)
+          Buffers: shared hit=31
+          ->  CTE Scan on reasons  (cost=0.00..0.02 rows=1 width=0) (actual time=0.063..0.064 rows=1 loops=1)
+                Buffers: shared hit=31
+  InitPlan 5 (returns $7)
+    ->  Aggregate  (cost=0.07..0.08 rows=1 width=8) (actual time=0.122..0.122 rows=1 loops=1)
+          Buffers: shared hit=34
+          ->  CTE Scan on steps  (cost=0.00..0.06 rows=3 width=0) (actual time=0.113..0.121 rows=3 loops=1)
+                Buffers: shared hit=34
+Planning:
+  Buffers: shared hit=9
+Planning Time: 0.280 ms
+Trigger for constraint fk_screening_city on screening: time=0.496 calls=1
+Trigger for constraint fk_screening_rule on screening: time=0.134 calls=1
+Trigger for constraint fk_sr_screening on screening_reason: time=0.087 calls=1
+Trigger for constraint fk_sr_reason on screening_reason: time=0.114 calls=1
+Trigger for constraint fk_step_screening on route_step: time=0.055 calls=3
+Execution Time: 1.470 ms

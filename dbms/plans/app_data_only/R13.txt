@@ -1,0 +1,96 @@
+=== R13 run 1 ===
+GroupAggregate  (cost=35.97..37.30 rows=8 width=133) (actual time=0.426..0.473 rows=8 loops=1)
+  Group Key: ch.chunk_id
+  Buffers: shared hit=20
+  ->  Sort  (cost=35.97..36.28 rows=123 width=111) (actual time=0.400..0.409 rows=115 loops=1)
+        Sort Key: ch.chunk_id, t.tag
+        Sort Method: quicksort  Memory: 40kB
+        Buffers: shared hit=20
+        ->  Hash Join  (cost=14.54..31.70 rows=123 width=111) (actual time=0.240..0.298 rows=115 loops=1)
+              Hash Cond: ((t.chunk_id)::text = (ch.chunk_id)::text)
+              Buffers: shared hit=17
+              ->  Seq Scan on chunk_tag t  (cost=0.00..12.62 rows=662 width=38) (actual time=0.006..0.066 rows=662 loops=1)
+                    Buffers: shared hit=6
+              ->  Hash  (cost=14.34..14.34 rows=16 width=103) (actual time=0.114..0.115 rows=15 loops=1)
+                    Buckets: 1024  Batches: 1  Memory Usage: 10kB
+                    Buffers: shared hit=11
+                    ->  Hash Right Join  (cost=10.17..14.34 rows=16 width=103) (actual time=0.091..0.107 rows=15 loops=1)
+                          Hash Cond: ((ci.chunk_id)::text = (ch.chunk_id)::text)
+                          Buffers: shared hit=11
+                          ->  Seq Scan on chunk_intent ci  (cost=0.00..3.70 rows=170 width=40) (actual time=0.001..0.014 rows=170 loops=1)
+                                Buffers: shared hit=2
+                          ->  Hash  (cost=10.07..10.07 rows=8 width=93) (actual time=0.048..0.048 rows=8 loops=1)
+                                Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                Buffers: shared hit=9
+                                ->  Seq Scan on chunk ch  (cost=0.00..10.07 rows=8 width=93) (actual time=0.031..0.038 rows=8 loops=1)
+                                      Filter: ((kind)::text = 'refusal'::text)
+                                      Rows Removed by Filter: 78
+                                      Buffers: shared hit=9
+Planning:
+  Buffers: shared hit=238
+Planning Time: 1.036 ms
+Execution Time: 0.574 ms
+=== R13 run 2 ===
+GroupAggregate  (cost=35.97..37.30 rows=8 width=133) (actual time=0.310..0.349 rows=8 loops=1)
+  Group Key: ch.chunk_id
+  Buffers: shared hit=20
+  ->  Sort  (cost=35.97..36.28 rows=123 width=111) (actual time=0.285..0.293 rows=115 loops=1)
+        Sort Key: ch.chunk_id, t.tag
+        Sort Method: quicksort  Memory: 40kB
+        Buffers: shared hit=20
+        ->  Hash Join  (cost=14.54..31.70 rows=123 width=111) (actual time=0.169..0.218 rows=115 loops=1)
+              Hash Cond: ((t.chunk_id)::text = (ch.chunk_id)::text)
+              Buffers: shared hit=17
+              ->  Seq Scan on chunk_tag t  (cost=0.00..12.62 rows=662 width=38) (actual time=0.005..0.045 rows=662 loops=1)
+                    Buffers: shared hit=6
+              ->  Hash  (cost=14.34..14.34 rows=16 width=103) (actual time=0.085..0.087 rows=15 loops=1)
+                    Buckets: 1024  Batches: 1  Memory Usage: 10kB
+                    Buffers: shared hit=11
+                    ->  Hash Right Join  (cost=10.17..14.34 rows=16 width=103) (actual time=0.070..0.081 rows=15 loops=1)
+                          Hash Cond: ((ci.chunk_id)::text = (ch.chunk_id)::text)
+                          Buffers: shared hit=11
+                          ->  Seq Scan on chunk_intent ci  (cost=0.00..3.70 rows=170 width=40) (actual time=0.001..0.010 rows=170 loops=1)
+                                Buffers: shared hit=2
+                          ->  Hash  (cost=10.07..10.07 rows=8 width=93) (actual time=0.039..0.039 rows=8 loops=1)
+                                Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                Buffers: shared hit=9
+                                ->  Seq Scan on chunk ch  (cost=0.00..10.07 rows=8 width=93) (actual time=0.025..0.030 rows=8 loops=1)
+                                      Filter: ((kind)::text = 'refusal'::text)
+                                      Rows Removed by Filter: 78
+                                      Buffers: shared hit=9
+Planning:
+  Buffers: shared hit=238
+Planning Time: 0.784 ms
+Execution Time: 0.431 ms
+=== R13 run 3 ===
+GroupAggregate  (cost=35.97..37.30 rows=8 width=133) (actual time=0.280..0.308 rows=8 loops=1)
+  Group Key: ch.chunk_id
+  Buffers: shared hit=20
+  ->  Sort  (cost=35.97..36.28 rows=123 width=111) (actual time=0.261..0.268 rows=115 loops=1)
+        Sort Key: ch.chunk_id, t.tag
+        Sort Method: quicksort  Memory: 40kB
+        Buffers: shared hit=20
+        ->  Hash Join  (cost=14.54..31.70 rows=123 width=111) (actual time=0.167..0.204 rows=115 loops=1)
+              Hash Cond: ((t.chunk_id)::text = (ch.chunk_id)::text)
+              Buffers: shared hit=17
+              ->  Seq Scan on chunk_tag t  (cost=0.00..12.62 rows=662 width=38) (actual time=0.005..0.043 rows=662 loops=1)
+                    Buffers: shared hit=6
+              ->  Hash  (cost=14.34..14.34 rows=16 width=103) (actual time=0.084..0.085 rows=15 loops=1)
+                    Buckets: 1024  Batches: 1  Memory Usage: 10kB
+                    Buffers: shared hit=11
+                    ->  Hash Right Join  (cost=10.17..14.34 rows=16 width=103) (actual time=0.069..0.080 rows=15 loops=1)
+                          Hash Cond: ((ci.chunk_id)::text = (ch.chunk_id)::text)
+                          Buffers: shared hit=11
+                          ->  Seq Scan on chunk_intent ci  (cost=0.00..3.70 rows=170 width=40) (actual time=0.001..0.010 rows=170 loops=1)
+                                Buffers: shared hit=2
+                          ->  Hash  (cost=10.07..10.07 rows=8 width=93) (actual time=0.039..0.040 rows=8 loops=1)
+                                Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                Buffers: shared hit=9
+                                ->  Seq Scan on chunk ch  (cost=0.00..10.07 rows=8 width=93) (actual time=0.025..0.031 rows=8 loops=1)
+                                      Filter: ((kind)::text = 'refusal'::text)
+                                      Rows Removed by Filter: 78
+                                      Buffers: shared hit=9
+Planning:
+  Buffers: shared hit=238
+Planning Time: 0.761 ms
+Execution Time: 0.413 ms

@@ -1,0 +1,33 @@
+=== W7 run 1 ===
+Update on param  (cost=0.00..2.06 rows=0 width=0) (actual time=0.020..0.021 rows=0 loops=1)
+  Buffers: shared hit=1
+  ->  Seq Scan on param  (cost=0.00..2.06 rows=1 width=128) (actual time=0.019..0.019 rows=0 loops=1)
+        Filter: (((param_name)::text = 'P_mm'::text) AND ((value IS DISTINCT FROM '60'::numeric) OR (plus_minus IS DISTINCT FROM '24'::numeric) OR ((unit)::text IS DISTINCT FROM 'mm'::text)))
+        Rows Removed by Filter: 53
+        Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=86
+Planning Time: 0.332 ms
+Execution Time: 0.068 ms
+=== W7 run 2 ===
+Update on param  (cost=0.00..2.06 rows=0 width=0) (actual time=0.015..0.016 rows=0 loops=1)
+  Buffers: shared hit=1
+  ->  Seq Scan on param  (cost=0.00..2.06 rows=1 width=128) (actual time=0.014..0.014 rows=0 loops=1)
+        Filter: (((param_name)::text = 'P_mm'::text) AND ((value IS DISTINCT FROM '60'::numeric) OR (plus_minus IS DISTINCT FROM '24'::numeric) OR ((unit)::text IS DISTINCT FROM 'mm'::text)))
+        Rows Removed by Filter: 53
+        Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=86
+Planning Time: 0.327 ms
+Execution Time: 0.063 ms
+=== W7 run 3 ===
+Update on param  (cost=0.00..2.06 rows=0 width=0) (actual time=0.016..0.017 rows=0 loops=1)
+  Buffers: shared hit=1
+  ->  Seq Scan on param  (cost=0.00..2.06 rows=1 width=128) (actual time=0.015..0.015 rows=0 loops=1)
+        Filter: (((param_name)::text = 'P_mm'::text) AND ((value IS DISTINCT FROM '60'::numeric) OR (plus_minus IS DISTINCT FROM '24'::numeric) OR ((unit)::text IS DISTINCT FROM 'mm'::text)))
+        Rows Removed by Filter: 53
+        Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=86
+Planning Time: 0.320 ms
+Execution Time: 0.064 ms

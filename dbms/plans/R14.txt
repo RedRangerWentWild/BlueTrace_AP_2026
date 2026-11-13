@@ -1,0 +1,202 @@
+=== R14 run 1 ===
+Nested Loop  (cost=18.70..63.48 rows=1 width=163) (actual time=1.017..1.023 rows=1 loops=1)
+  Buffers: shared hit=130
+  CTE ce
+    ->  Index Scan using certificate_pkey on certificate  (cost=0.29..8.30 rows=1 width=526) (actual time=0.019..0.020 rows=1 loops=1)
+          Index Cond: ((cert_ref)::text = 'BT/BLR/20261112/0001-DF9684FA'::text)
+          Buffers: shared hit=5
+  ->  Nested Loop  (cost=0.42..8.49 rows=1 width=291) (actual time=0.046..0.048 rows=1 loops=1)
+        Buffers: shared hit=8
+        ->  Nested Loop  (cost=0.29..8.33 rows=1 width=287) (actual time=0.034..0.036 rows=1 loops=1)
+              Buffers: shared hit=6
+              ->  CTE Scan on ce  (cost=0.00..0.02 rows=1 width=250) (actual time=0.021..0.021 rows=1 loops=1)
+                    Buffers: shared hit=3
+              ->  Index Scan using screening_pkey on screening s  (cost=0.29..8.31 rows=1 width=53) (actual time=0.009..0.010 rows=1 loops=1)
+                    Index Cond: (screening_id = ce.screening_id)
+                    Buffers: shared hit=3
+        ->  Index Scan using buffer_rule_pkey on buffer_rule r  (cost=0.13..0.15 rows=1 width=9) (actual time=0.010..0.010 rows=1 loops=1)
+              Index Cond: ((rule_id)::text = (s.rule_id)::text)
+              Buffers: shared hit=2
+  ->  Limit  (cost=9.98..9.98 rows=1 width=11) (actual time=0.073..0.075 rows=1 loops=1)
+        Buffers: shared hit=12
+        ->  Sort  (cost=9.98..9.98 rows=2 width=11) (actual time=0.073..0.074 rows=1 loops=1)
+              Sort Key: o.rank DESC
+              Sort Method: quicksort  Memory: 25kB
+              Buffers: shared hit=12
+              ->  Nested Loop  (cost=0.55..9.97 rows=2 width=11) (actual time=0.043..0.045 rows=1 loops=1)
+                    Join Filter: ((o.outcome)::text = (rc.outcome)::text)
+                    Rows Removed by Join Filter: 3
+                    Buffers: shared hit=9
+                    ->  Seq Scan on outcome o  (cost=0.00..1.04 rows=4 width=11) (actual time=0.003..0.004 rows=4 loops=1)
+                          Buffers: shared hit=1
+                    ->  Materialize  (cost=0.55..8.81 rows=2 width=7) (actual time=0.009..0.010 rows=1 loops=4)
+                          Buffers: shared hit=8
+                          ->  Nested Loop  (cost=0.55..8.80 rows=2 width=7) (actual time=0.032..0.035 rows=1 loops=1)
+                                Buffers: shared hit=8
+                                ->  Nested Loop  (cost=0.42..8.49 rows=2 width=23) (actual time=0.022..0.025 rows=1 loops=1)
+                                      Buffers: shared hit=6
+                                      ->  CTE Scan on ce ce_1  (cost=0.00..0.02 rows=1 width=8) (actual time=0.000..0.002 rows=1 loops=1)
+                                            Buffers: shared hit=2
+                                      ->  Index Only Scan using pk_screening_reason on screening_reason sr  (cost=0.42..8.46 rows=2 width=31) (actual time=0.021..0.021 rows=1 loops=1)
+                                            Index Cond: (screening_id = ce_1.screening_id)
+                                            Heap Fetches: 0
+                                            Buffers: shared hit=4
+                                ->  Index Scan using reason_code_pkey on reason_code rc  (cost=0.14..0.15 rows=1 width=33) (actual time=0.008..0.008 rows=1 loops=1)
+                                      Index Cond: ((reason_code)::text = (sr.reason_code)::text)
+                                      Buffers: shared hit=2
+  SubPlan 2
+    ->  Aggregate  (cost=11.99..12.00 rows=1 width=32) (actual time=0.034..0.034 rows=1 loops=1)
+          Buffers: shared hit=4
+          ->  Index Scan using uq_cc_order on certificate_chunk cc  (cost=0.41..11.98 rows=3 width=30) (actual time=0.026..0.027 rows=5 loops=1)
+                Index Cond: ((cert_ref)::text = (ce.cert_ref)::text)
+                Buffers: shared hit=4
+  SubPlan 3
+    ->  Aggregate  (cost=11.99..12.00 rows=1 width=32) (actual time=0.007..0.007 rows=1 loops=1)
+          Buffers: shared hit=4
+          ->  Index Scan using uq_cc_order on certificate_chunk cc_1  (cost=0.41..11.98 rows=3 width=30) (actual time=0.005..0.005 rows=5 loops=1)
+                Index Cond: ((cert_ref)::text = (ce.cert_ref)::text)
+                Buffers: shared hit=4
+  SubPlan 4
+    ->  Aggregate  (cost=11.99..12.00 rows=1 width=32) (actual time=0.023..0.023 rows=1 loops=1)
+          Buffers: shared hit=4
+          ->  Index Scan using uq_cc_order on certificate_chunk cc_2  (cost=0.41..11.98 rows=3 width=30) (actual time=0.019..0.020 rows=5 loops=1)
+                Index Cond: ((cert_ref)::text = (ce.cert_ref)::text)
+                Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=630
+Planning Time: 1.578 ms
+Execution Time: 1.677 ms
+=== R14 run 2 ===
+Nested Loop  (cost=18.70..63.48 rows=1 width=163) (actual time=0.953..0.958 rows=1 loops=1)
+  Buffers: shared hit=128
+  CTE ce
+    ->  Index Scan using certificate_pkey on certificate  (cost=0.29..8.30 rows=1 width=526) (actual time=0.017..0.018 rows=1 loops=1)
+          Index Cond: ((cert_ref)::text = 'BT/BLR/20261112/0001-DF9684FA'::text)
+          Buffers: shared hit=3
+  ->  Nested Loop  (cost=0.42..8.49 rows=1 width=291) (actual time=0.042..0.044 rows=1 loops=1)
+        Buffers: shared hit=8
+        ->  Nested Loop  (cost=0.29..8.33 rows=1 width=287) (actual time=0.032..0.033 rows=1 loops=1)
+              Buffers: shared hit=6
+              ->  CTE Scan on ce  (cost=0.00..0.02 rows=1 width=250) (actual time=0.019..0.020 rows=1 loops=1)
+                    Buffers: shared hit=3
+              ->  Index Scan using screening_pkey on screening s  (cost=0.29..8.31 rows=1 width=53) (actual time=0.009..0.009 rows=1 loops=1)
+                    Index Cond: (screening_id = ce.screening_id)
+                    Buffers: shared hit=3
+        ->  Index Scan using buffer_rule_pkey on buffer_rule r  (cost=0.13..0.15 rows=1 width=9) (actual time=0.008..0.008 rows=1 loops=1)
+              Index Cond: ((rule_id)::text = (s.rule_id)::text)
+              Buffers: shared hit=2
+  ->  Limit  (cost=9.98..9.98 rows=1 width=11) (actual time=0.076..0.078 rows=1 loops=1)
+        Buffers: shared hit=10
+        ->  Sort  (cost=9.98..9.98 rows=2 width=11) (actual time=0.075..0.077 rows=1 loops=1)
+              Sort Key: o.rank DESC
+              Sort Method: quicksort  Memory: 25kB
+              Buffers: shared hit=10
+              ->  Nested Loop  (cost=0.55..9.97 rows=2 width=11) (actual time=0.042..0.045 rows=1 loops=1)
+                    Join Filter: ((o.outcome)::text = (rc.outcome)::text)
+                    Rows Removed by Join Filter: 3
+                    Buffers: shared hit=7
+                    ->  Seq Scan on outcome o  (cost=0.00..1.04 rows=4 width=11) (actual time=0.003..0.003 rows=4 loops=1)
+                          Buffers: shared hit=1
+                    ->  Materialize  (cost=0.55..8.81 rows=2 width=7) (actual time=0.009..0.010 rows=1 loops=4)
+                          Buffers: shared hit=6
+                          ->  Nested Loop  (cost=0.55..8.80 rows=2 width=7) (actual time=0.032..0.034 rows=1 loops=1)
+                                Buffers: shared hit=6
+                                ->  Nested Loop  (cost=0.42..8.49 rows=2 width=23) (actual time=0.023..0.025 rows=1 loops=1)
+                                      Buffers: shared hit=4
+                                      ->  CTE Scan on ce ce_1  (cost=0.00..0.02 rows=1 width=8) (actual time=0.000..0.001 rows=1 loops=1)
+                                      ->  Index Only Scan using pk_screening_reason on screening_reason sr  (cost=0.42..8.46 rows=2 width=31) (actual time=0.022..0.022 rows=1 loops=1)
+                                            Index Cond: (screening_id = ce_1.screening_id)
+                                            Heap Fetches: 0
+                                            Buffers: shared hit=4
+                                ->  Index Scan using reason_code_pkey on reason_code rc  (cost=0.14..0.15 rows=1 width=33) (actual time=0.008..0.008 rows=1 loops=1)
+                                      Index Cond: ((reason_code)::text = (sr.reason_code)::text)
+                                      Buffers: shared hit=2
+  SubPlan 2
+    ->  Aggregate  (cost=11.99..12.00 rows=1 width=32) (actual time=0.031..0.031 rows=1 loops=1)
+          Buffers: shared hit=4
+          ->  Index Scan using uq_cc_order on certificate_chunk cc  (cost=0.41..11.98 rows=3 width=30) (actual time=0.023..0.024 rows=5 loops=1)
+                Index Cond: ((cert_ref)::text = (ce.cert_ref)::text)
+                Buffers: shared hit=4
+  SubPlan 3
+    ->  Aggregate  (cost=11.99..12.00 rows=1 width=32) (actual time=0.007..0.007 rows=1 loops=1)
+          Buffers: shared hit=4
+          ->  Index Scan using uq_cc_order on certificate_chunk cc_1  (cost=0.41..11.98 rows=3 width=30) (actual time=0.004..0.005 rows=5 loops=1)
+                Index Cond: ((cert_ref)::text = (ce.cert_ref)::text)
+                Buffers: shared hit=4
+  SubPlan 4
+    ->  Aggregate  (cost=11.99..12.00 rows=1 width=32) (actual time=0.009..0.009 rows=1 loops=1)
+          Buffers: shared hit=4
+          ->  Index Scan using uq_cc_order on certificate_chunk cc_2  (cost=0.41..11.98 rows=3 width=30) (actual time=0.006..0.007 rows=5 loops=1)
+                Index Cond: ((cert_ref)::text = (ce.cert_ref)::text)
+                Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=630
+Planning Time: 1.549 ms
+Execution Time: 1.579 ms
+=== R14 run 3 ===
+Nested Loop  (cost=18.70..63.48 rows=1 width=163) (actual time=1.121..1.127 rows=1 loops=1)
+  Buffers: shared hit=128
+  CTE ce
+    ->  Index Scan using certificate_pkey on certificate  (cost=0.29..8.30 rows=1 width=526) (actual time=0.020..0.021 rows=1 loops=1)
+          Index Cond: ((cert_ref)::text = 'BT/BLR/20261112/0001-DF9684FA'::text)
+          Buffers: shared hit=3
+  ->  Nested Loop  (cost=0.42..8.49 rows=1 width=291) (actual time=0.051..0.053 rows=1 loops=1)
+        Buffers: shared hit=8
+        ->  Nested Loop  (cost=0.29..8.33 rows=1 width=287) (actual time=0.038..0.039 rows=1 loops=1)
+              Buffers: shared hit=6
+              ->  CTE Scan on ce  (cost=0.00..0.02 rows=1 width=250) (actual time=0.023..0.023 rows=1 loops=1)
+                    Buffers: shared hit=3
+              ->  Index Scan using screening_pkey on screening s  (cost=0.29..8.31 rows=1 width=53) (actual time=0.010..0.010 rows=1 loops=1)
+                    Index Cond: (screening_id = ce.screening_id)
+                    Buffers: shared hit=3
+        ->  Index Scan using buffer_rule_pkey on buffer_rule r  (cost=0.13..0.15 rows=1 width=9) (actual time=0.011..0.011 rows=1 loops=1)
+              Index Cond: ((rule_id)::text = (s.rule_id)::text)
+              Buffers: shared hit=2
+  ->  Limit  (cost=9.98..9.98 rows=1 width=11) (actual time=0.071..0.073 rows=1 loops=1)
+        Buffers: shared hit=10
+        ->  Sort  (cost=9.98..9.98 rows=2 width=11) (actual time=0.070..0.072 rows=1 loops=1)
+              Sort Key: o.rank DESC
+              Sort Method: quicksort  Memory: 25kB
+              Buffers: shared hit=10
+              ->  Nested Loop  (cost=0.55..9.97 rows=2 width=11) (actual time=0.045..0.047 rows=1 loops=1)
+                    Join Filter: ((o.outcome)::text = (rc.outcome)::text)
+                    Rows Removed by Join Filter: 3
+                    Buffers: shared hit=7
+                    ->  Seq Scan on outcome o  (cost=0.00..1.04 rows=4 width=11) (actual time=0.003..0.004 rows=4 loops=1)
+                          Buffers: shared hit=1
+                    ->  Materialize  (cost=0.55..8.81 rows=2 width=7) (actual time=0.009..0.010 rows=1 loops=4)
+                          Buffers: shared hit=6
+                          ->  Nested Loop  (cost=0.55..8.80 rows=2 width=7) (actual time=0.033..0.036 rows=1 loops=1)
+                                Buffers: shared hit=6
+                                ->  Nested Loop  (cost=0.42..8.49 rows=2 width=23) (actual time=0.024..0.026 rows=1 loops=1)
+                                      Buffers: shared hit=4
+                                      ->  CTE Scan on ce ce_1  (cost=0.00..0.02 rows=1 width=8) (actual time=0.000..0.001 rows=1 loops=1)
+                                      ->  Index Only Scan using pk_screening_reason on screening_reason sr  (cost=0.42..8.46 rows=2 width=31) (actual time=0.023..0.023 rows=1 loops=1)
+                                            Index Cond: (screening_id = ce_1.screening_id)
+                                            Heap Fetches: 0
+                                            Buffers: shared hit=4
+                                ->  Index Scan using reason_code_pkey on reason_code rc  (cost=0.14..0.15 rows=1 width=33) (actual time=0.008..0.008 rows=1 loops=1)
+                                      Index Cond: ((reason_code)::text = (sr.reason_code)::text)
+                                      Buffers: shared hit=2
+  SubPlan 2
+    ->  Aggregate  (cost=11.99..12.00 rows=1 width=32) (actual time=0.036..0.036 rows=1 loops=1)
+          Buffers: shared hit=4
+          ->  Index Scan using uq_cc_order on certificate_chunk cc  (cost=0.41..11.98 rows=3 width=30) (actual time=0.027..0.028 rows=5 loops=1)
+                Index Cond: ((cert_ref)::text = (ce.cert_ref)::text)
+                Buffers: shared hit=4
+  SubPlan 3
+    ->  Aggregate  (cost=11.99..12.00 rows=1 width=32) (actual time=0.008..0.009 rows=1 loops=1)
+          Buffers: shared hit=4
+          ->  Index Scan using uq_cc_order on certificate_chunk cc_1  (cost=0.41..11.98 rows=3 width=30) (actual time=0.005..0.006 rows=5 loops=1)
+                Index Cond: ((cert_ref)::text = (ce.cert_ref)::text)
+                Buffers: shared hit=4
+  SubPlan 4
+    ->  Aggregate  (cost=11.99..12.00 rows=1 width=32) (actual time=0.012..0.012 rows=1 loops=1)
+          Buffers: shared hit=4
+          ->  Index Scan using uq_cc_order on certificate_chunk cc_2  (cost=0.41..11.98 rows=3 width=30) (actual time=0.007..0.008 rows=5 loops=1)
+                Index Cond: ((cert_ref)::text = (ce.cert_ref)::text)
+                Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=630
+Planning Time: 1.748 ms
+Execution Time: 1.836 ms

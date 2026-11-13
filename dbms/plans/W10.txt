@@ -1,0 +1,24 @@
+=== W10 run 1 ===
+Insert on building  (cost=0.00..0.01 rows=1 width=232) (actual time=0.751..0.752 rows=1 loops=1)
+  Buffers: shared hit=195
+  ->  Result  (cost=0.00..0.01 rows=1 width=232) (actual time=0.038..0.038 rows=1 loops=1)
+        Buffers: shared hit=10
+Planning Time: 0.085 ms
+Trigger for constraint fk_building_city: time=0.482 calls=1
+Execution Time: 1.262 ms
+=== W10 run 2 ===
+Insert on building  (cost=0.00..0.01 rows=1 width=232) (actual time=0.719..0.720 rows=1 loops=1)
+  Buffers: shared hit=195
+  ->  Result  (cost=0.00..0.01 rows=1 width=232) (actual time=0.043..0.043 rows=1 loops=1)
+        Buffers: shared hit=10
+Planning Time: 0.107 ms
+Trigger for constraint fk_building_city: time=0.414 calls=1
+Execution Time: 1.158 ms
+=== W10 run 3 ===
+Insert on building  (cost=0.00..0.01 rows=1 width=232) (actual time=0.746..0.747 rows=1 loops=1)
+  Buffers: shared hit=195
+  ->  Result  (cost=0.00..0.01 rows=1 width=232) (actual time=0.037..0.038 rows=1 loops=1)
+        Buffers: shared hit=10
+Planning Time: 0.080 ms
+Trigger for constraint fk_building_city: time=0.499 calls=1
+Execution Time: 1.268 ms

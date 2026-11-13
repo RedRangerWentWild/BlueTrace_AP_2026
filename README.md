@@ -3,7 +3,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/evidence_tool-not_a_flood_predictor-0e9cbf?style=flat-square&labelColor=0b0e15" alt="evidence tool">
   <img src="https://img.shields.io/badge/learned_models-0-d0862b?style=flat-square&labelColor=0b0e15" alt="zero learned models">
-  <img src="https://img.shields.io/badge/corpus-84_cited_chunks-4a4fc4?style=flat-square&labelColor=0b0e15" alt="84 chunks">
+  <img src="https://img.shields.io/badge/corpus-86_cited_chunks-4a4fc4?style=flat-square&labelColor=0b0e15" alt="86 chunks">
   <img src="https://img.shields.io/badge/works-offline-8f7ae8?style=flat-square&labelColor=0b0e15" alt="works offline">
   <img src="https://img.shields.io/badge/build_step-none-6b7280?style=flat-square&labelColor=0b0e15" alt="no build step">
   <a href="https://bluetrace-1oys.onrender.com"><img src="https://img.shields.io/badge/live-demo-0e9cbf?style=flat-square&labelColor=0b0e15&logo=render&logoColor=white" alt="live demo"></a>
@@ -273,7 +273,7 @@ checked rather than assumed.
 
 ### Answers are retrieved, not recalled
 
-84 short chunks under `corpus/`, one idea each, every one carrying its source.
+86 short chunks under `corpus/`, one idea each, every one carrying its source.
 Chunks declare numeric *triggers* over the site record — `distHistoric == 0`,
 `ruleId == ngt` — and those triggers are the dominant retrieval signal, with
 wording similarity scored by BM25 as the rest.
@@ -285,11 +285,11 @@ wording similarity scored by BM25 as the rest.
 | `rule` | 11 | buffer regimes and what governs |
 | `refusal` | 8 | what the tool will not answer |
 | `precedent` | 8 | independently recorded encroachment |
+| `limit` | 7 | where the method is weak |
 | `outcome` | 6 | what each verdict means |
-| `limit` | 6 | where the method is weak |
 | `error` | 5 | the uncertainty budget |
 | `option` | 4 | what a flagged site could be instead |
-| `scope` | 3 | what this tool is |
+| `scope` | 4 | what this tool is |
 
 Design rainfall, runoff coefficients, buffer distances and the ±20 m error
 budget are all declared on the chunk that cites their source, and
@@ -343,7 +343,7 @@ blue-grid/
   verify_encoding.py        proves the byte-packed layers decoded losslessly
   validate.py               blockwise held-out scoring, and --routing agreement
   build_corpus.py           compiles corpus/**/*.md into a BM25 index
-  corpus/                   84 chunks, one idea per file, each carrying its source
+  corpus/                   86 chunks, one idea per file, each carrying its source
   data/<city>/              layers, stats, and the ranked building export
   assets/fonts/             self-hosted, so a demo that loses the network keeps its type
 ```

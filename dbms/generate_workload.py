@@ -80,9 +80,17 @@ def main():
     ap.add_argument('--seed', type=int, default=2026)
     ap.add_argument('--certified', type=float, default=0.25, help='share of checks that get a certificate')
     args = ap.parse_args()
+    if args.screenings < 1:
+        ap.error('--screenings must be at least 1')
+    if not 0 <= args.certified <= 1:
+        ap.error('--certified is a share of the checks, between 0 and 1')
 
     rng = random.Random(args.seed)
     layers = Layers(CITY)
+    missing = [n for n in ('buffers', 'history', 'hydro', 'routing', 'encroached') if n not in layers.s]
+    if missing:
+        sys.exit('missing raster layers for %s in blue-grid/data/%s: %s (run blue-grid/fetch_layers.sh)'
+                 % (CITY, CITY, ', '.join(missing)))
     b = layers.b
     near = centroids()
     start = datetime.datetime(2025, 1, 1, tzinfo=IST)

@@ -1,0 +1,13 @@
+# R14 as committed (fnv1a written twice) vs a rewrite that computes the digest once (MATERIALIZED CTE).
+# Same method as time_queries.sh: EXPLAIN (ANALYZE, BUFFERS), 3 runs each, a new connection per run, database bluetrace_big.
+# Both versions return the same row. The computed-once version is the one in dbms/04_queries.sql (see dbms/05_query_timings.md, section 5).
+
+## committed
+run 1: Execution Time: 1.851 ms
+run 2: Execution Time: 1.920 ms
+run 3: Execution Time: 1.700 ms
+
+## computed_once
+run 1: Execution Time: 1.518 ms
+run 2: Execution Time: 1.505 ms
+run 3: Execution Time: 1.441 ms

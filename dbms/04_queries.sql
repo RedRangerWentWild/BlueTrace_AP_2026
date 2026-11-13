@@ -308,10 +308,15 @@ canon AS (
     JOIN screening s   ON s.screening_id = ce.screening_id
     JOIN buffer_rule r ON r.rule_id = s.rule_id
     CROSS JOIN v
+),
+-- MATERIALIZED computes the digest once and then compares it. Written inline
+-- twice, fnv1a() ran twice: a PL/pgSQL loop over every character of the
+-- record, about 0.3 ms a call (plans/diagnostics/r14_digest_computed_once.txt).
+checked AS MATERIALIZED (
+    SELECT cert_ref, canonical, fnv1a(canonical) AS recomputed_digest FROM canon
 )
-SELECT cert_ref, canonical, fnv1a(canonical) AS recomputed_digest,
-       fnv1a(canonical) = right(cert_ref, 8) AS valid
-FROM canon;
+SELECT cert_ref, canonical, recomputed_digest, recomputed_digest = right(cert_ref, 8) AS valid
+FROM checked;
 
 -- @R15
 -- READ R15: render a certificate - everything printed on it, in one query

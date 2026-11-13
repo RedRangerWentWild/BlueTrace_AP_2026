@@ -1,43 +1,43 @@
 === R9 run 1 ===
-WindowAgg  (cost=0.72..45.78 rows=16 width=120) (actual time=0.087..0.093 rows=3 loops=1)
+WindowAgg  (cost=0.72..45.78 rows=16 width=120) (actual time=0.100..0.107 rows=3 loops=1)
   Buffers: shared hit=11
-  ->  WindowAgg  (cost=0.72..45.38 rows=16 width=31) (actual time=0.056..0.060 rows=3 loops=1)
+  ->  WindowAgg  (cost=0.72..45.38 rows=16 width=31) (actual time=0.082..0.086 rows=3 loops=1)
         Buffers: shared hit=11
-        ->  Nested Loop  (cost=0.72..45.14 rows=16 width=31) (actual time=0.047..0.052 rows=3 loops=1)
+        ->  Nested Loop  (cost=0.72..45.14 rows=16 width=31) (actual time=0.068..0.076 rows=3 loops=1)
               Buffers: shared hit=11
-              ->  Index Scan using pk_route_step on route_step st  (cost=0.42..34.95 rows=16 width=27) (actual time=0.025..0.025 rows=3 loops=1)
+              ->  Index Scan using pk_route_step on route_step st  (cost=0.42..34.95 rows=16 width=27) (actual time=0.039..0.040 rows=3 loops=1)
                     Index Cond: (screening_id = 1)
                     Buffers: shared hit=7
-              ->  Materialize  (cost=0.29..9.99 rows=1 width=20) (actual time=0.007..0.008 rows=1 loops=3)
+              ->  Materialize  (cost=0.29..9.99 rows=1 width=20) (actual time=0.009..0.011 rows=1 loops=3)
                     Buffers: shared hit=4
-                    ->  Nested Loop  (cost=0.29..9.98 rows=1 width=20) (actual time=0.017..0.019 rows=1 loops=1)
+                    ->  Nested Loop  (cost=0.29..9.98 rows=1 width=20) (actual time=0.023..0.027 rows=1 loops=1)
                           Buffers: shared hit=4
-                          ->  Seq Scan on param p  (cost=0.00..1.66 rows=1 width=5) (actual time=0.007..0.008 rows=1 loops=1)
+                          ->  Seq Scan on param p  (cost=0.00..1.66 rows=1 width=5) (actual time=0.010..0.013 rows=1 loops=1)
                                 Filter: ((param_name)::text = 'handLowM'::text)
                                 Rows Removed by Filter: 52
                                 Buffers: shared hit=1
-                          ->  Index Scan using screening_pkey on screening s  (cost=0.29..8.31 rows=1 width=15) (actual time=0.008..0.009 rows=1 loops=1)
+                          ->  Index Scan using screening_pkey on screening s  (cost=0.29..8.31 rows=1 width=15) (actual time=0.011..0.011 rows=1 loops=1)
                                 Index Cond: (screening_id = 1)
                                 Buffers: shared hit=3
 Planning:
-  Buffers: shared hit=214
-Planning Time: 0.598 ms
-Execution Time: 0.187 ms
+  Buffers: shared hit=216
+Planning Time: 0.631 ms
+Execution Time: 0.226 ms
 === R9 run 2 ===
-WindowAgg  (cost=0.72..45.78 rows=16 width=120) (actual time=0.103..0.112 rows=3 loops=1)
+WindowAgg  (cost=0.72..45.78 rows=16 width=120) (actual time=0.102..0.121 rows=3 loops=1)
   Buffers: shared hit=11
-  ->  WindowAgg  (cost=0.72..45.38 rows=16 width=31) (actual time=0.079..0.085 rows=3 loops=1)
+  ->  WindowAgg  (cost=0.72..45.38 rows=16 width=31) (actual time=0.081..0.086 rows=3 loops=1)
         Buffers: shared hit=11
-        ->  Nested Loop  (cost=0.72..45.14 rows=16 width=31) (actual time=0.065..0.073 rows=3 loops=1)
+        ->  Nested Loop  (cost=0.72..45.14 rows=16 width=31) (actual time=0.068..0.075 rows=3 loops=1)
               Buffers: shared hit=11
-              ->  Index Scan using pk_route_step on route_step st  (cost=0.42..34.95 rows=16 width=27) (actual time=0.036..0.037 rows=3 loops=1)
+              ->  Index Scan using pk_route_step on route_step st  (cost=0.42..34.95 rows=16 width=27) (actual time=0.038..0.039 rows=3 loops=1)
                     Index Cond: (screening_id = 1)
                     Buffers: shared hit=7
-              ->  Materialize  (cost=0.29..9.99 rows=1 width=20) (actual time=0.009..0.010 rows=1 loops=3)
+              ->  Materialize  (cost=0.29..9.99 rows=1 width=20) (actual time=0.009..0.011 rows=1 loops=3)
                     Buffers: shared hit=4
-                    ->  Nested Loop  (cost=0.29..9.98 rows=1 width=20) (actual time=0.022..0.026 rows=1 loops=1)
+                    ->  Nested Loop  (cost=0.29..9.98 rows=1 width=20) (actual time=0.023..0.027 rows=1 loops=1)
                           Buffers: shared hit=4
-                          ->  Seq Scan on param p  (cost=0.00..1.66 rows=1 width=5) (actual time=0.009..0.011 rows=1 loops=1)
+                          ->  Seq Scan on param p  (cost=0.00..1.66 rows=1 width=5) (actual time=0.010..0.013 rows=1 loops=1)
                                 Filter: ((param_name)::text = 'handLowM'::text)
                                 Rows Removed by Filter: 52
                                 Buffers: shared hit=1
@@ -46,30 +46,30 @@ WindowAgg  (cost=0.72..45.78 rows=16 width=120) (actual time=0.103..0.112 rows=3
                                 Buffers: shared hit=3
 Planning:
   Buffers: shared hit=214
-Planning Time: 0.822 ms
-Execution Time: 0.240 ms
+Planning Time: 0.804 ms
+Execution Time: 0.275 ms
 === R9 run 3 ===
-WindowAgg  (cost=0.72..45.78 rows=16 width=120) (actual time=0.070..0.076 rows=3 loops=1)
+WindowAgg  (cost=0.72..45.78 rows=16 width=120) (actual time=0.101..0.109 rows=3 loops=1)
   Buffers: shared hit=11
-  ->  WindowAgg  (cost=0.72..45.38 rows=16 width=31) (actual time=0.054..0.058 rows=3 loops=1)
+  ->  WindowAgg  (cost=0.72..45.38 rows=16 width=31) (actual time=0.080..0.086 rows=3 loops=1)
         Buffers: shared hit=11
-        ->  Nested Loop  (cost=0.72..45.14 rows=16 width=31) (actual time=0.046..0.050 rows=3 loops=1)
+        ->  Nested Loop  (cost=0.72..45.14 rows=16 width=31) (actual time=0.068..0.075 rows=3 loops=1)
               Buffers: shared hit=11
-              ->  Index Scan using pk_route_step on route_step st  (cost=0.42..34.95 rows=16 width=27) (actual time=0.024..0.025 rows=3 loops=1)
+              ->  Index Scan using pk_route_step on route_step st  (cost=0.42..34.95 rows=16 width=27) (actual time=0.040..0.041 rows=3 loops=1)
                     Index Cond: (screening_id = 1)
                     Buffers: shared hit=7
-              ->  Materialize  (cost=0.29..9.99 rows=1 width=20) (actual time=0.007..0.007 rows=1 loops=3)
+              ->  Materialize  (cost=0.29..9.99 rows=1 width=20) (actual time=0.009..0.010 rows=1 loops=3)
                     Buffers: shared hit=4
-                    ->  Nested Loop  (cost=0.29..9.98 rows=1 width=20) (actual time=0.017..0.019 rows=1 loops=1)
+                    ->  Nested Loop  (cost=0.29..9.98 rows=1 width=20) (actual time=0.022..0.026 rows=1 loops=1)
                           Buffers: shared hit=4
-                          ->  Seq Scan on param p  (cost=0.00..1.66 rows=1 width=5) (actual time=0.007..0.008 rows=1 loops=1)
+                          ->  Seq Scan on param p  (cost=0.00..1.66 rows=1 width=5) (actual time=0.009..0.012 rows=1 loops=1)
                                 Filter: ((param_name)::text = 'handLowM'::text)
                                 Rows Removed by Filter: 52
                                 Buffers: shared hit=1
-                          ->  Index Scan using screening_pkey on screening s  (cost=0.29..8.31 rows=1 width=15) (actual time=0.008..0.009 rows=1 loops=1)
+                          ->  Index Scan using screening_pkey on screening s  (cost=0.29..8.31 rows=1 width=15) (actual time=0.011..0.011 rows=1 loops=1)
                                 Index Cond: (screening_id = 1)
                                 Buffers: shared hit=3
 Planning:
   Buffers: shared hit=214
-Planning Time: 0.568 ms
-Execution Time: 0.173 ms
+Planning Time: 0.799 ms
+Execution Time: 0.239 ms

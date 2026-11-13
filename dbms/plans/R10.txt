@@ -1,127 +1,33 @@
 === R10 run 1 ===
-Limit  (cost=33.68..33.69 rows=5 width=140) (actual time=0.290..0.293 rows=8 loops=1)
+Limit  (cost=33.68..33.69 rows=5 width=140) (actual time=0.264..0.266 rows=8 loops=1)
   Buffers: shared hit=66
-  ->  Sort  (cost=33.68..33.69 rows=5 width=140) (actual time=0.289..0.292 rows=8 loops=1)
+  ->  Sort  (cost=33.68..33.69 rows=5 width=140) (actual time=0.263..0.265 rows=8 loops=1)
         Sort Key: (count(*)) DESC, ch.chunk_id
         Sort Method: quicksort  Memory: 27kB
         Buffers: shared hit=66
-        ->  GroupAggregate  (cost=33.50..33.62 rows=5 width=140) (actual time=0.244..0.255 rows=9 loops=1)
+        ->  GroupAggregate  (cost=33.50..33.62 rows=5 width=140) (actual time=0.227..0.236 rows=9 loops=1)
               Group Key: ch.chunk_id, a.url_required
               Buffers: shared hit=60
-              ->  Sort  (cost=33.50..33.51 rows=5 width=108) (actual time=0.237..0.240 rows=17 loops=1)
+              ->  Sort  (cost=33.50..33.51 rows=5 width=108) (actual time=0.220..0.223 rows=17 loops=1)
                     Sort Key: ch.chunk_id, a.url_required, t.tag
                     Sort Method: quicksort  Memory: 27kB
                     Buffers: shared hit=60
-                    ->  Nested Loop  (cost=4.66..33.44 rows=5 width=108) (actual time=0.093..0.211 rows=17 loops=1)
+                    ->  Nested Loop  (cost=4.66..33.44 rows=5 width=108) (actual time=0.084..0.194 rows=17 loops=1)
                           Join Filter: ((a.authority)::text = (ch.authority)::text)
                           Rows Removed by Join Filter: 65
                           Buffers: shared hit=55
-                          ->  Nested Loop  (cost=4.66..31.98 rows=5 width=107) (actual time=0.081..0.188 rows=17 loops=1)
+                          ->  Nested Loop  (cost=4.66..31.98 rows=5 width=107) (actual time=0.074..0.174 rows=17 loops=1)
                                 Join Filter: ((ci.chunk_id)::text = (t.chunk_id)::text)
                                 Buffers: shared hit=54
-                                ->  Hash Join  (cost=4.39..14.48 rows=21 width=129) (actual time=0.048..0.093 rows=21 loops=1)
+                                ->  Hash Join  (cost=4.39..14.48 rows=21 width=129) (actual time=0.046..0.082 rows=21 loops=1)
                                       Hash Cond: ((ch.chunk_id)::text = (ci.chunk_id)::text)
                                       Buffers: shared hit=11
-                                      ->  Seq Scan on chunk ch  (cost=0.00..9.86 rows=86 width=99) (actual time=0.003..0.025 rows=86 loops=1)
+                                      ->  Seq Scan on chunk ch  (cost=0.00..9.86 rows=86 width=99) (actual time=0.003..0.015 rows=86 loops=1)
                                             Buffers: shared hit=9
-                                      ->  Hash  (cost=4.12..4.12 rows=21 width=30) (actual time=0.030..0.030 rows=21 loops=1)
+                                      ->  Hash  (cost=4.12..4.12 rows=21 width=30) (actual time=0.029..0.029 rows=21 loops=1)
                                             Buckets: 1024  Batches: 1  Memory Usage: 10kB
                                             Buffers: shared hit=2
                                             ->  Seq Scan on chunk_intent ci  (cost=0.00..4.12 rows=21 width=30) (actual time=0.005..0.017 rows=21 loops=1)
-                                                  Filter: ((intent)::text = 'flood'::text)
-                                                  Rows Removed by Filter: 149
-                                                  Buffers: shared hit=2
-                                ->  Index Only Scan using pk_chunk_tag on chunk_tag t  (cost=0.28..0.82 rows=1 width=38) (actual time=0.004..0.004 rows=1 loops=21)
-                                      Index Cond: (chunk_id = (ch.chunk_id)::text)
-                                      Filter: ((tag)::text = ANY ('{flood,"will it flood","water level",level,downstream,runoff,drain,depth}'::text[]))
-                                      Rows Removed by Filter: 7
-                                      Heap Fetches: 0
-                                      Buffers: shared hit=43
-                          ->  Materialize  (cost=0.00..1.09 rows=6 width=11) (actual time=0.001..0.001 rows=5 loops=17)
-                                Buffers: shared hit=1
-                                ->  Seq Scan on authority a  (cost=0.00..1.06 rows=6 width=11) (actual time=0.004..0.005 rows=5 loops=1)
-                                      Buffers: shared hit=1
-Planning:
-  Buffers: shared hit=352
-Planning Time: 1.486 ms
-Execution Time: 0.398 ms
-=== R10 run 2 ===
-Limit  (cost=33.68..33.69 rows=5 width=140) (actual time=0.408..0.413 rows=8 loops=1)
-  Buffers: shared hit=66
-  ->  Sort  (cost=33.68..33.69 rows=5 width=140) (actual time=0.407..0.410 rows=8 loops=1)
-        Sort Key: (count(*)) DESC, ch.chunk_id
-        Sort Method: quicksort  Memory: 27kB
-        Buffers: shared hit=66
-        ->  GroupAggregate  (cost=33.50..33.62 rows=5 width=140) (actual time=0.344..0.360 rows=9 loops=1)
-              Group Key: ch.chunk_id, a.url_required
-              Buffers: shared hit=60
-              ->  Sort  (cost=33.50..33.51 rows=5 width=108) (actual time=0.335..0.338 rows=17 loops=1)
-                    Sort Key: ch.chunk_id, a.url_required, t.tag
-                    Sort Method: quicksort  Memory: 27kB
-                    Buffers: shared hit=60
-                    ->  Nested Loop  (cost=4.66..33.44 rows=5 width=108) (actual time=0.136..0.298 rows=17 loops=1)
-                          Join Filter: ((a.authority)::text = (ch.authority)::text)
-                          Rows Removed by Join Filter: 65
-                          Buffers: shared hit=55
-                          ->  Nested Loop  (cost=4.66..31.98 rows=5 width=107) (actual time=0.116..0.261 rows=17 loops=1)
-                                Join Filter: ((ci.chunk_id)::text = (t.chunk_id)::text)
-                                Buffers: shared hit=54
-                                ->  Hash Join  (cost=4.39..14.48 rows=21 width=129) (actual time=0.070..0.120 rows=21 loops=1)
-                                      Hash Cond: ((ch.chunk_id)::text = (ci.chunk_id)::text)
-                                      Buffers: shared hit=11
-                                      ->  Seq Scan on chunk ch  (cost=0.00..9.86 rows=86 width=99) (actual time=0.004..0.025 rows=86 loops=1)
-                                            Buffers: shared hit=9
-                                      ->  Hash  (cost=4.12..4.12 rows=21 width=30) (actual time=0.046..0.047 rows=21 loops=1)
-                                            Buckets: 1024  Batches: 1  Memory Usage: 10kB
-                                            Buffers: shared hit=2
-                                            ->  Seq Scan on chunk_intent ci  (cost=0.00..4.12 rows=21 width=30) (actual time=0.007..0.029 rows=21 loops=1)
-                                                  Filter: ((intent)::text = 'flood'::text)
-                                                  Rows Removed by Filter: 149
-                                                  Buffers: shared hit=2
-                                ->  Index Only Scan using pk_chunk_tag on chunk_tag t  (cost=0.28..0.82 rows=1 width=38) (actual time=0.005..0.006 rows=1 loops=21)
-                                      Index Cond: (chunk_id = (ch.chunk_id)::text)
-                                      Filter: ((tag)::text = ANY ('{flood,"will it flood","water level",level,downstream,runoff,drain,depth}'::text[]))
-                                      Rows Removed by Filter: 7
-                                      Heap Fetches: 0
-                                      Buffers: shared hit=43
-                          ->  Materialize  (cost=0.00..1.09 rows=6 width=11) (actual time=0.001..0.001 rows=5 loops=17)
-                                Buffers: shared hit=1
-                                ->  Seq Scan on authority a  (cost=0.00..1.06 rows=6 width=11) (actual time=0.006..0.007 rows=5 loops=1)
-                                      Buffers: shared hit=1
-Planning:
-  Buffers: shared hit=352
-Planning Time: 2.100 ms
-Execution Time: 0.565 ms
-=== R10 run 3 ===
-Limit  (cost=33.68..33.69 rows=5 width=140) (actual time=0.258..0.261 rows=8 loops=1)
-  Buffers: shared hit=66
-  ->  Sort  (cost=33.68..33.69 rows=5 width=140) (actual time=0.257..0.259 rows=8 loops=1)
-        Sort Key: (count(*)) DESC, ch.chunk_id
-        Sort Method: quicksort  Memory: 27kB
-        Buffers: shared hit=66
-        ->  GroupAggregate  (cost=33.50..33.62 rows=5 width=140) (actual time=0.220..0.230 rows=9 loops=1)
-              Group Key: ch.chunk_id, a.url_required
-              Buffers: shared hit=60
-              ->  Sort  (cost=33.50..33.51 rows=5 width=108) (actual time=0.214..0.217 rows=17 loops=1)
-                    Sort Key: ch.chunk_id, a.url_required, t.tag
-                    Sort Method: quicksort  Memory: 27kB
-                    Buffers: shared hit=60
-                    ->  Nested Loop  (cost=4.66..33.44 rows=5 width=108) (actual time=0.092..0.190 rows=17 loops=1)
-                          Join Filter: ((a.authority)::text = (ch.authority)::text)
-                          Rows Removed by Join Filter: 65
-                          Buffers: shared hit=55
-                          ->  Nested Loop  (cost=4.66..31.98 rows=5 width=107) (actual time=0.082..0.170 rows=17 loops=1)
-                                Join Filter: ((ci.chunk_id)::text = (t.chunk_id)::text)
-                                Buffers: shared hit=54
-                                ->  Hash Join  (cost=4.39..14.48 rows=21 width=129) (actual time=0.053..0.086 rows=21 loops=1)
-                                      Hash Cond: ((ch.chunk_id)::text = (ci.chunk_id)::text)
-                                      Buffers: shared hit=11
-                                      ->  Seq Scan on chunk ch  (cost=0.00..9.86 rows=86 width=99) (actual time=0.002..0.014 rows=86 loops=1)
-                                            Buffers: shared hit=9
-                                      ->  Hash  (cost=4.12..4.12 rows=21 width=30) (actual time=0.037..0.038 rows=21 loops=1)
-                                            Buckets: 1024  Batches: 1  Memory Usage: 10kB
-                                            Buffers: shared hit=2
-                                            ->  Seq Scan on chunk_intent ci  (cost=0.00..4.12 rows=21 width=30) (actual time=0.014..0.026 rows=21 loops=1)
                                                   Filter: ((intent)::text = 'flood'::text)
                                                   Rows Removed by Filter: 149
                                                   Buffers: shared hit=2
@@ -137,5 +43,99 @@ Limit  (cost=33.68..33.69 rows=5 width=140) (actual time=0.258..0.261 rows=8 loo
                                       Buffers: shared hit=1
 Planning:
   Buffers: shared hit=352
-Planning Time: 1.303 ms
-Execution Time: 0.352 ms
+Planning Time: 1.328 ms
+Execution Time: 0.363 ms
+=== R10 run 2 ===
+Limit  (cost=33.68..33.69 rows=5 width=140) (actual time=0.263..0.265 rows=8 loops=1)
+  Buffers: shared hit=66
+  ->  Sort  (cost=33.68..33.69 rows=5 width=140) (actual time=0.262..0.264 rows=8 loops=1)
+        Sort Key: (count(*)) DESC, ch.chunk_id
+        Sort Method: quicksort  Memory: 27kB
+        Buffers: shared hit=66
+        ->  GroupAggregate  (cost=33.50..33.62 rows=5 width=140) (actual time=0.223..0.232 rows=9 loops=1)
+              Group Key: ch.chunk_id, a.url_required
+              Buffers: shared hit=60
+              ->  Sort  (cost=33.50..33.51 rows=5 width=108) (actual time=0.217..0.219 rows=17 loops=1)
+                    Sort Key: ch.chunk_id, a.url_required, t.tag
+                    Sort Method: quicksort  Memory: 27kB
+                    Buffers: shared hit=60
+                    ->  Nested Loop  (cost=4.66..33.44 rows=5 width=108) (actual time=0.092..0.193 rows=17 loops=1)
+                          Join Filter: ((a.authority)::text = (ch.authority)::text)
+                          Rows Removed by Join Filter: 65
+                          Buffers: shared hit=55
+                          ->  Nested Loop  (cost=4.66..31.98 rows=5 width=107) (actual time=0.082..0.172 rows=17 loops=1)
+                                Join Filter: ((ci.chunk_id)::text = (t.chunk_id)::text)
+                                Buffers: shared hit=54
+                                ->  Hash Join  (cost=4.39..14.48 rows=21 width=129) (actual time=0.046..0.080 rows=21 loops=1)
+                                      Hash Cond: ((ch.chunk_id)::text = (ci.chunk_id)::text)
+                                      Buffers: shared hit=11
+                                      ->  Seq Scan on chunk ch  (cost=0.00..9.86 rows=86 width=99) (actual time=0.002..0.015 rows=86 loops=1)
+                                            Buffers: shared hit=9
+                                      ->  Hash  (cost=4.12..4.12 rows=21 width=30) (actual time=0.030..0.031 rows=21 loops=1)
+                                            Buckets: 1024  Batches: 1  Memory Usage: 10kB
+                                            Buffers: shared hit=2
+                                            ->  Seq Scan on chunk_intent ci  (cost=0.00..4.12 rows=21 width=30) (actual time=0.006..0.017 rows=21 loops=1)
+                                                  Filter: ((intent)::text = 'flood'::text)
+                                                  Rows Removed by Filter: 149
+                                                  Buffers: shared hit=2
+                                ->  Index Only Scan using pk_chunk_tag on chunk_tag t  (cost=0.28..0.82 rows=1 width=38) (actual time=0.004..0.004 rows=1 loops=21)
+                                      Index Cond: (chunk_id = (ch.chunk_id)::text)
+                                      Filter: ((tag)::text = ANY ('{flood,"will it flood","water level",level,downstream,runoff,drain,depth}'::text[]))
+                                      Rows Removed by Filter: 7
+                                      Heap Fetches: 0
+                                      Buffers: shared hit=43
+                          ->  Materialize  (cost=0.00..1.09 rows=6 width=11) (actual time=0.000..0.001 rows=5 loops=17)
+                                Buffers: shared hit=1
+                                ->  Seq Scan on authority a  (cost=0.00..1.06 rows=6 width=11) (actual time=0.004..0.005 rows=5 loops=1)
+                                      Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=352
+Planning Time: 1.381 ms
+Execution Time: 0.359 ms
+=== R10 run 3 ===
+Limit  (cost=33.68..33.69 rows=5 width=140) (actual time=0.253..0.256 rows=8 loops=1)
+  Buffers: shared hit=66
+  ->  Sort  (cost=33.68..33.69 rows=5 width=140) (actual time=0.252..0.254 rows=8 loops=1)
+        Sort Key: (count(*)) DESC, ch.chunk_id
+        Sort Method: quicksort  Memory: 27kB
+        Buffers: shared hit=66
+        ->  GroupAggregate  (cost=33.50..33.62 rows=5 width=140) (actual time=0.215..0.225 rows=9 loops=1)
+              Group Key: ch.chunk_id, a.url_required
+              Buffers: shared hit=60
+              ->  Sort  (cost=33.50..33.51 rows=5 width=108) (actual time=0.209..0.212 rows=17 loops=1)
+                    Sort Key: ch.chunk_id, a.url_required, t.tag
+                    Sort Method: quicksort  Memory: 27kB
+                    Buffers: shared hit=60
+                    ->  Nested Loop  (cost=4.66..33.44 rows=5 width=108) (actual time=0.083..0.185 rows=17 loops=1)
+                          Join Filter: ((a.authority)::text = (ch.authority)::text)
+                          Rows Removed by Join Filter: 65
+                          Buffers: shared hit=55
+                          ->  Nested Loop  (cost=4.66..31.98 rows=5 width=107) (actual time=0.073..0.165 rows=17 loops=1)
+                                Join Filter: ((ci.chunk_id)::text = (t.chunk_id)::text)
+                                Buffers: shared hit=54
+                                ->  Hash Join  (cost=4.39..14.48 rows=21 width=129) (actual time=0.046..0.081 rows=21 loops=1)
+                                      Hash Cond: ((ch.chunk_id)::text = (ci.chunk_id)::text)
+                                      Buffers: shared hit=11
+                                      ->  Seq Scan on chunk ch  (cost=0.00..9.86 rows=86 width=99) (actual time=0.003..0.015 rows=86 loops=1)
+                                            Buffers: shared hit=9
+                                      ->  Hash  (cost=4.12..4.12 rows=21 width=30) (actual time=0.029..0.029 rows=21 loops=1)
+                                            Buckets: 1024  Batches: 1  Memory Usage: 10kB
+                                            Buffers: shared hit=2
+                                            ->  Seq Scan on chunk_intent ci  (cost=0.00..4.12 rows=21 width=30) (actual time=0.005..0.017 rows=21 loops=1)
+                                                  Filter: ((intent)::text = 'flood'::text)
+                                                  Rows Removed by Filter: 149
+                                                  Buffers: shared hit=2
+                                ->  Index Only Scan using pk_chunk_tag on chunk_tag t  (cost=0.28..0.82 rows=1 width=38) (actual time=0.003..0.004 rows=1 loops=21)
+                                      Index Cond: (chunk_id = (ch.chunk_id)::text)
+                                      Filter: ((tag)::text = ANY ('{flood,"will it flood","water level",level,downstream,runoff,drain,depth}'::text[]))
+                                      Rows Removed by Filter: 7
+                                      Heap Fetches: 0
+                                      Buffers: shared hit=43
+                          ->  Materialize  (cost=0.00..1.09 rows=6 width=11) (actual time=0.000..0.001 rows=5 loops=17)
+                                Buffers: shared hit=1
+                                ->  Seq Scan on authority a  (cost=0.00..1.06 rows=6 width=11) (actual time=0.004..0.004 rows=5 loops=1)
+                                      Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=352
+Planning Time: 1.242 ms
+Execution Time: 0.346 ms

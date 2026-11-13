@@ -1,44 +1,44 @@
 === R12 run 1 ===
-Sort  (cost=14.13..14.15 rows=7 width=223) (actual time=0.114..0.116 rows=7 loops=1)
+Sort  (cost=14.13..14.15 rows=7 width=223) (actual time=0.117..0.119 rows=7 loops=1)
   Sort Key: ch.chunk_id, p.param_name
   Sort Method: quicksort  Memory: 26kB
   Buffers: shared hit=14
-  ->  Hash Join  (cost=3.22..14.04 rows=7 width=223) (actual time=0.057..0.091 rows=7 loops=1)
+  ->  Hash Join  (cost=3.22..14.04 rows=7 width=223) (actual time=0.060..0.094 rows=7 loops=1)
         Hash Cond: ((ch.authority)::text = (a.authority)::text)
         Buffers: shared hit=11
-        ->  Hash Join  (cost=2.08..12.87 rows=7 width=234) (actual time=0.032..0.064 rows=7 loops=1)
+        ->  Hash Join  (cost=2.08..12.87 rows=7 width=234) (actual time=0.034..0.066 rows=7 loops=1)
               Hash Cond: ((ch.chunk_id)::text = (p.chunk_id)::text)
               Buffers: shared hit=10
               ->  Seq Scan on chunk ch  (cost=0.00..9.86 rows=86 width=211) (actual time=0.001..0.013 rows=86 loops=1)
                     Buffers: shared hit=9
-              ->  Hash  (cost=1.99..1.99 rows=7 width=52) (actual time=0.017..0.017 rows=7 loops=1)
+              ->  Hash  (cost=1.99..1.99 rows=7 width=52) (actual time=0.016..0.016 rows=7 loops=1)
                     Buckets: 1024  Batches: 1  Memory Usage: 9kB
                     Buffers: shared hit=1
-                    ->  Seq Scan on param p  (cost=0.00..1.99 rows=7 width=52) (actual time=0.006..0.013 rows=7 loops=1)
+                    ->  Seq Scan on param p  (cost=0.00..1.99 rows=7 width=52) (actual time=0.006..0.012 rows=7 loops=1)
                           Filter: ((param_name)::text = ANY ('{P_mm,dC,C_pre,C_post,P_annualMm,tankerL,uncertaintyM}'::text[]))
                           Rows Removed by Filter: 46
                           Buffers: shared hit=1
         ->  Hash  (cost=1.06..1.06 rows=6 width=11) (actual time=0.014..0.015 rows=6 loops=1)
               Buckets: 1024  Batches: 1  Memory Usage: 9kB
               Buffers: shared hit=1
-              ->  Seq Scan on authority a  (cost=0.00..1.06 rows=6 width=11) (actual time=0.006..0.006 rows=6 loops=1)
+              ->  Seq Scan on authority a  (cost=0.00..1.06 rows=6 width=11) (actual time=0.005..0.005 rows=6 loops=1)
                     Buffers: shared hit=1
 Planning:
   Buffers: shared hit=274
-Planning Time: 0.698 ms
-Execution Time: 0.171 ms
+Planning Time: 0.682 ms
+Execution Time: 0.167 ms
 === R12 run 2 ===
-Sort  (cost=14.13..14.15 rows=7 width=223) (actual time=0.142..0.144 rows=7 loops=1)
+Sort  (cost=14.13..14.15 rows=7 width=223) (actual time=0.121..0.124 rows=7 loops=1)
   Sort Key: ch.chunk_id, p.param_name
   Sort Method: quicksort  Memory: 26kB
   Buffers: shared hit=14
-  ->  Hash Join  (cost=3.22..14.04 rows=7 width=223) (actual time=0.058..0.091 rows=7 loops=1)
+  ->  Hash Join  (cost=3.22..14.04 rows=7 width=223) (actual time=0.060..0.095 rows=7 loops=1)
         Hash Cond: ((ch.authority)::text = (a.authority)::text)
         Buffers: shared hit=11
-        ->  Hash Join  (cost=2.08..12.87 rows=7 width=234) (actual time=0.032..0.063 rows=7 loops=1)
+        ->  Hash Join  (cost=2.08..12.87 rows=7 width=234) (actual time=0.033..0.066 rows=7 loops=1)
               Hash Cond: ((ch.chunk_id)::text = (p.chunk_id)::text)
               Buffers: shared hit=10
-              ->  Seq Scan on chunk ch  (cost=0.00..9.86 rows=86 width=211) (actual time=0.001..0.013 rows=86 loops=1)
+              ->  Seq Scan on chunk ch  (cost=0.00..9.86 rows=86 width=211) (actual time=0.001..0.014 rows=86 loops=1)
                     Buffers: shared hit=9
               ->  Hash  (cost=1.99..1.99 rows=7 width=52) (actual time=0.015..0.016 rows=7 loops=1)
                     Buckets: 1024  Batches: 1  Memory Usage: 9kB
@@ -47,41 +47,41 @@ Sort  (cost=14.13..14.15 rows=7 width=223) (actual time=0.142..0.144 rows=7 loop
                           Filter: ((param_name)::text = ANY ('{P_mm,dC,C_pre,C_post,P_annualMm,tankerL,uncertaintyM}'::text[]))
                           Rows Removed by Filter: 46
                           Buffers: shared hit=1
-        ->  Hash  (cost=1.06..1.06 rows=6 width=11) (actual time=0.015..0.015 rows=6 loops=1)
+        ->  Hash  (cost=1.06..1.06 rows=6 width=11) (actual time=0.016..0.016 rows=6 loops=1)
               Buckets: 1024  Batches: 1  Memory Usage: 9kB
               Buffers: shared hit=1
-              ->  Seq Scan on authority a  (cost=0.00..1.06 rows=6 width=11) (actual time=0.006..0.007 rows=6 loops=1)
+              ->  Seq Scan on authority a  (cost=0.00..1.06 rows=6 width=11) (actual time=0.006..0.006 rows=6 loops=1)
                     Buffers: shared hit=1
 Planning:
   Buffers: shared hit=274
-Planning Time: 0.658 ms
-Execution Time: 0.189 ms
+Planning Time: 0.675 ms
+Execution Time: 0.190 ms
 === R12 run 3 ===
-Sort  (cost=14.13..14.15 rows=7 width=223) (actual time=0.158..0.160 rows=7 loops=1)
+Sort  (cost=14.13..14.15 rows=7 width=223) (actual time=0.123..0.125 rows=7 loops=1)
   Sort Key: ch.chunk_id, p.param_name
   Sort Method: quicksort  Memory: 26kB
   Buffers: shared hit=14
-  ->  Hash Join  (cost=3.22..14.04 rows=7 width=223) (actual time=0.081..0.125 rows=7 loops=1)
+  ->  Hash Join  (cost=3.22..14.04 rows=7 width=223) (actual time=0.062..0.098 rows=7 loops=1)
         Hash Cond: ((ch.authority)::text = (a.authority)::text)
         Buffers: shared hit=11
-        ->  Hash Join  (cost=2.08..12.87 rows=7 width=234) (actual time=0.047..0.088 rows=7 loops=1)
+        ->  Hash Join  (cost=2.08..12.87 rows=7 width=234) (actual time=0.035..0.068 rows=7 loops=1)
               Hash Cond: ((ch.chunk_id)::text = (p.chunk_id)::text)
               Buffers: shared hit=10
-              ->  Seq Scan on chunk ch  (cost=0.00..9.86 rows=86 width=211) (actual time=0.003..0.020 rows=86 loops=1)
+              ->  Seq Scan on chunk ch  (cost=0.00..9.86 rows=86 width=211) (actual time=0.001..0.014 rows=86 loops=1)
                     Buffers: shared hit=9
-              ->  Hash  (cost=1.99..1.99 rows=7 width=52) (actual time=0.024..0.024 rows=7 loops=1)
+              ->  Hash  (cost=1.99..1.99 rows=7 width=52) (actual time=0.017..0.018 rows=7 loops=1)
                     Buckets: 1024  Batches: 1  Memory Usage: 9kB
                     Buffers: shared hit=1
-                    ->  Seq Scan on param p  (cost=0.00..1.99 rows=7 width=52) (actual time=0.007..0.018 rows=7 loops=1)
+                    ->  Seq Scan on param p  (cost=0.00..1.99 rows=7 width=52) (actual time=0.006..0.012 rows=7 loops=1)
                           Filter: ((param_name)::text = ANY ('{P_mm,dC,C_pre,C_post,P_annualMm,tankerL,uncertaintyM}'::text[]))
                           Rows Removed by Filter: 46
                           Buffers: shared hit=1
-        ->  Hash  (cost=1.06..1.06 rows=6 width=11) (actual time=0.020..0.020 rows=6 loops=1)
+        ->  Hash  (cost=1.06..1.06 rows=6 width=11) (actual time=0.016..0.016 rows=6 loops=1)
               Buckets: 1024  Batches: 1  Memory Usage: 9kB
               Buffers: shared hit=1
-              ->  Seq Scan on authority a  (cost=0.00..1.06 rows=6 width=11) (actual time=0.007..0.008 rows=6 loops=1)
+              ->  Seq Scan on authority a  (cost=0.00..1.06 rows=6 width=11) (actual time=0.005..0.006 rows=6 loops=1)
                     Buffers: shared hit=1
 Planning:
   Buffers: shared hit=274
-Planning Time: 0.832 ms
-Execution Time: 0.222 ms
+Planning Time: 0.754 ms
+Execution Time: 0.172 ms

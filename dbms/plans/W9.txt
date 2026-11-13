@@ -1,30 +1,30 @@
 === W9 run 1 ===
-Delete on building  (cost=0.00..234.61 rows=0 width=0) (actual time=2.064..2.065 rows=0 loops=1)
-  Buffers: shared hit=3558
-  ->  Seq Scan on building  (cost=0.00..234.61 rows=3169 width=6) (actual time=0.009..0.892 rows=3169 loops=1)
+Delete on building  (cost=0.00..234.61 rows=0 width=0) (actual time=1.965..1.966 rows=0 loops=1)
+  Buffers: shared hit=3558 dirtied=67
+  ->  Seq Scan on building  (cost=0.00..234.61 rows=3169 width=6) (actual time=0.008..0.928 rows=3169 loops=1)
         Filter: ((city_key)::text = 'bengaluru'::text)
         Buffers: shared hit=195
 Planning:
   Buffers: shared hit=104
-Planning Time: 0.337 ms
-Execution Time: 2.137 ms
+Planning Time: 0.307 ms
+Execution Time: 2.029 ms
 === W9 run 2 ===
-Delete on building  (cost=0.00..234.61 rows=0 width=0) (actual time=1.973..1.973 rows=0 loops=1)
-  Buffers: shared hit=3364
-  ->  Seq Scan on building  (cost=0.00..234.61 rows=3169 width=6) (actual time=0.014..0.983 rows=3169 loops=1)
+Delete on building  (cost=0.00..234.61 rows=0 width=0) (actual time=2.845..2.846 rows=0 loops=1)
+  Buffers: shared hit=3364 dirtied=1
+  ->  Seq Scan on building  (cost=0.00..234.61 rows=3169 width=6) (actual time=0.018..1.283 rows=3169 loops=1)
         Filter: ((city_key)::text = 'bengaluru'::text)
-        Buffers: shared hit=195
+        Buffers: shared hit=195 dirtied=1
 Planning:
   Buffers: shared hit=104
-Planning Time: 0.296 ms
-Execution Time: 2.034 ms
+Planning Time: 0.424 ms
+Execution Time: 2.932 ms
 === W9 run 3 ===
-Delete on building  (cost=0.00..234.61 rows=0 width=0) (actual time=1.856..1.857 rows=0 loops=1)
+Delete on building  (cost=0.00..234.61 rows=0 width=0) (actual time=2.018..2.019 rows=0 loops=1)
   Buffers: shared hit=3364
-  ->  Seq Scan on building  (cost=0.00..234.61 rows=3169 width=6) (actual time=0.015..0.917 rows=3169 loops=1)
+  ->  Seq Scan on building  (cost=0.00..234.61 rows=3169 width=6) (actual time=0.014..0.965 rows=3169 loops=1)
         Filter: ((city_key)::text = 'bengaluru'::text)
         Buffers: shared hit=195
 Planning:
   Buffers: shared hit=104
-Planning Time: 0.317 ms
-Execution Time: 1.920 ms
+Planning Time: 0.310 ms
+Execution Time: 2.085 ms

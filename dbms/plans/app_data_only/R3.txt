@@ -1,7 +1,25 @@
 === R3 run 1 ===
-Limit  (cost=0.28..6.15 rows=25 width=264) (actual time=0.045..0.168 rows=25 loops=1)
+Limit  (cost=0.28..6.15 rows=25 width=264) (actual time=0.042..0.155 rows=25 loops=1)
   Buffers: shared hit=28
-  ->  Nested Loop  (cost=0.28..743.92 rows=3169 width=264) (actual time=0.044..0.165 rows=25 loops=1)
+  ->  Nested Loop  (cost=0.28..743.92 rows=3169 width=264) (actual time=0.041..0.152 rows=25 loops=1)
+        Buffers: shared hit=28
+        ->  Index Scan using ix_building_city_risk on building b  (cost=0.28..592.36 rows=3169 width=89) (actual time=0.015..0.034 rows=25 loops=1)
+              Index Cond: ((city_key)::text = 'bengaluru'::text)
+              Buffers: shared hit=27
+        ->  Materialize  (cost=0.00..1.03 rows=1 width=18) (actual time=0.000..0.000 rows=1 loops=25)
+              Buffers: shared hit=1
+              ->  Seq Scan on city c  (cost=0.00..1.02 rows=1 width=18) (actual time=0.004..0.005 rows=1 loops=1)
+                    Filter: ((city_key)::text = 'bengaluru'::text)
+                    Rows Removed by Filter: 1
+                    Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=195
+Planning Time: 0.500 ms
+Execution Time: 0.199 ms
+=== R3 run 2 ===
+Limit  (cost=0.28..6.15 rows=25 width=264) (actual time=0.045..0.169 rows=25 loops=1)
+  Buffers: shared hit=28
+  ->  Nested Loop  (cost=0.28..743.92 rows=3169 width=264) (actual time=0.045..0.166 rows=25 loops=1)
         Buffers: shared hit=28
         ->  Index Scan using ix_building_city_risk on building b  (cost=0.28..592.36 rows=3169 width=89) (actual time=0.015..0.036 rows=25 loops=1)
               Index Cond: ((city_key)::text = 'bengaluru'::text)
@@ -14,41 +32,23 @@ Limit  (cost=0.28..6.15 rows=25 width=264) (actual time=0.045..0.168 rows=25 loo
                     Buffers: shared hit=1
 Planning:
   Buffers: shared hit=195
-Planning Time: 0.570 ms
-Execution Time: 0.216 ms
-=== R3 run 2 ===
-Limit  (cost=0.28..6.15 rows=25 width=264) (actual time=0.055..0.185 rows=25 loops=1)
-  Buffers: shared hit=28
-  ->  Nested Loop  (cost=0.28..743.92 rows=3169 width=264) (actual time=0.054..0.182 rows=25 loops=1)
-        Buffers: shared hit=28
-        ->  Index Scan using ix_building_city_risk on building b  (cost=0.28..592.36 rows=3169 width=89) (actual time=0.018..0.040 rows=25 loops=1)
-              Index Cond: ((city_key)::text = 'bengaluru'::text)
-              Buffers: shared hit=27
-        ->  Materialize  (cost=0.00..1.03 rows=1 width=18) (actual time=0.000..0.001 rows=1 loops=25)
-              Buffers: shared hit=1
-              ->  Seq Scan on city c  (cost=0.00..1.02 rows=1 width=18) (actual time=0.005..0.006 rows=1 loops=1)
-                    Filter: ((city_key)::text = 'bengaluru'::text)
-                    Rows Removed by Filter: 1
-                    Buffers: shared hit=1
-Planning:
-  Buffers: shared hit=195
-Planning Time: 0.565 ms
-Execution Time: 0.285 ms
+Planning Time: 0.633 ms
+Execution Time: 0.219 ms
 === R3 run 3 ===
-Limit  (cost=0.28..6.15 rows=25 width=264) (actual time=0.042..0.155 rows=25 loops=1)
+Limit  (cost=0.28..6.15 rows=25 width=264) (actual time=0.043..0.220 rows=25 loops=1)
   Buffers: shared hit=28
-  ->  Nested Loop  (cost=0.28..743.92 rows=3169 width=264) (actual time=0.041..0.152 rows=25 loops=1)
+  ->  Nested Loop  (cost=0.28..743.92 rows=3169 width=264) (actual time=0.042..0.217 rows=25 loops=1)
         Buffers: shared hit=28
-        ->  Index Scan using ix_building_city_risk on building b  (cost=0.28..592.36 rows=3169 width=89) (actual time=0.016..0.035 rows=25 loops=1)
+        ->  Index Scan using ix_building_city_risk on building b  (cost=0.28..592.36 rows=3169 width=89) (actual time=0.015..0.037 rows=25 loops=1)
               Index Cond: ((city_key)::text = 'bengaluru'::text)
               Buffers: shared hit=27
         ->  Materialize  (cost=0.00..1.03 rows=1 width=18) (actual time=0.000..0.000 rows=1 loops=25)
               Buffers: shared hit=1
-              ->  Seq Scan on city c  (cost=0.00..1.02 rows=1 width=18) (actual time=0.005..0.005 rows=1 loops=1)
+              ->  Seq Scan on city c  (cost=0.00..1.02 rows=1 width=18) (actual time=0.004..0.005 rows=1 loops=1)
                     Filter: ((city_key)::text = 'bengaluru'::text)
                     Rows Removed by Filter: 1
                     Buffers: shared hit=1
 Planning:
   Buffers: shared hit=195
-Planning Time: 0.478 ms
-Execution Time: 0.201 ms
+Planning Time: 0.510 ms
+Execution Time: 0.268 ms

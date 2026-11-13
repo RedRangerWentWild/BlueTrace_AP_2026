@@ -1,16 +1,5 @@
 === W3 run 1 ===
-Update on certificate  (cost=0.00..1.05 rows=0 width=0) (actual time=0.259..0.260 rows=0 loops=1)
-  Buffers: shared hit=21
-  ->  Seq Scan on certificate  (cost=0.00..1.05 rows=1 width=460) (actual time=0.010..0.011 rows=1 loops=1)
-        Filter: ((cert_ref)::text = 'BT/BLR/20261112/0001-DF9684FA'::text)
-        Rows Removed by Filter: 3
-        Buffers: shared hit=1
-Planning:
-  Buffers: shared hit=81
-Planning Time: 0.268 ms
-Execution Time: 0.294 ms
-=== W3 run 2 ===
-Update on certificate  (cost=0.00..1.05 rows=0 width=0) (actual time=0.285..0.285 rows=0 loops=1)
+Update on certificate  (cost=0.00..1.05 rows=0 width=0) (actual time=0.296..0.297 rows=0 loops=1)
   Buffers: shared hit=21
   ->  Seq Scan on certificate  (cost=0.00..1.05 rows=1 width=460) (actual time=0.011..0.012 rows=1 loops=1)
         Filter: ((cert_ref)::text = 'BT/BLR/20261112/0001-DF9684FA'::text)
@@ -18,16 +7,27 @@ Update on certificate  (cost=0.00..1.05 rows=0 width=0) (actual time=0.285..0.28
         Buffers: shared hit=1
 Planning:
   Buffers: shared hit=81
-Planning Time: 0.268 ms
-Execution Time: 0.320 ms
-=== W3 run 3 ===
-Update on certificate  (cost=0.00..1.05 rows=0 width=0) (actual time=0.268..0.268 rows=0 loops=1)
+Planning Time: 0.326 ms
+Execution Time: 0.335 ms
+=== W3 run 2 ===
+Update on certificate  (cost=0.00..1.05 rows=0 width=0) (actual time=0.274..0.274 rows=0 loops=1)
   Buffers: shared hit=21
-  ->  Seq Scan on certificate  (cost=0.00..1.05 rows=1 width=460) (actual time=0.012..0.013 rows=1 loops=1)
+  ->  Seq Scan on certificate  (cost=0.00..1.05 rows=1 width=460) (actual time=0.013..0.014 rows=1 loops=1)
         Filter: ((cert_ref)::text = 'BT/BLR/20261112/0001-DF9684FA'::text)
         Rows Removed by Filter: 3
         Buffers: shared hit=1
 Planning:
   Buffers: shared hit=81
-Planning Time: 0.287 ms
-Execution Time: 0.307 ms
+Planning Time: 0.393 ms
+Execution Time: 0.314 ms
+=== W3 run 3 ===
+Update on certificate  (cost=0.00..1.05 rows=0 width=0) (actual time=0.272..0.273 rows=0 loops=1)
+  Buffers: shared hit=21
+  ->  Seq Scan on certificate  (cost=0.00..1.05 rows=1 width=460) (actual time=0.013..0.014 rows=1 loops=1)
+        Filter: ((cert_ref)::text = 'BT/BLR/20261112/0001-DF9684FA'::text)
+        Rows Removed by Filter: 3
+        Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=81
+Planning Time: 0.319 ms
+Execution Time: 0.314 ms

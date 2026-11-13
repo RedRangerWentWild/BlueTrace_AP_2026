@@ -1,33 +1,33 @@
 === W7 run 1 ===
-Update on param  (cost=0.00..2.06 rows=0 width=0) (actual time=0.012..0.013 rows=0 loops=1)
+Update on param  (cost=0.00..2.06 rows=0 width=0) (actual time=0.100..0.101 rows=0 loops=1)
   Buffers: shared hit=1
-  ->  Seq Scan on param  (cost=0.00..2.06 rows=1 width=128) (actual time=0.011..0.011 rows=0 loops=1)
+  ->  Seq Scan on param  (cost=0.00..2.06 rows=1 width=128) (actual time=0.098..0.099 rows=0 loops=1)
         Filter: (((param_name)::text = 'P_mm'::text) AND ((value IS DISTINCT FROM '60'::numeric) OR (plus_minus IS DISTINCT FROM '24'::numeric) OR ((unit)::text IS DISTINCT FROM 'mm'::text)))
         Rows Removed by Filter: 53
         Buffers: shared hit=1
 Planning:
   Buffers: shared hit=86
-Planning Time: 0.299 ms
-Execution Time: 0.048 ms
+Planning Time: 0.493 ms
+Execution Time: 0.161 ms
 === W7 run 2 ===
-Update on param  (cost=0.00..2.06 rows=0 width=0) (actual time=0.012..0.012 rows=0 loops=1)
+Update on param  (cost=0.00..2.06 rows=0 width=0) (actual time=0.013..0.014 rows=0 loops=1)
   Buffers: shared hit=1
-  ->  Seq Scan on param  (cost=0.00..2.06 rows=1 width=128) (actual time=0.011..0.011 rows=0 loops=1)
+  ->  Seq Scan on param  (cost=0.00..2.06 rows=1 width=128) (actual time=0.012..0.012 rows=0 loops=1)
         Filter: (((param_name)::text = 'P_mm'::text) AND ((value IS DISTINCT FROM '60'::numeric) OR (plus_minus IS DISTINCT FROM '24'::numeric) OR ((unit)::text IS DISTINCT FROM 'mm'::text)))
         Rows Removed by Filter: 53
         Buffers: shared hit=1
 Planning:
   Buffers: shared hit=86
-Planning Time: 0.344 ms
-Execution Time: 0.051 ms
+Planning Time: 0.367 ms
+Execution Time: 0.056 ms
 === W7 run 3 ===
-Update on param  (cost=0.00..2.06 rows=0 width=0) (actual time=0.012..0.013 rows=0 loops=1)
+Update on param  (cost=0.00..2.06 rows=0 width=0) (actual time=0.017..0.018 rows=0 loops=1)
   Buffers: shared hit=1
-  ->  Seq Scan on param  (cost=0.00..2.06 rows=1 width=128) (actual time=0.011..0.011 rows=0 loops=1)
+  ->  Seq Scan on param  (cost=0.00..2.06 rows=1 width=128) (actual time=0.016..0.016 rows=0 loops=1)
         Filter: (((param_name)::text = 'P_mm'::text) AND ((value IS DISTINCT FROM '60'::numeric) OR (plus_minus IS DISTINCT FROM '24'::numeric) OR ((unit)::text IS DISTINCT FROM 'mm'::text)))
         Rows Removed by Filter: 53
         Buffers: shared hit=1
 Planning:
   Buffers: shared hit=86
-Planning Time: 0.304 ms
-Execution Time: 0.050 ms
+Planning Time: 0.405 ms
+Execution Time: 0.067 ms

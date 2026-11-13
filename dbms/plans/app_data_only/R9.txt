@@ -1,67 +1,9 @@
 === R9 run 1 ===
-WindowAgg  (cost=4.08..4.20 rows=3 width=120) (actual time=0.082..0.088 rows=3 loops=1)
+WindowAgg  (cost=4.08..4.20 rows=3 width=120) (actual time=0.069..0.075 rows=3 loops=1)
   Buffers: shared hit=6
-  ->  WindowAgg  (cost=4.08..4.13 rows=3 width=31) (actual time=0.065..0.068 rows=3 loops=1)
+  ->  WindowAgg  (cost=4.08..4.13 rows=3 width=31) (actual time=0.052..0.055 rows=3 loops=1)
         Buffers: shared hit=6
-        ->  Sort  (cost=4.08..4.08 rows=3 width=31) (actual time=0.058..0.058 rows=3 loops=1)
-              Sort Key: st.step_no
-              Sort Method: quicksort  Memory: 25kB
-              Buffers: shared hit=6
-              ->  Nested Loop  (cost=0.00..4.05 rows=3 width=31) (actual time=0.027..0.031 rows=3 loops=1)
-                    Buffers: shared hit=3
-                    ->  Nested Loop  (cost=0.00..2.79 rows=1 width=21) (actual time=0.022..0.024 rows=1 loops=1)
-                          Buffers: shared hit=2
-                          ->  Seq Scan on param p  (cost=0.00..1.66 rows=1 width=5) (actual time=0.016..0.017 rows=1 loops=1)
-                                Filter: ((param_name)::text = 'handLowM'::text)
-                                Rows Removed by Filter: 52
-                                Buffers: shared hit=1
-                          ->  Seq Scan on screening s  (cost=0.00..1.11 rows=1 width=16) (actual time=0.005..0.005 rows=1 loops=1)
-                                Filter: (screening_id = 1)
-                                Rows Removed by Filter: 8
-                                Buffers: shared hit=1
-                    ->  Seq Scan on route_step st  (cost=0.00..1.24 rows=3 width=26) (actual time=0.004..0.005 rows=3 loops=1)
-                          Filter: (screening_id = 1)
-                          Rows Removed by Filter: 16
-                          Buffers: shared hit=1
-Planning:
-  Buffers: shared hit=214
-Planning Time: 0.640 ms
-Execution Time: 0.184 ms
-=== R9 run 2 ===
-WindowAgg  (cost=4.08..4.20 rows=3 width=120) (actual time=0.081..0.087 rows=3 loops=1)
-  Buffers: shared hit=6
-  ->  WindowAgg  (cost=4.08..4.13 rows=3 width=31) (actual time=0.060..0.064 rows=3 loops=1)
-        Buffers: shared hit=6
-        ->  Sort  (cost=4.08..4.08 rows=3 width=31) (actual time=0.053..0.054 rows=3 loops=1)
-              Sort Key: st.step_no
-              Sort Method: quicksort  Memory: 25kB
-              Buffers: shared hit=6
-              ->  Nested Loop  (cost=0.00..4.05 rows=3 width=31) (actual time=0.019..0.024 rows=3 loops=1)
-                    Buffers: shared hit=3
-                    ->  Nested Loop  (cost=0.00..2.79 rows=1 width=21) (actual time=0.014..0.016 rows=1 loops=1)
-                          Buffers: shared hit=2
-                          ->  Seq Scan on param p  (cost=0.00..1.66 rows=1 width=5) (actual time=0.008..0.009 rows=1 loops=1)
-                                Filter: ((param_name)::text = 'handLowM'::text)
-                                Rows Removed by Filter: 52
-                                Buffers: shared hit=1
-                          ->  Seq Scan on screening s  (cost=0.00..1.11 rows=1 width=16) (actual time=0.005..0.005 rows=1 loops=1)
-                                Filter: (screening_id = 1)
-                                Rows Removed by Filter: 8
-                                Buffers: shared hit=1
-                    ->  Seq Scan on route_step st  (cost=0.00..1.24 rows=3 width=26) (actual time=0.004..0.005 rows=3 loops=1)
-                          Filter: (screening_id = 1)
-                          Rows Removed by Filter: 16
-                          Buffers: shared hit=1
-Planning:
-  Buffers: shared hit=214
-Planning Time: 0.704 ms
-Execution Time: 0.192 ms
-=== R9 run 3 ===
-WindowAgg  (cost=4.08..4.20 rows=3 width=120) (actual time=0.071..0.077 rows=3 loops=1)
-  Buffers: shared hit=6
-  ->  WindowAgg  (cost=4.08..4.13 rows=3 width=31) (actual time=0.054..0.057 rows=3 loops=1)
-        Buffers: shared hit=6
-        ->  Sort  (cost=4.08..4.08 rows=3 width=31) (actual time=0.047..0.048 rows=3 loops=1)
+        ->  Sort  (cost=4.08..4.08 rows=3 width=31) (actual time=0.045..0.046 rows=3 loops=1)
               Sort Key: st.step_no
               Sort Method: quicksort  Memory: 25kB
               Buffers: shared hit=6
@@ -70,6 +12,64 @@ WindowAgg  (cost=4.08..4.20 rows=3 width=120) (actual time=0.071..0.077 rows=3 l
                     ->  Nested Loop  (cost=0.00..2.79 rows=1 width=21) (actual time=0.014..0.016 rows=1 loops=1)
                           Buffers: shared hit=2
                           ->  Seq Scan on param p  (cost=0.00..1.66 rows=1 width=5) (actual time=0.008..0.009 rows=1 loops=1)
+                                Filter: ((param_name)::text = 'handLowM'::text)
+                                Rows Removed by Filter: 52
+                                Buffers: shared hit=1
+                          ->  Seq Scan on screening s  (cost=0.00..1.11 rows=1 width=16) (actual time=0.004..0.005 rows=1 loops=1)
+                                Filter: (screening_id = 1)
+                                Rows Removed by Filter: 8
+                                Buffers: shared hit=1
+                    ->  Seq Scan on route_step st  (cost=0.00..1.24 rows=3 width=26) (actual time=0.003..0.004 rows=3 loops=1)
+                          Filter: (screening_id = 1)
+                          Rows Removed by Filter: 16
+                          Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=214
+Planning Time: 0.559 ms
+Execution Time: 0.163 ms
+=== R9 run 2 ===
+WindowAgg  (cost=4.08..4.20 rows=3 width=120) (actual time=0.070..0.077 rows=3 loops=1)
+  Buffers: shared hit=6
+  ->  WindowAgg  (cost=4.08..4.13 rows=3 width=31) (actual time=0.052..0.055 rows=3 loops=1)
+        Buffers: shared hit=6
+        ->  Sort  (cost=4.08..4.08 rows=3 width=31) (actual time=0.045..0.046 rows=3 loops=1)
+              Sort Key: st.step_no
+              Sort Method: quicksort  Memory: 25kB
+              Buffers: shared hit=6
+              ->  Nested Loop  (cost=0.00..4.05 rows=3 width=31) (actual time=0.018..0.022 rows=3 loops=1)
+                    Buffers: shared hit=3
+                    ->  Nested Loop  (cost=0.00..2.79 rows=1 width=21) (actual time=0.013..0.015 rows=1 loops=1)
+                          Buffers: shared hit=2
+                          ->  Seq Scan on param p  (cost=0.00..1.66 rows=1 width=5) (actual time=0.007..0.009 rows=1 loops=1)
+                                Filter: ((param_name)::text = 'handLowM'::text)
+                                Rows Removed by Filter: 52
+                                Buffers: shared hit=1
+                          ->  Seq Scan on screening s  (cost=0.00..1.11 rows=1 width=16) (actual time=0.004..0.005 rows=1 loops=1)
+                                Filter: (screening_id = 1)
+                                Rows Removed by Filter: 8
+                                Buffers: shared hit=1
+                    ->  Seq Scan on route_step st  (cost=0.00..1.24 rows=3 width=26) (actual time=0.003..0.005 rows=3 loops=1)
+                          Filter: (screening_id = 1)
+                          Rows Removed by Filter: 16
+                          Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=214
+Planning Time: 0.575 ms
+Execution Time: 0.166 ms
+=== R9 run 3 ===
+WindowAgg  (cost=4.08..4.20 rows=3 width=120) (actual time=0.070..0.076 rows=3 loops=1)
+  Buffers: shared hit=6
+  ->  WindowAgg  (cost=4.08..4.13 rows=3 width=31) (actual time=0.053..0.056 rows=3 loops=1)
+        Buffers: shared hit=6
+        ->  Sort  (cost=4.08..4.08 rows=3 width=31) (actual time=0.047..0.048 rows=3 loops=1)
+              Sort Key: st.step_no
+              Sort Method: quicksort  Memory: 25kB
+              Buffers: shared hit=6
+              ->  Nested Loop  (cost=0.00..4.05 rows=3 width=31) (actual time=0.017..0.021 rows=3 loops=1)
+                    Buffers: shared hit=3
+                    ->  Nested Loop  (cost=0.00..2.79 rows=1 width=21) (actual time=0.013..0.015 rows=1 loops=1)
+                          Buffers: shared hit=2
+                          ->  Seq Scan on param p  (cost=0.00..1.66 rows=1 width=5) (actual time=0.007..0.009 rows=1 loops=1)
                                 Filter: ((param_name)::text = 'handLowM'::text)
                                 Rows Removed by Filter: 52
                                 Buffers: shared hit=1
@@ -83,5 +83,5 @@ WindowAgg  (cost=4.08..4.20 rows=3 width=120) (actual time=0.071..0.077 rows=3 l
                           Buffers: shared hit=1
 Planning:
   Buffers: shared hit=214
-Planning Time: 0.550 ms
-Execution Time: 0.165 ms
+Planning Time: 0.556 ms
+Execution Time: 0.167 ms

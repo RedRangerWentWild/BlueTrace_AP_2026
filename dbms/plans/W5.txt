@@ -1,39 +1,39 @@
 === W5 run 1 ===
-Insert on chunk_tag  (cost=0.00..0.07 rows=0 width=0) (actual time=0.251..0.251 rows=0 loops=1)
+Insert on chunk_tag  (cost=0.00..0.07 rows=0 width=0) (actual time=0.232..0.232 rows=0 loops=1)
   Conflict Resolution: NOTHING
   Conflict Arbiter Indexes: pk_chunk_tag
   Tuples Inserted: 3
   Conflicting Tuples: 2
   Buffers: shared hit=56
-  ->  Function Scan on unnest t  (cost=0.00..0.07 rows=5 width=276) (actual time=0.008..0.010 rows=5 loops=1)
+  ->  Function Scan on unnest t  (cost=0.00..0.07 rows=5 width=276) (actual time=0.008..0.009 rows=5 loops=1)
 Planning:
   Buffers: shared hit=45
-Planning Time: 0.179 ms
-Trigger for constraint fk_tag_chunk: time=0.584 calls=3
-Execution Time: 0.859 ms
+Planning Time: 0.161 ms
+Trigger for constraint fk_tag_chunk: time=0.541 calls=3
+Execution Time: 0.795 ms
 === W5 run 2 ===
-Insert on chunk_tag  (cost=0.00..0.07 rows=0 width=0) (actual time=0.256..0.257 rows=0 loops=1)
+Insert on chunk_tag  (cost=0.00..0.07 rows=0 width=0) (actual time=0.310..0.311 rows=0 loops=1)
   Conflict Resolution: NOTHING
   Conflict Arbiter Indexes: pk_chunk_tag
   Tuples Inserted: 3
   Conflicting Tuples: 2
   Buffers: shared hit=58
-  ->  Function Scan on unnest t  (cost=0.00..0.07 rows=5 width=276) (actual time=0.009..0.011 rows=5 loops=1)
+  ->  Function Scan on unnest t  (cost=0.00..0.07 rows=5 width=276) (actual time=0.013..0.015 rows=5 loops=1)
 Planning:
   Buffers: shared hit=45
-Planning Time: 0.189 ms
-Trigger for constraint fk_tag_chunk: time=0.645 calls=3
-Execution Time: 0.926 ms
+Planning Time: 0.235 ms
+Trigger for constraint fk_tag_chunk: time=0.721 calls=3
+Execution Time: 1.062 ms
 === W5 run 3 ===
-Insert on chunk_tag  (cost=0.00..0.07 rows=0 width=0) (actual time=0.245..0.245 rows=0 loops=1)
+Insert on chunk_tag  (cost=0.00..0.07 rows=0 width=0) (actual time=0.412..0.413 rows=0 loops=1)
   Conflict Resolution: NOTHING
   Conflict Arbiter Indexes: pk_chunk_tag
   Tuples Inserted: 3
   Conflicting Tuples: 2
   Buffers: shared hit=58
-  ->  Function Scan on unnest t  (cost=0.00..0.07 rows=5 width=276) (actual time=0.009..0.010 rows=5 loops=1)
+  ->  Function Scan on unnest t  (cost=0.00..0.07 rows=5 width=276) (actual time=0.012..0.014 rows=5 loops=1)
 Planning:
   Buffers: shared hit=45
-Planning Time: 0.293 ms
-Trigger for constraint fk_tag_chunk: time=0.512 calls=3
-Execution Time: 0.782 ms
+Planning Time: 0.214 ms
+Trigger for constraint fk_tag_chunk: time=0.766 calls=3
+Execution Time: 1.213 ms

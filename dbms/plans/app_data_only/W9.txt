@@ -1,30 +1,30 @@
 === W9 run 1 ===
-Delete on building  (cost=0.00..234.61 rows=0 width=0) (actual time=2.775..2.776 rows=0 loops=1)
+Delete on building  (cost=0.00..234.61 rows=0 width=0) (actual time=2.616..2.617 rows=0 loops=1)
   Buffers: shared hit=3558
-  ->  Seq Scan on building  (cost=0.00..234.61 rows=3169 width=6) (actual time=0.011..0.979 rows=3169 loops=1)
+  ->  Seq Scan on building  (cost=0.00..234.61 rows=3169 width=6) (actual time=0.010..0.909 rows=3169 loops=1)
         Filter: ((city_key)::text = 'bengaluru'::text)
         Buffers: shared hit=195
 Planning:
   Buffers: shared hit=104
-Planning Time: 0.404 ms
-Execution Time: 2.851 ms
+Planning Time: 0.368 ms
+Execution Time: 2.693 ms
 === W9 run 2 ===
-Delete on building  (cost=0.00..234.61 rows=0 width=0) (actual time=1.724..1.724 rows=0 loops=1)
+Delete on building  (cost=0.00..234.61 rows=0 width=0) (actual time=1.673..1.674 rows=0 loops=1)
   Buffers: shared hit=3364
-  ->  Seq Scan on building  (cost=0.00..234.61 rows=3169 width=6) (actual time=0.013..0.750 rows=3169 loops=1)
+  ->  Seq Scan on building  (cost=0.00..234.61 rows=3169 width=6) (actual time=0.013..0.730 rows=3169 loops=1)
         Filter: ((city_key)::text = 'bengaluru'::text)
         Buffers: shared hit=195
 Planning:
   Buffers: shared hit=104
-Planning Time: 0.296 ms
-Execution Time: 1.781 ms
+Planning Time: 0.279 ms
+Execution Time: 1.728 ms
 === W9 run 3 ===
-Delete on building  (cost=0.00..234.61 rows=0 width=0) (actual time=1.669..1.670 rows=0 loops=1)
+Delete on building  (cost=0.00..234.61 rows=0 width=0) (actual time=2.301..2.303 rows=0 loops=1)
   Buffers: shared hit=3364
-  ->  Seq Scan on building  (cost=0.00..234.61 rows=3169 width=6) (actual time=0.015..0.735 rows=3169 loops=1)
+  ->  Seq Scan on building  (cost=0.00..234.61 rows=3169 width=6) (actual time=0.014..0.923 rows=3169 loops=1)
         Filter: ((city_key)::text = 'bengaluru'::text)
         Buffers: shared hit=195
 Planning:
   Buffers: shared hit=104
-Planning Time: 0.298 ms
-Execution Time: 1.738 ms
+Planning Time: 0.312 ms
+Execution Time: 2.362 ms

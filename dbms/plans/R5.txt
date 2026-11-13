@@ -1,72 +1,72 @@
 === R5 run 1 ===
-Sort  (cost=299.24..299.25 rows=4 width=123) (actual time=1.716..1.717 rows=4 loops=1)
+Sort  (cost=299.24..299.25 rows=4 width=123) (actual time=1.681..1.683 rows=4 loops=1)
   Sort Key: (count(*)) DESC
   Sort Method: quicksort  Memory: 25kB
   Buffers: shared hit=199
-  ->  WindowAgg  (cost=299.02..299.20 rows=4 width=123) (actual time=1.690..1.700 rows=4 loops=1)
+  ->  WindowAgg  (cost=299.02..299.20 rows=4 width=123) (actual time=1.656..1.665 rows=4 loops=1)
         Buffers: shared hit=196
-        ->  HashAggregate  (cost=299.02..299.07 rows=4 width=43) (actual time=1.645..1.647 rows=4 loops=1)
+        ->  HashAggregate  (cost=299.02..299.07 rows=4 width=43) (actual time=1.625..1.627 rows=4 loops=1)
               Group Key: b.verdict
               Batches: 1  Memory Usage: 24kB
               Buffers: shared hit=196
-              ->  Nested Loop  (cost=0.00..267.33 rows=3169 width=35) (actual time=0.014..1.189 rows=3169 loops=1)
+              ->  Nested Loop  (cost=0.00..267.33 rows=3169 width=35) (actual time=0.014..1.192 rows=3169 loops=1)
                     Buffers: shared hit=196
                     ->  Seq Scan on city c  (cost=0.00..1.02 rows=1 width=9) (actual time=0.009..0.010 rows=1 loops=1)
                           Filter: ((city_key)::text = 'bengaluru'::text)
                           Rows Removed by Filter: 1
                           Buffers: shared hit=1
-                    ->  Seq Scan on building b  (cost=0.00..234.61 rows=3169 width=45) (actual time=0.004..0.710 rows=3169 loops=1)
+                    ->  Seq Scan on building b  (cost=0.00..234.61 rows=3169 width=45) (actual time=0.004..0.741 rows=3169 loops=1)
                           Filter: ((city_key)::text = 'bengaluru'::text)
                           Buffers: shared hit=195
 Planning:
   Buffers: shared hit=197
-Planning Time: 0.555 ms
-Execution Time: 1.838 ms
+Planning Time: 0.564 ms
+Execution Time: 1.802 ms
 === R5 run 2 ===
-Sort  (cost=299.24..299.25 rows=4 width=123) (actual time=1.684..1.686 rows=4 loops=1)
+Sort  (cost=299.24..299.25 rows=4 width=123) (actual time=1.715..1.716 rows=4 loops=1)
   Sort Key: (count(*)) DESC
   Sort Method: quicksort  Memory: 25kB
   Buffers: shared hit=199
-  ->  WindowAgg  (cost=299.02..299.20 rows=4 width=123) (actual time=1.658..1.667 rows=4 loops=1)
+  ->  WindowAgg  (cost=299.02..299.20 rows=4 width=123) (actual time=1.691..1.699 rows=4 loops=1)
         Buffers: shared hit=196
-        ->  HashAggregate  (cost=299.02..299.07 rows=4 width=43) (actual time=1.626..1.627 rows=4 loops=1)
+        ->  HashAggregate  (cost=299.02..299.07 rows=4 width=43) (actual time=1.658..1.660 rows=4 loops=1)
               Group Key: b.verdict
               Batches: 1  Memory Usage: 24kB
               Buffers: shared hit=196
-              ->  Nested Loop  (cost=0.00..267.33 rows=3169 width=35) (actual time=0.035..1.181 rows=3169 loops=1)
+              ->  Nested Loop  (cost=0.00..267.33 rows=3169 width=35) (actual time=0.015..1.197 rows=3169 loops=1)
                     Buffers: shared hit=196
-                    ->  Seq Scan on city c  (cost=0.00..1.02 rows=1 width=9) (actual time=0.009..0.010 rows=1 loops=1)
+                    ->  Seq Scan on city c  (cost=0.00..1.02 rows=1 width=9) (actual time=0.009..0.011 rows=1 loops=1)
                           Filter: ((city_key)::text = 'bengaluru'::text)
                           Rows Removed by Filter: 1
                           Buffers: shared hit=1
-                    ->  Seq Scan on building b  (cost=0.00..234.61 rows=3169 width=45) (actual time=0.005..0.709 rows=3169 loops=1)
+                    ->  Seq Scan on building b  (cost=0.00..234.61 rows=3169 width=45) (actual time=0.004..0.730 rows=3169 loops=1)
                           Filter: ((city_key)::text = 'bengaluru'::text)
                           Buffers: shared hit=195
 Planning:
   Buffers: shared hit=197
-Planning Time: 0.510 ms
-Execution Time: 1.806 ms
+Planning Time: 0.517 ms
+Execution Time: 1.835 ms
 === R5 run 3 ===
-Sort  (cost=299.24..299.25 rows=4 width=123) (actual time=1.638..1.639 rows=4 loops=1)
+Sort  (cost=299.24..299.25 rows=4 width=123) (actual time=2.504..2.507 rows=4 loops=1)
   Sort Key: (count(*)) DESC
   Sort Method: quicksort  Memory: 25kB
   Buffers: shared hit=199
-  ->  WindowAgg  (cost=299.02..299.20 rows=4 width=123) (actual time=1.614..1.622 rows=4 loops=1)
+  ->  WindowAgg  (cost=299.02..299.20 rows=4 width=123) (actual time=2.474..2.487 rows=4 loops=1)
         Buffers: shared hit=196
-        ->  HashAggregate  (cost=299.02..299.07 rows=4 width=43) (actual time=1.586..1.587 rows=4 loops=1)
+        ->  HashAggregate  (cost=299.02..299.07 rows=4 width=43) (actual time=2.432..2.435 rows=4 loops=1)
               Group Key: b.verdict
               Batches: 1  Memory Usage: 24kB
               Buffers: shared hit=196
-              ->  Nested Loop  (cost=0.00..267.33 rows=3169 width=35) (actual time=0.015..1.153 rows=3169 loops=1)
+              ->  Nested Loop  (cost=0.00..267.33 rows=3169 width=35) (actual time=0.014..1.440 rows=3169 loops=1)
                     Buffers: shared hit=196
-                    ->  Seq Scan on city c  (cost=0.00..1.02 rows=1 width=9) (actual time=0.009..0.010 rows=1 loops=1)
+                    ->  Seq Scan on city c  (cost=0.00..1.02 rows=1 width=9) (actual time=0.008..0.011 rows=1 loops=1)
                           Filter: ((city_key)::text = 'bengaluru'::text)
                           Rows Removed by Filter: 1
                           Buffers: shared hit=1
-                    ->  Seq Scan on building b  (cost=0.00..234.61 rows=3169 width=45) (actual time=0.005..0.672 rows=3169 loops=1)
+                    ->  Seq Scan on building b  (cost=0.00..234.61 rows=3169 width=45) (actual time=0.004..0.866 rows=3169 loops=1)
                           Filter: ((city_key)::text = 'bengaluru'::text)
                           Buffers: shared hit=195
 Planning:
   Buffers: shared hit=197
-Planning Time: 0.527 ms
-Execution Time: 1.755 ms
+Planning Time: 0.505 ms
+Execution Time: 2.630 ms

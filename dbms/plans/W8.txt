@@ -1,33 +1,33 @@
 === W8 run 1 ===
-Update on city  (cost=0.00..1.02 rows=0 width=0) (actual time=0.266..0.266 rows=0 loops=1)
+Update on city  (cost=0.00..1.02 rows=0 width=0) (actual time=0.365..0.366 rows=0 loops=1)
   Buffers: shared hit=36
-  ->  Seq Scan on city  (cost=0.00..1.02 rows=1 width=90) (actual time=0.008..0.009 rows=1 loops=1)
+  ->  Seq Scan on city  (cost=0.00..1.02 rows=1 width=90) (actual time=0.012..0.014 rows=1 loops=1)
         Filter: ((city_key)::text = 'bengaluru'::text)
         Rows Removed by Filter: 1
         Buffers: shared hit=1
 Planning:
   Buffers: shared hit=76
-Planning Time: 0.319 ms
-Execution Time: 0.338 ms
+Planning Time: 0.467 ms
+Execution Time: 0.431 ms
 === W8 run 2 ===
-Update on city  (cost=0.00..1.02 rows=0 width=0) (actual time=0.284..0.285 rows=0 loops=1)
+Update on city  (cost=0.00..1.02 rows=0 width=0) (actual time=0.386..0.387 rows=0 loops=1)
   Buffers: shared hit=35
-  ->  Seq Scan on city  (cost=0.00..1.02 rows=1 width=90) (actual time=0.014..0.015 rows=1 loops=1)
+  ->  Seq Scan on city  (cost=0.00..1.02 rows=1 width=90) (actual time=0.014..0.016 rows=1 loops=1)
         Filter: ((city_key)::text = 'bengaluru'::text)
         Rows Removed by Filter: 1
         Buffers: shared hit=1
 Planning:
   Buffers: shared hit=76
-Planning Time: 0.358 ms
-Execution Time: 0.335 ms
+Planning Time: 0.396 ms
+Execution Time: 0.448 ms
 === W8 run 3 ===
-Update on city  (cost=0.00..1.02 rows=0 width=0) (actual time=0.333..0.333 rows=0 loops=1)
+Update on city  (cost=0.00..1.02 rows=0 width=0) (actual time=0.286..0.286 rows=0 loops=1)
   Buffers: shared hit=35
-  ->  Seq Scan on city  (cost=0.00..1.02 rows=1 width=90) (actual time=0.015..0.016 rows=1 loops=1)
+  ->  Seq Scan on city  (cost=0.00..1.02 rows=1 width=90) (actual time=0.011..0.012 rows=1 loops=1)
         Filter: ((city_key)::text = 'bengaluru'::text)
         Rows Removed by Filter: 1
         Buffers: shared hit=1
 Planning:
   Buffers: shared hit=76
-Planning Time: 0.394 ms
-Execution Time: 0.398 ms
+Planning Time: 0.279 ms
+Execution Time: 0.334 ms

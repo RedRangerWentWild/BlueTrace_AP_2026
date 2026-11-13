@@ -1,48 +1,48 @@
 === W6 run 1 ===
-Delete on chunk_tag  (cost=4.34..10.79 rows=0 width=0) (actual time=0.059..0.060 rows=0 loops=1)
+Delete on chunk_tag  (cost=4.34..10.79 rows=0 width=0) (actual time=0.051..0.052 rows=0 loops=1)
   Buffers: shared hit=11
-  ->  Bitmap Heap Scan on chunk_tag  (cost=4.34..10.79 rows=8 width=6) (actual time=0.026..0.034 rows=6 loops=1)
+  ->  Bitmap Heap Scan on chunk_tag  (cost=4.34..10.79 rows=8 width=6) (actual time=0.023..0.032 rows=6 loops=1)
         Recheck Cond: ((chunk_id)::text = 'error.budget.combined-20m'::text)
         Filter: ((tag)::text <> ALL ('{uncertainty,"error budget","plus or minus",accuracy,"twenty metres"}'::text[]))
         Rows Removed by Filter: 2
         Heap Blocks: exact=2
         Buffers: shared hit=4
-        ->  Bitmap Index Scan on pk_chunk_tag  (cost=0.00..4.33 rows=8 width=0) (actual time=0.016..0.016 rows=11 loops=1)
+        ->  Bitmap Index Scan on pk_chunk_tag  (cost=0.00..4.33 rows=8 width=0) (actual time=0.014..0.014 rows=11 loops=1)
               Index Cond: ((chunk_id)::text = 'error.budget.combined-20m'::text)
               Buffers: shared hit=2
 Planning:
   Buffers: shared hit=169
-Planning Time: 0.464 ms
-Execution Time: 0.105 ms
+Planning Time: 0.476 ms
+Execution Time: 0.100 ms
 === W6 run 2 ===
-Delete on chunk_tag  (cost=4.34..10.79 rows=0 width=0) (actual time=0.054..0.055 rows=0 loops=1)
+Delete on chunk_tag  (cost=4.34..10.79 rows=0 width=0) (actual time=0.075..0.075 rows=0 loops=1)
   Buffers: shared hit=10
-  ->  Bitmap Heap Scan on chunk_tag  (cost=4.34..10.79 rows=8 width=6) (actual time=0.032..0.038 rows=6 loops=1)
+  ->  Bitmap Heap Scan on chunk_tag  (cost=4.34..10.79 rows=8 width=6) (actual time=0.041..0.048 rows=6 loops=1)
         Recheck Cond: ((chunk_id)::text = 'error.budget.combined-20m'::text)
         Filter: ((tag)::text <> ALL ('{uncertainty,"error budget","plus or minus",accuracy,"twenty metres"}'::text[]))
         Rows Removed by Filter: 2
         Heap Blocks: exact=2
         Buffers: shared hit=4
-        ->  Bitmap Index Scan on pk_chunk_tag  (cost=0.00..4.33 rows=8 width=0) (actual time=0.016..0.016 rows=11 loops=1)
+        ->  Bitmap Index Scan on pk_chunk_tag  (cost=0.00..4.33 rows=8 width=0) (actual time=0.019..0.019 rows=11 loops=1)
               Index Cond: ((chunk_id)::text = 'error.budget.combined-20m'::text)
               Buffers: shared hit=2
 Planning:
   Buffers: shared hit=169
-Planning Time: 0.500 ms
-Execution Time: 0.103 ms
+Planning Time: 0.664 ms
+Execution Time: 0.136 ms
 === W6 run 3 ===
-Delete on chunk_tag  (cost=4.34..10.79 rows=0 width=0) (actual time=0.055..0.056 rows=0 loops=1)
+Delete on chunk_tag  (cost=4.34..10.79 rows=0 width=0) (actual time=0.056..0.057 rows=0 loops=1)
   Buffers: shared hit=10
-  ->  Bitmap Heap Scan on chunk_tag  (cost=4.34..10.79 rows=8 width=6) (actual time=0.035..0.041 rows=6 loops=1)
+  ->  Bitmap Heap Scan on chunk_tag  (cost=4.34..10.79 rows=8 width=6) (actual time=0.031..0.036 rows=6 loops=1)
         Recheck Cond: ((chunk_id)::text = 'error.budget.combined-20m'::text)
         Filter: ((tag)::text <> ALL ('{uncertainty,"error budget","plus or minus",accuracy,"twenty metres"}'::text[]))
         Rows Removed by Filter: 2
         Heap Blocks: exact=2
         Buffers: shared hit=4
-        ->  Bitmap Index Scan on pk_chunk_tag  (cost=0.00..4.33 rows=8 width=0) (actual time=0.016..0.016 rows=11 loops=1)
+        ->  Bitmap Index Scan on pk_chunk_tag  (cost=0.00..4.33 rows=8 width=0) (actual time=0.015..0.015 rows=11 loops=1)
               Index Cond: ((chunk_id)::text = 'error.budget.combined-20m'::text)
               Buffers: shared hit=2
 Planning:
   Buffers: shared hit=169
-Planning Time: 0.509 ms
-Execution Time: 0.104 ms
+Planning Time: 0.628 ms
+Execution Time: 0.107 ms

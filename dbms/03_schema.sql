@@ -230,10 +230,12 @@ CREATE TABLE building (
                                            AND jsonb_array_length(geometry -> 'coordinates' -> 0) >= 4),
     CONSTRAINT ck_building_verdict  CHECK (verdict IN ('RED_FORMER_WATER_BODY', 'RED_BLOCKS_DRAINAGE',
                                                        'AMBER_PARTIAL', 'GREEN_CLEAR')),
-    CONSTRAINT ck_building_risk     CHECK (risk_score > 0),
+    -- the export's own filters (gee_blue_grid.js, section 6): it keeps footprints with
+    -- confidence >= 0.70 and area >= 40 m2, and writes out only risk_score > 1
+    CONSTRAINT ck_building_risk     CHECK (risk_score > 1),
     CONSTRAINT ck_building_fracs    CHECK (lost_frac BETWEEN 0 AND 1 AND flow_frac BETWEEN 0 AND 1
-                                           AND confidence BETWEEN 0 AND 1),
-    CONSTRAINT ck_building_measures CHECK (upstream_km2 >= 0 AND hand_m >= 0 AND area_m2 > 0)
+                                           AND confidence BETWEEN 0.70 AND 1),
+    CONSTRAINT ck_building_measures CHECK (upstream_km2 >= 0 AND hand_m >= 0 AND area_m2 >= 40)
 );
 
 -- ---------------------------------------------------------------------

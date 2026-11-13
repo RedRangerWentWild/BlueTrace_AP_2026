@@ -160,4 +160,6 @@ psql -d bluetrace_big -c "VACUUM (ANALYZE)"
 ./dbms/time_queries.sh bluetrace_big                                        # -> dbms/plans/
 ```
 
+**Checked on a second machine.** On a MacBook Pro (Apple M4, macOS, Homebrew PostgreSQL 16.15) we rebuilt the database from scratch with a smaller run of the generator (`--screenings 2000`). The schema, the loader, the generator, `integrity_checks.sql` (all nine counts 0) and `time_queries.sh` all ran without errors, and `04_queries.sql` left every row count unchanged, so its `BEGIN ... ROLLBACK` works as intended. We did not repeat the 100,000-row timings there, so the numbers above stay the reference.
+
 The generator is seeded, so the same command produces the same 100,000 plot checks. Times on another machine will differ in absolute terms; the shape (flat with the number of plot checks, planning-heavy reads) should not.

@@ -389,18 +389,23 @@ END
 $$;
 
 -- ---------------------------------------------------------------------
--- Indexes beyond those created by PRIMARY KEY / UNIQUE, each for a query in
--- dbms/04_queries.sql. Foreign keys pointing at small reference tables are not
--- indexed; the ones the app searches by are.
+-- Indexes beyond those created by PRIMARY KEY / UNIQUE. Which queries of
+-- dbms/04_queries.sql actually use them was checked in the CP4 plans
+-- (dbms/plans/): only the first two are chosen by the planner today.
 -- ---------------------------------------------------------------------
--- R3: the ranked list of flagged buildings in a city
+-- R3: the ranked list of flagged buildings in a city (top 25 without a sort)
 CREATE INDEX ix_building_city_risk  ON building (city_key, risk_score DESC);
 -- R4: flagged buildings within 300 m of a clicked point (bounding-box prefilter)
 CREATE INDEX ix_building_centroid   ON building (centroid_lat, centroid_lon);
--- R10, R11: chunks by intent and by tag (evidence-pack retrieval)
+-- R10 filters chunks by intent and by tag. With 170 intents and 662 tags the
+-- planner reads those tables directly (plans/R10.txt); these indexes start to
+-- pay once the corpus grows by an order of magnitude or two.
 CREATE INDEX ix_chunk_intent_intent ON chunk_intent (intent);
 CREATE INDEX ix_chunk_tag_tag       ON chunk_tag (tag);
--- R12: parameters declared by a chunk
+-- The foreign-key index of param.chunk_id: deleting or renaming a chunk must
+-- find the parameters that cite it (fk_param_chunk is RESTRICT). No query reads it.
 CREATE INDEX ix_param_chunk         ON param (chunk_id);
--- R14: the desk register (screenings of a city, newest first)
+-- Used by none of the 27 queries: kept for a desk register (a city's latest
+-- plot checks), which the app does not have yet. It costs every recorded plot
+-- check (W1) one extra index entry.
 CREATE INDEX ix_screening_city_time ON screening (city_key, checked_at DESC);

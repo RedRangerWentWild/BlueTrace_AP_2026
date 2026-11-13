@@ -407,6 +407,7 @@ configuration, not a legal determination by this tool.</sub>
 | `dbms/03_schema.sql` | CREATE TABLE statements for PostgreSQL: 16 tables, keys, foreign keys, CHECK constraints (CP2) |
 | `dbms/load_app_data.py` | Loads the app's own data (corpus, cities, rules, 3,169 flagged buildings) plus nine example plot checks into that schema |
 | `dbms/04_queries.sql` | Every query the app uses, marked READ / WRITE: R1-R16, W1-W11 (CP3) |
+| `dbms/integrity_checks.sql` | Nine rules that span rows or tables, which a CHECK constraint cannot express, each counted by a query; every count should be 0 |
 | `dbms/05_query_timings.md` | Three runs and the average for every query, scan types and the analysis of the plans (CP4) |
 | `dbms/plans/` | The `EXPLAIN (ANALYZE, BUFFERS)` output of every run, one file per query (CP4) |
 | `dbms/generate_workload.py` | 100,000 realistic plot checks for timing: measured from the app's raster layers, judged by `decide()`, traced downhill, a quarter certified |
@@ -419,6 +420,7 @@ Build the database (PostgreSQL 15 or newer, `timezone` Asia/Kolkata):
 createdb bluetrace
 psql -d bluetrace -v ON_ERROR_STOP=1 -f dbms/03_schema.sql
 python3 dbms/load_app_data.py | psql -d bluetrace -v ON_ERROR_STOP=1
+psql -d bluetrace -f dbms/integrity_checks.sql    # nine counts, all 0
 psql -d bluetrace -f dbms/04_queries.sql          # runs inside BEGIN ... ROLLBACK
 ```
 

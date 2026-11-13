@@ -398,14 +398,14 @@ blue means *water*.
 The interface is light because the artifact that leaves it is a printed,
 signed certificate. What you sign is now what you saw.
 
-### Type is self-hosted
+### Type is the platform's own
 
-Geist and Geist Mono, `assets/fonts/*.woff2`, about 84 KB. A demo that loses
-the network must not also lose its typography, and a typeface swapping in two
-seconds after the map is the most obvious tell there is that a page was thrown
-together. `server.py` declares the `font/woff2` type because `mimetypes` does
-not know it on every Python build and Chrome refuses a font served as
-`application/octet-stream`.
+No bundled typeface: the interface uses the system UI stack (`--sans`) and the
+system monospace (`--mono`) defined in `index.html`. A display face such as
+Geist reads as borrowed branding on a screening document. The platform stack is
+what a municipal desk renders everything else in, it needs no download, and it
+cannot fail to arrive, which matters more here than a distinctive letterform
+because the tool is meant to work with the network cable pulled.
 
 Numbers are monospaced and tabular everywhere, prose is not. A column of
 distances that does not align on the decimal cannot be scanned.
@@ -573,7 +573,6 @@ for any individual flag rather than a confidence score.
 ```
 gee_blue_grid.js   extraction — the only thing that touches Earth Engine
 index.html         the whole app, single file, no build step
-assets/fonts/      Geist and Geist Mono, self-hosted so a demo can go offline
 server.py          serves the app and holds the API key; /ask proxies to Claude
 fetch_layers.sh    downloads exported PNGs into data/<city>/
 hotspots.py        finds where encroachment concentrates, prints coordinates

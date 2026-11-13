@@ -429,3 +429,37 @@ COMMENT ON TABLE screening_reason  IS 'One finding of decide() for a plot check,
 COMMENT ON TABLE route_step        IS 'One 90 m MERIT Hydro cell of the downhill trace from a plot';
 COMMENT ON TABLE certificate       IS 'A printed screening certificate; the reference carries the FNV-1a digest of the canonical record';
 COMMENT ON TABLE certificate_chunk IS 'The sources a certificate cites, in the order its digest covers them';
+
+-- Units and encodings, which otherwise live only in the column names.
+COMMENT ON COLUMN city.lon_min                     IS 'Degrees east (WGS84); with lat_min, lon_max, lat_max the rectangle every raster layer is mapped onto';
+COMMENT ON COLUMN city.historic_ha                 IS 'Hectares of water recorded 1984-99 (JRC transition band); NULL until the city has an export';
+COMMENT ON COLUMN city.floodprone_ha               IS 'Hectares less than 2 m above the nearest drainage (MERIT HAND)';
+COMMENT ON COLUMN hotspot.px                       IS 'Flagged pixels in the locality; orders the hotspot list';
+COMMENT ON COLUMN building.risk_score              IS 'max(lost_frac, flow_frac) * log10(upstream_km2 + 1) / (hand_m + 1) * 100, computed by the export; only > 1 is exported';
+COMMENT ON COLUMN building.lost_frac               IS 'Share (0-1) of the footprint on water lost since 1984-99';
+COMMENT ON COLUMN building.flow_frac               IS 'Share (0-1) of the footprint on a terrain flow path';
+COMMENT ON COLUMN building.upstream_km2            IS 'Square kilometres draining through the footprint (MERIT Hydro, mean)';
+COMMENT ON COLUMN building.hand_m                  IS 'Metres above the nearest drainage (mean); the export writes 50 where it has no value';
+COMMENT ON COLUMN building.area_m2                 IS 'Footprint area in square metres (Open Buildings area_in_meters)';
+COMMENT ON COLUMN building.confidence              IS 'Open Buildings v3 detection confidence (0-1); the export keeps 0.70 and above';
+COMMENT ON COLUMN building.centroid_lon            IS 'Generated: average of the outer-ring vertices, as centroidOf() in index.html';
+COMMENT ON COLUMN param.value                      IS 'The value, in unit';
+COMMENT ON COLUMN param.plus_minus                 IS 'Declared uncertainty, in unit (pm in corpus.json); NULL when none is declared';
+COMMENT ON COLUMN screening.lat                    IS 'Degrees north of the checked point, 6 decimals as printed on the certificate';
+COMMENT ON COLUMN screening.plot_m                 IS 'Plot frontage in metres, typed by the officer; the probe radius is max(6, plot_m / 2) m';
+COMMENT ON COLUMN screening.dist_present           IS 'Metres from the probe to the present water edge (minimum over the probe); 255 means 255 m or more; NULL outside the study area';
+COMMENT ON COLUMN screening.dist_historic           IS 'Metres to the 1984-99 water edge; 0 means the plot is on the former bed; 255 means 255 m or more';
+COMMENT ON COLUMN screening.dist_drain             IS 'Metres to the nearest terrain-derived drainage line; 255 means 255 m or more';
+COMMENT ON COLUMN screening.last_water_year        IS 'Last year the probe was recorded as water (1983 + the byte in history.png); NULL = never, 1984-2021';
+COMMENT ON COLUMN screening.occurrence             IS 'Percent of observations 1984-2021 in which the probe was water (maximum over the probe)';
+COMMENT ON COLUMN screening.hand_m                 IS 'Metres above the nearest drainage (minimum over the probe); 255 is the byte ceiling, i.e. unknown';
+COMMENT ON COLUMN screening.encroached             IS 'Strongest built-on-former-water signal within 35 m, 0-1; decide() treats more than 0.1 as built';
+COMMENT ON COLUMN screening.upa_km2                IS 'Square kilometres draining through the plot (decoded from the log-packed hydro layer)';
+COMMENT ON COLUMN screening.storage_lpm2           IS 'Storage rule typed by the officer, litres per square metre of plot; NULL = not supplied';
+COMMENT ON COLUMN screening.route_ended_by         IS 'Why the downhill trace stopped (ROUTE_END in index.html); NULL = no route traced';
+COMMENT ON COLUMN route_step.direction             IS 'D8 compass direction of the step on the MERIT grid';
+COMMENT ON COLUMN route_step.step_length_m         IS 'Metres between the two cell centres: about 90 along an axis, about 129 on a diagonal';
+COMMENT ON COLUMN route_step.step_upa_km2          IS 'Square kilometres draining through the cell the step arrives in';
+COMMENT ON COLUMN route_step.step_hand_m           IS 'Metres above the nearest drainage at the cell the step arrives in; NULL where the layer has no value';
+COMMENT ON COLUMN certificate.issued_at            IS 'The instant printed on the certificate (UTC on paper, to the millisecond); part of the digest';
+COMMENT ON COLUMN certificate.generator            IS 'Who wrote the answer carried on the certificate: none, offline (the app) or model';

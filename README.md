@@ -418,6 +418,7 @@ Build the database (PostgreSQL 15 or newer, `timezone` Asia/Kolkata):
 
 ```bash
 createdb bluetrace
+psql -d bluetrace -c "ALTER DATABASE bluetrace SET timezone TO 'Asia/Kolkata'"
 psql -d bluetrace -v ON_ERROR_STOP=1 -f dbms/03_schema.sql
 python3 dbms/load_app_data.py | psql -d bluetrace -v ON_ERROR_STOP=1
 psql -d bluetrace -f dbms/integrity_checks.sql    # nine counts, all 0

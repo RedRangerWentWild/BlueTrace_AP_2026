@@ -3,7 +3,7 @@
 
     python3 dbms/load_app_data.py | psql -d bluetrace -v ON_ERROR_STOP=1
 
-Writes SQL to stdout. Standard library only. Everything is read from the app
+Writes SQL to stdout. Standard library only (plus dbms/bluetrace_logic.py). Everything is read from the app
 itself, nothing is retyped:
 
   blue-grid/index.html                 CITIES, RULESETS, OUTCOME, CODE_CHUNK and the
@@ -17,19 +17,14 @@ plot check only in the browser, so there is no history to export. The nine
 example plots below were chosen so that every one of the 11 reason codes
 occurs at least once; their measurements are examples, not raster readings.
 Their reasons, verdicts and certificate digests are not typed in: they are
-computed by decide_() and fnv1a() below, which mirror decide() and fnv1a() in
-index.html line for line.
+computed by decide_() and fnv1a() in dbms/bluetrace_logic.py, which mirror
+decide() and fnv1a() in index.html line for line.
 """
 import json
-import math
-import pathlib
-import re
 import sys
 
-ROOT = pathlib.Path(__file__).resolve().parent.parent
-APP = ROOT / 'blue-grid'
-HTML = (APP / 'index.html').read_text(encoding='utf-8')
-CORPUS = json.loads((APP / 'data' / 'corpus.json').read_text(encoding='utf-8'))
+from bluetrace_logic import (APP, CITIES, CODE_CHUNK, CODE_OUTCOME, CORPUS, OUTCOME_RANK, OUTCOME_TITLE,
+                             RULESETS, canonical, cert_ref, decide_)
 
 out = sys.stdout
 def emit(s=''):
@@ -44,56 +39,6 @@ def lit(v):
     if isinstance(v, (int, float)):
         return repr(v)
     return "'" + str(v).replace("'", "''") + "'"
-
-def js_unescape(s):
-    return re.sub(r'\\u([0-9a-fA-F]{4})', lambda m: chr(int(m.group(1), 16)), s)
-
-def block(name):
-    """Source text of `var NAME = {...};` (top-level object literal)."""
-    m = re.search(r'^var ' + name + r' = \{', HTML, flags=re.M)
-    if not m:
-        sys.exit('cannot find var %s in index.html' % name)
-    i, depth = m.end() - 1, 0
-    for j in range(i, len(HTML)):
-        if HTML[j] == '{':
-            depth += 1
-        elif HTML[j] == '}':
-            depth -= 1
-            if depth == 0:
-                return HTML[i:j + 1]
-    sys.exit('unterminated %s' % name)
-
-# ---------------------------------------------------------------- reference data
-src = block('CITIES')
-CITIES = {}
-for key, body in re.findall(r"\n  (\w+): \{(.*?)\n  \}", src, flags=re.S):
-    CITIES[key] = {
-        'label': re.search(r"label: '([^']*)'", body).group(1),
-        'sub': re.search(r"sub: '([^']*)'", body).group(1),
-        'bounds': [float(x) for x in re.search(r"bounds: \[([^\]]*)\]", body).group(1).split(',')],
-        'zones': re.search(r"zones: '([^']*)'", body).group(1),
-        'hotspots': [dict(name=n, lon=float(lo), lat=float(la), px=int(p)) for n, lo, la, p in
-                     re.findall(r"\{name:'([^']*)',\s*lon:([\d.]+), lat:([\d.]+), px:(\d+)\}", body)],
-    }
-
-RULESETS = {}
-for rid, label, lake, drain in re.findall(
-        r"(\w+):\s*\{id:'\w+', label:'([^']*)',\s*lakeM:(\d+), drainM:(\d+)", block('RULESETS')):
-    RULESETS[rid] = dict(id=rid, label=js_unescape(label), lakeM=int(lake), drainM=int(drain))
-
-OUTCOME_TITLE = dict(re.findall(r"(\w+):\s*\{c:'\w+',\s*t:'([^']*)'", block('OUTCOME')))
-OUTCOME_RANK = {'REJECT': 3, 'REFER': 2, 'CONDITIONS': 1, 'NO_OBJECTION': 0}   # decide(): rank = {...}
-
-CODE_CHUNK = dict(re.findall(r"'([a-z.-]+)':\s*'([a-z0-9.-]+)'", block('CODE_CHUNK')))
-
-dec = HTML[HTML.index('function decide(m, rule)'):HTML.index('var CODE_CHUNK')]
-CODE_OUTCOME = {}
-for d, code in re.findall(r"d:'(\w+)',\s*codes?:\[?'([a-z.-]+)'", dec):
-    if CODE_OUTCOME.get(code, d) != d:
-        sys.exit('decide() returns %s with two outcomes' % code)
-    CODE_OUTCOME[code] = d
-if set(CODE_OUTCOME) != set(CODE_CHUNK):
-    sys.exit('decide() and CODE_CHUNK disagree: %s' % (set(CODE_OUTCOME) ^ set(CODE_CHUNK)))
 
 AUTH_EXTERNAL = {'statute', 'court', 'agency-survey', 'dataset-doc'}   # check_corpus.py, EXTERNAL
 AUTHORITIES = ['statute', 'court', 'agency-survey', 'dataset-doc', 'repo-derived', 'editorial']
@@ -170,96 +115,9 @@ for key in CITIES:
 emit()
 
 # ---------------------------------------------------------------- example screenings
-P = {k: v['v'] for k, v in CORPUS['params'].items()}
-UNCERTAINTY_M = P.get('uncertaintyM', 20)
-HAND_DEEP_M = P['handDeepM']
-
-def decide_(m, rule):
-    """decide() from index.html, with the same branches, order and sentences."""
-    if m['distPresent'] is None or m['distHistoric'] is None:
-        return 'REFER', [('refer.outside-study-area',
-                          'This plot lies outside the mapped study area. No satellite evidence exists for it.')]
-    occ = None if m['occurrence'] is None else '%d%%' % m['occurrence']
-    if m['distPresent'] == 0:
-        return 'REJECT', [('reject.inside-live-water',
-            'The plot footprint falls inside an existing surface water body'
-            + (', recorded as water in ' + occ + ' of observations since 1984.' if occ else '.'))]
-    if m['distHistoric'] == 0:
-        when = ('last recorded as water in %d' % m['lastWaterYear']) if m['lastWaterYear'] \
-               else 'recorded as water before 2000'
-        built = (m['encroached'] or 0) > .1
-        if (m['occurrence'] or 0) >= 50:
-            w = ['The plot sits on a former water body, ' + when + ', water in ' + occ + ' of observations.']
-            if built:
-                w.append('Construction is already present on this footprint.')
-            return 'REJECT', [('reject.former-water-high-occurrence', ' '.join(w))]
-        at_channel = m['handM'] is not None and m['handM'] <= HAND_DEEP_M
-        if built:
-            return 'REJECT', [('reject.construction-on-former-bed', ' '.join([
-                'The plot sits on a former water body, ' + when + ', and construction '
-                + 'already stands on that footprint.',
-                ('Water occurrence reads ' + occ + ' of observations, which is low '
-                 + 'because the record spans the period in which the bed was lost: a '
-                 + 'tank drained part-way through 1984–2021 is dry for the remainder '
-                 + 'of it. The low share is evidence of the loss, not evidence against it.')
-                if occ else 'How often it held water is not recorded at this pixel.']))]
-        if at_channel:
-            return 'REFER', [('refer.intermittent-water', ' '.join([
-                'The plot sits on land recorded as water ' + ('only ' + occ + ' of the time, ' if occ else '')
-                + when + ', and stands at the level of the channel it drains into.',
-                'Low occurrence on a bed at channel level does not resolve to a wet '
-                + 'season: it is equally the signature of a tank lost during the record. '
-                + 'Establish the boundary against the notified tank schedule.']))]
-        return 'REFER', [('refer.intermittent-water',
-            ('The plot sits on land recorded as water only ' + occ + ' of the time, ' + when
-             + '. At 30 m resolution intermittent water cannot be distinguished from a wet season.')
-            if occ else
-            ('The plot sits on land recorded as water, ' + when + '. How often it held water is not '
-             + 'recorded at this pixel, so the record cannot distinguish a tank from a field that '
-             + 'floods in a wet year.'))]
-    R = []
-    dp, dh, dd, lake, drain = m['distPresent'], m['distHistoric'], m['distDrain'], rule['lakeM'], rule['drainM']
-    if dp < lake - UNCERTAINTY_M:
-        R.append(('REJECT', 'reject.inside-buffer', 'The plot lies %d m from the present water edge, '
-                  'inside the %d m buffer.' % (dp, lake)))
-    elif abs(dp - lake) <= UNCERTAINTY_M:
-        R.append(('REFER', 'refer.buffer-within-uncertainty', 'The plot lies %d m from the present water edge. '
-                  'At ±%d m that cannot be resolved against the %d m buffer. Ground survey required.'
-                  % (dp, UNCERTAINTY_M, lake)))
-    if dp - dh > 30 and dh < lake:
-        R.append(('REFER', 'refer.shoreline-disagreement', 'Measured from today’s water edge the plot is %d'
-                  ' m away and clears the %d m buffer. Measured from the 1984–99 edge it is %d m away, '
-                  'inside it. The shoreline has retreated %d m here, so the buffer measured today is drawn '
-                  'from a boundary that encroachment created. Verify against the notified lake boundary.'
-                  % (dp, lake, dh, dp - dh)))
-    if dd < drain + UNCERTAINTY_M:
-        R.append(('REFER', 'refer.near-drainage', 'The plot lies about %d m from a terrain-derived '
-                  'drainage line, against a %d m buffer. Drain order is not resolved at the 90 m source '
-                  'resolution — check the BBMP rajakaluve alignment for this survey number.' % (dd, drain)))
-    if m['handM'] is not None and m['handM'] <= 1:
-        R.append(('CONDITIONS', 'conditions.low-ground', 'The plot stands %d m above the nearest drainage '
-                  'line. On-site retention and a plinth condition should be imposed.' % m['handM']))
-    if not R:
-        return 'NO_OBJECTION', [('no-objection.nothing-found', ' '.join([
-            'No recorded water body, buffer breach or drainage line within %d m of this plot.' % UNCERTAINTY_M,
-            'Absence of evidence at 30 m resolution is not evidence of absence: tanks under roughly '
-            'half a hectare do not appear in this record.']))]
-    top = R[0]
-    for r in R[1:]:
-        if OUTCOME_RANK[r[0]] > OUTCOME_RANK[top[0]]:
-            top = r
-    return top[0], [(code, text) for _, code, text in R]
-
-def fnv1a(s):
-    """fnv1a() from index.html (FNV-1a, 32 bit, upper-case hex)."""
-    h = 0x811c9dc5
-    for ch in s:
-        h ^= ord(ch)
-        h = (h + (h << 1) + (h << 4) + (h << 7) + (h << 8) + (h << 24)) & 0xFFFFFFFF
-    return '%08X' % h
-
 D8 = {'E': (1, 0), 'SE': (1, 1), 'S': (0, 1), 'SW': (-1, 1), 'W': (-1, 0), 'NW': (-1, -1), 'N': (0, -1), 'NE': (1, -1)}
 MERIT = 1 / 1200
+import math
 def step_length(lat, direction):
     """metresBetween() for one MERIT cell step: the length traceDownstream() adds."""
     dx, dy = D8[direction]
@@ -267,10 +125,6 @@ def step_length(lat, direction):
     ny = dy * MERIT * 110574
     return round(math.hypot(ex, ny), 1)
 
-def js(v):  # Array.join() turns null into an empty string
-    return '' if v is None else str(v)
-
-# (lat, lon, plot_m, rule, measurements, route steps [(dir, upa, hand)], route_ended_by, certificate?)
 EXAMPLES = [
     # Kasavanahalli: the shoreline disagreement this tool exists to find (README, "Consequence")
     (12.9324, 77.6759, 15, 'ngt', dict(distPresent=118, distHistoric=42, distDrain=140, lastWaterYear=1999,
@@ -338,11 +192,9 @@ for n, (lat, lon, plot_m, rule_id, m, upa, steps, ended, cert) in enumerate(EXAM
         t = datetime.datetime.fromisoformat(checked) + datetime.timedelta(minutes=3, seconds=n * 7, milliseconds=n * 113)
         iso = t.astimezone(datetime.timezone.utc).strftime('%Y-%m-%dT%H:%M:%S.') + '%03dZ' % (t.microsecond // 1000)
         seq += 1
-        canon = '|'.join(js(v) for v in [
-            'bengaluru', '%.6f' % lat, '%.6f' % lon, plot_m, rule['id'], rule['lakeM'], rule['drainM'],
-            m['distPresent'], m['distHistoric'], m['distDrain'], m['lastWaterYear'], m['occurrence'], m['handM'],
-            verdict, iso, CORPUS['corpus_version'], generator, ','.join(chunks)])
-        ref = 'BT/BLR/' + iso[:10].replace('-', '') + '/' + '%04d' % seq + '-' + fnv1a(canon)
+        canon = canonical('bengaluru', lat, lon, plot_m, rule, m, verdict, iso,
+                          CORPUS['corpus_version'], generator, chunks)
+        ref = cert_ref(iso, seq, canon)
         emit('INSERT INTO certificate (cert_ref, screening_id, issued_at, corpus_version, generator) VALUES'
              " (%s, currval(pg_get_serial_sequence('screening', 'screening_id')), %s, %s, %s);"
              % (lit(ref), lit(iso), lit(CORPUS['corpus_version']), lit(generator)))

@@ -409,3 +409,23 @@ CREATE INDEX ix_param_chunk         ON param (chunk_id);
 -- plot checks), which the app does not have yet. It costs every recorded plot
 -- check (W1) one extra index entry.
 CREATE INDEX ix_screening_city_time ON screening (city_key, checked_at DESC);
+
+-- ---------------------------------------------------------------------
+-- The data dictionary inside the database: \dt+ and \d+ show these.
+-- ---------------------------------------------------------------------
+COMMENT ON TABLE authority         IS 'Kind of source a corpus chunk rests on; statute, court, agency-survey and dataset-doc chunks must carry a URL';
+COMMENT ON TABLE outcome           IS 'The four screening outcomes (deliberately no APPROVE); rank orders them for the verdict';
+COMMENT ON TABLE buffer_rule       IS 'A buffer regime (RULESETS); never updated, a revised regime gets a new rule_id';
+COMMENT ON TABLE city              IS 'A study area: bounds, catchment and the headline statistics of its Earth Engine export';
+COMMENT ON TABLE hotspot           IS 'Named localities shown for a city, with their flagged-pixel count';
+COMMENT ON TABLE chunk             IS 'One idea of the cited corpus, with the source it rests on; chunk_id = <kind>.<file name>';
+COMMENT ON TABLE chunk_tag         IS 'Words that route a question to a chunk';
+COMMENT ON TABLE chunk_intent      IS 'Question intents (flood, feasibility, consequence, procedure, evidence) a chunk serves';
+COMMENT ON TABLE param             IS 'Every number the tool computes with, declared on the chunk that cites its source';
+COMMENT ON TABLE reason_code       IS 'A branch of decide(): its outcome and the chunk that explains it (the citation spine)';
+COMMENT ON TABLE building          IS 'A flagged building footprint from the Earth Engine export, ranked by risk';
+COMMENT ON TABLE screening         IS 'One plot check: the raster measurements at a point under one buffer rule; the verdict is derived from its reasons';
+COMMENT ON TABLE screening_reason  IS 'One finding of decide() for a plot check, with the sentence shown to the officer';
+COMMENT ON TABLE route_step        IS 'One 90 m MERIT Hydro cell of the downhill trace from a plot';
+COMMENT ON TABLE certificate       IS 'A printed screening certificate; the reference carries the FNV-1a digest of the canonical record';
+COMMENT ON TABLE certificate_chunk IS 'The sources a certificate cites, in the order its digest covers them';

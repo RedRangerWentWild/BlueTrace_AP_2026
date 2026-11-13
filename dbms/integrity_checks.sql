@@ -90,3 +90,27 @@ WHERE fnv1a(concat_ws('|', s.city_key, s.lat::text, s.lon::text, s.plot_m::text,
                       coalesce((SELECT string_agg(cc.chunk_id, ',' ORDER BY cc.cite_order)
                                 FROM certificate_chunk cc WHERE cc.cert_ref = ce.cert_ref), '')))
       <> right(ce.cert_ref, 8);
+
+-- ---------------------------------------------------------------------
+-- Flagged buildings
+-- ---------------------------------------------------------------------
+-- verdict and risk_score are derived from the other columns by the Earth Engine
+-- export (gee_blue_grid.js, section 6). They are stored because the export is
+-- their source, so these checks catch a row that was edited by hand or a new
+-- export run with different thresholds.
+
+-- IC8: the verdict follows the export's thresholds.
+SELECT 'IC8' AS id, 'building verdict agrees with the export thresholds (0.5 lost, 0.5 flow, 0.15 either)' AS rule,
+       count(*) AS violations
+FROM building
+WHERE verdict <> CASE WHEN lost_frac > 0.5 THEN 'RED_FORMER_WATER_BODY'
+                      WHEN flow_frac > 0.5 THEN 'RED_BLOCKS_DRAINAGE'
+                      WHEN greatest(lost_frac, flow_frac) > 0.15 THEN 'AMBER_PARTIAL'
+                      ELSE 'GREEN_CLEAR' END;
+
+-- IC9: the risk score follows the export's formula (to floating-point precision).
+SELECT 'IC9' AS id, 'risk_score = max(lost, flow) * log10(upstream + 1) / (hand + 1) * 100' AS rule,
+       count(*) AS violations
+FROM building
+WHERE abs(risk_score - greatest(lost_frac, flow_frac) * log(upstream_km2 + 1)
+                       / (greatest(hand_m, 0) + 1) * 100) > 1e-9;

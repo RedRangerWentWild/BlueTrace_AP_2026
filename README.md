@@ -425,6 +425,8 @@ psql -d bluetrace -f dbms/integrity_checks.sql    # nine counts, all 0
 psql -d bluetrace -f dbms/04_queries.sql          # runs inside BEGIN ... ROLLBACK
 ```
 
+On macOS with Homebrew, put PostgreSQL's tools on the path first (`export PATH=/opt/homebrew/opt/postgresql@16/bin:$PATH`) and set `PGPORT` if the server is not on 5432; `time_queries.sh` runs on the stock bash 3.2.
+
 Time the queries on a realistic volume (CP4; details in `dbms/05_query_timings.md`):
 
 ```bash

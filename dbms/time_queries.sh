@@ -19,6 +19,19 @@ RUNS="${2:-3}"
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 QUERIES="${3:-$ROOT/dbms/04_queries.sql}"
 OUT="${4:-$ROOT/dbms/plans}"
+
+# Check everything before the first write: a mistyped database name must not
+# leave the committed summary.csv and plan files truncated.
+die() { echo "time_queries.sh: $*" >&2; exit 2; }
+[[ "$RUNS" =~ ^[1-9][0-9]*$ ]] || die "runs must be a whole number of at least 1, not '$RUNS'"
+[[ -r "$QUERIES" ]] || die "cannot read $QUERIES"
+grep -qE '^-- @[RW][0-9]+([[:space:]]|$)' "$QUERIES" || die "no '-- @R1' / '-- @W1' markers in $QUERIES"
+schema="$(psql -d "$DB" -X -q -A -t -c "SELECT to_regclass('bluetrace.screening') IS NOT NULL" 2>&1)" \
+  || die "cannot connect to database '$DB': $schema"
+[[ "$schema" == t ]] || die "database '$DB' has no bluetrace schema: load dbms/03_schema.sql first (see README)"
+[[ "$(psql -d "$DB" -X -q -A -t -c "SELECT EXISTS (SELECT 1 FROM bluetrace.screening)")" == t ]] \
+  || die "database '$DB' has the schema but no plot checks: load the data with dbms/load_app_data.py first"
+
 mkdir -p "$OUT"
 SUMMARY="$OUT/summary.csv"
 header="query_id,type"
@@ -26,6 +39,7 @@ for ((i = 1; i <= RUNS; i++)); do header="$header,run${i}_ms"; done
 echo "$header,avg_ms,scan_nodes" > "$SUMMARY"
 
 TMP="$(mktemp -d)"
+trap 'rm -rf "$TMP"' EXIT
 awk -v dir="$TMP" '
   /^-- @/ { id = ""; if ($2 ~ /^@[RW][0-9]+$/) { id = substr($2, 2); file = dir "/" id ".sql"; printf "" > file }; next }
   id != "" && !/^--/ { print >> file }
@@ -55,6 +69,5 @@ for f in $(ls "$TMP"/*.sql | sort -V); do
   echo "$id,$type,$(IFS=,; echo "${times[*]}"),$avg,\"$node\"" >> "$SUMMARY"
   printf '%-4s %-5s avg %9s ms   %s\n' "$id" "$type" "$avg" "$node"
 done
-rm -rf "$TMP"
 echo "Queries: $QUERIES"
 echo "Saved the plans of every run and the summary to $OUT"

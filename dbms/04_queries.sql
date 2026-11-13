@@ -417,10 +417,13 @@ FROM s;
 -- canonical record (line 3650) and passed in.
 WITH c AS (
     INSERT INTO certificate (cert_ref, screening_id, issued_at, corpus_version, generator)
-    -- 5B0E9F21 stands for the digest the app computes over the canonical record
-    SELECT 'BT/BLR/20261112/' || lpad(nextval('certificate_seq')::text, 4, '0') || '-5B0E9F21',
+    -- 5B0E9F21 stands for the digest the app computes over the canonical record.
+    -- The number is padded to at least 4 digits like padStart(4, '0'): lpad(x, 4)
+    -- alone would cut certificate 12345 down to 1234.
+    SELECT 'BT/BLR/20261112/' || lpad(n::text, greatest(4, length(n::text)), '0') || '-5B0E9F21',
            s.screening_id, TIMESTAMPTZ '2026-11-12 12:06:00+05:30', '2026-09-20.94e12680', 'offline'
     FROM screening s
+    CROSS JOIN LATERAL (SELECT nextval('certificate_seq') AS n) seq
     WHERE s.screening_id = 7
     RETURNING cert_ref
 )

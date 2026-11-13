@@ -334,7 +334,10 @@ than a score.
 
 ```
 README.md                   this page
-docs/index.html             the interactive explainer (GitHub Pages)
+index.html                  sends the site root to the app in blue-grid/
+explainer.html              the interactive explainer
+render.yaml                 Render blueprint: the same app with a model behind /ask
+docs/                       the figures on this page and a preview image
 blue-grid/
   gee_blue_grid.js          extraction — the only thing that touches Earth Engine
   index.html                the whole app: map, screening, routing, retention, certificate
@@ -345,7 +348,7 @@ blue-grid/
   build_corpus.py           compiles corpus/**/*.md into a BM25 index
   corpus/                   86 chunks, one idea per file, each carrying its source
   data/<city>/              layers, stats, and the ranked building export
-  assets/fonts/             self-hosted, so a demo that loses the network keeps its type
+dbms/                       the database course deliverables, listed below
 ```
 
 Roughly 7,300 lines. No framework, no bundler, no build step — the app is one
